@@ -7,12 +7,30 @@
    --secondary-color:#CCF381;
    --text-color:#3d155f;
 }
-body{
- 
+html {
+    font-size: 16px;
     font-family: 'Encode Sans Expanded', sans-serif;
     color: var(--text-color);
 }
 
+
 h1{
     font-family: 'Fira Code', monospace;
+    font-size: 40px;
+}
+
+@media (min-width:768px) {
+   html{
+    font-size: 18px;
+   }
+}
+@media (min-width:1024px) {
+    html{
+        font-size: 19px;
+    }
+}
+@media (min-width:1280px) {
+    html{
+        font-size: 20px;
+    }
 }

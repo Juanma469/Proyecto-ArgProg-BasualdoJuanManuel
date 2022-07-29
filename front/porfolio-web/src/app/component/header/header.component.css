@@ -1,0 +1,14 @@
+header{
+    height: 500px;    
+    background-color: var(--primary-color);
+}
+
+.header-texts{
+    color:#fff;
+}
+
+.img-header{
+    background-color: var(--secondary-color);
+    height: 500px;
+}
+
