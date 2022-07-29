@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;400;700;900&family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+
+:root{
+   --primary-color:#4831D4;
+   --secondary-color:#CCF381;
+   --text-color:#3d155f;
+}
+body{
+ 
+    font-family: 'Encode Sans Expanded', sans-serif;
+    color: var(--text-color);
+}
+
+h1{
+    font-family: 'Fira Code', monospace;
+}
