@@ -19,6 +19,25 @@ h1{
     font-size: 40px;
 }
 
+
+.btn{    
+    color: var(--text-color);
+    border-radius: 0;
+    padding: 15px 25px;
+    border: 1px solid var(--primary-color);
+}
+.btn-primary{
+    background-color: #fff;
+}
+
+
+.card{
+    border: none;
+    margin:0.5rem;
+    border-radius: 0px;
+}
+
+
 @media (min-width:768px) {
    html{
     font-size: 18px;
