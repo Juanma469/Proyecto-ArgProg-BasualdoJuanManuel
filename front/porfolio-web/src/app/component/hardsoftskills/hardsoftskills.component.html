@@ -5,8 +5,16 @@
             <div class="card" style="width: 18rem;">      
                 <div class="card-body">
                 <h5 class="card-title">Hard & Soft Skills</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <circle-progress
+                    [percent]="85"
+                    [radius]="100"
+                    [outerStrokeWidth]="16"
+                    [innerStrokeWidth]="8"
+                    [outerStrokeColor]="'#78C000'"
+                    [innerStrokeColor]="'#C7E596'"
+                    [animation]="true"
+                    [animationDuration]="300"
+              ></circle-progress>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">      

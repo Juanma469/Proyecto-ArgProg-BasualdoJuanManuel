@@ -12,6 +12,8 @@ import { ProyectosComponent } from './component/proyectos/proyectos.component';
 import { FooterComponent } from './component/footer/footer.component';
 import { AcercadeComponent } from './component/acercade/acercade.component';
 
+import { NgCircleProgressModule } from 'ng-circle-progress';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +28,8 @@ import { AcercadeComponent } from './component/acercade/acercade.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgCircleProgressModule.forRoot({})
   ],
   providers: [],
   bootstrap: [AppComponent]
