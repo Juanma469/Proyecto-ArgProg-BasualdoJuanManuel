@@ -3,16 +3,19 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './component/header/header.component';
+import { HeaderComponent } from './component/porfolio/header/header.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
-import { EducacionComponent } from './component/educacion/educacion.component';
-import { ExperienciaComponent } from './component/experiencia/experiencia.component';
-import { HardsoftskillsComponent } from './component/hardsoftskills/hardsoftskills.component';
-import { ProyectosComponent } from './component/proyectos/proyectos.component';
+import { EducacionComponent } from './component/porfolio/educacion/educacion.component';
+import { ExperienciaComponent } from './component/porfolio/experiencia/experiencia.component';
+import { HardsoftskillsComponent } from './component/porfolio/hardsoftskills/hardsoftskills.component';
+import { ProyectosComponent } from './component/porfolio/proyectos/proyectos.component';
 import { FooterComponent } from './component/footer/footer.component';
-import { AcercadeComponent } from './component/acercade/acercade.component';
+import { AcercadeComponent } from './component/porfolio/acercade/acercade.component';
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { PorfolioComponent } from './component/porfolio/porfolio.component';
+import { LoginComponent } from './component/login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,12 +27,15 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     HardsoftskillsComponent,
     ProyectosComponent,
     FooterComponent,
-    AcercadeComponent
+    AcercadeComponent,
+    PorfolioComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgCircleProgressModule.forRoot({})
+    NgCircleProgressModule.forRoot({}),
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,13 @@
+body{
+    
+}
+section{   
+    background-color: var(--primary-color);
+    color:#fff;
+    min-height: 100vh;
+}
+
+.login{
+    color: var(--text-color);
+    background-color: #fff;
+}
