@@ -3,6 +3,8 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {LoginService} from '../../servicios/login.service'; 
 
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-login',
@@ -37,7 +39,11 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/porfolio'])
        }
         else{
-          alert ("Datos incorrectos")
+          Swal.fire({
+            title: 'Error',
+            text: 'Los datos ingresados no son correctos',
+            icon: 'error'          
+          })
         }
       })
     }
