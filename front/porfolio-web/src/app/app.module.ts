@@ -17,6 +17,11 @@ import { PorfolioComponent } from './component/porfolio/porfolio.component';
 import { LoginComponent } from './component/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import {AngularFireModule} from '@angular/fire/compat'
+import { environment } from 'src/environments/environment';
+import { RegisterComponent } from './login/registrar/registrar.component';
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,13 +34,18 @@ import { ReactiveFormsModule } from '@angular/forms';
     FooterComponent,
     AcercadeComponent,
     PorfolioComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgCircleProgressModule.forRoot({}),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
