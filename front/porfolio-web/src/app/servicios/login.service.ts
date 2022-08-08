@@ -12,7 +12,7 @@ export class LoginService {
 
   async register(email: string, pass: string) {
     try {
-      return await this.loginFire.createUserWithEmailAndPassword(email, password);
+      return await this.loginFire.createUserWithEmailAndPassword(email, pass);
     } catch (err) {
       console.log("error en login: ", err);
       return null;
