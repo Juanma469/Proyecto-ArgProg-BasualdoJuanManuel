@@ -13,7 +13,7 @@ export class LoginService {
   async register(email: string, pass: string) {
     try {
       return await this.loginFire.createUserWithEmailAndPassword(email, pass);
-    } catch (err) {
+    }catch (err) {
       console.log("error en login: ", err);
       return null;
     }
@@ -21,14 +21,15 @@ export class LoginService {
 
 
 
-  async login (email:string, pass:string){
- 
-    try {
-      return await this.loginFire.signInWithEmailAndPassword(email, pass);
-    } catch (e) {
-      console.log("error en login: ", e);
-      return null;
+  login (email:string, pass:string){
+    return  this.loginFire.signInWithEmailAndPassword(email, pass);          
     }
 
-  }
+  logout(){
+    return  this.loginFire.signOut();
+    }
+
+
+
+
 }

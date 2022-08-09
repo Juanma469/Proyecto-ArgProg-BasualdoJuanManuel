@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {LoginService} from '../../servicios/login.service'; 
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+
 
 import Swal from 'sweetalert2';
 
@@ -13,7 +15,10 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit {
  form: FormGroup;
-  constructor( private formbulder: FormBuilder, private serviceLogin: LoginService, private router:Router) { 
+  constructor( private formbulder: FormBuilder, 
+               private serviceLogin: LoginService, 
+               private userLogeado:AngularFireAuth, 
+               private router:Router) { 
     this.form = this.formbulder.group(
       {
         email: ['', [Validators.required, Validators.email]],
@@ -27,26 +32,27 @@ export class LoginComponent implements OnInit {
 
 
 
-  //
+
   login (){
     // user: jmbasualdo@argprograma.com
    //  pass: jmArgPrograma
-    if(this.form.valid){
-      console.log(this.form.value.email)
-      this.serviceLogin.login(this.form.value.email, this.form.value.password).then(res=>{
-        // console.log("Respuesta del servidor: =======> ", res);
-       if(res){
-        this.router.navigate(['/porfolio'])
-       }
-        else{
-          Swal.fire({
-            title: 'Error',
-            text: 'Los datos ingresados no son correctos',
-            icon: 'error'          
-          })
-        }
+      this.serviceLogin.login(this.form.value.email, this.form.value.password)
+      .then(response=>{        
+        this.router.navigate(['porfolio'])
+
       })
-    }
+      .catch(error =>{
+        var tipoError = error.code;
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: tipoError
+        })
+
+        })
+        
+       
+  
   }
 
   //obtener valores de los inputs
@@ -58,5 +64,9 @@ export class LoginComponent implements OnInit {
    get Password(){
     return this.form.get('password');
    }
+
+   getUserLogged() {
+    return console.log(this.userLogeado.authState);
+  }
 
 }
