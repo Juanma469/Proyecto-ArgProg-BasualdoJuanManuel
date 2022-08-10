@@ -5,7 +5,6 @@ import {LoginService} from '../../servicios/login.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 
-import Swal from 'sweetalert2';
 
 
 @Component({
@@ -43,11 +42,7 @@ export class LoginComponent implements OnInit {
       })
       .catch(error =>{
         var tipoError = error.code;
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: tipoError
-        })
+        alert ("error" + error.code);
 
         })
         
