@@ -22,6 +22,8 @@ import { environment } from 'src/environments/environment';
 import { RegisterComponent } from './login/registrar/registrar.component';
 import { FormsModule } from '@angular/forms';
 
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +46,7 @@ import { FormsModule } from '@angular/forms';
     NgCircleProgressModule.forRoot({}),
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig)
     
   ],
