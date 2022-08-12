@@ -6,3 +6,17 @@
 .nav-link{
     color: var(--primary-color);
 }
+
+.portada{
+    height: 250px;
+    background-color: var(--primary-color);
+}
+
+.yo-programo{
+    margin-left: 20px;
+    color: #fff;
+    font-size: 18px;   
+    border-radius: 35px;
+    background-color: var(--primary-color);
+    padding: 10px;
+}

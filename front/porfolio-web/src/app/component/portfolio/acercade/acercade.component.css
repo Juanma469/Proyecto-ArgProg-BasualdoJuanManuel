@@ -1,0 +1,13 @@
+section{
+    background-color: #F5F4FC;
+}
+
+.foto-perfil{
+    position: absolute;
+    top:220px;
+    left: 30px;
+}
+
+.foto-perfil img{
+    width: 200px;
+}

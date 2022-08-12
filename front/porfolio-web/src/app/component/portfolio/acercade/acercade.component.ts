@@ -1,25 +1,25 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario';
-import { HeaderService } from 'src/app/servicios/header.service';
+import { AcercadeService } from 'src/app/servicios/acercade.service';
 
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  selector: 'app-acercade',
+  templateUrl: './acercade.component.html',
+  styleUrls: ['./acercade.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class AcercadeComponent implements OnInit {
   public usuario: Usuario | undefined;
   public editarUsuario: Usuario | undefined;
-  constructor(private headerService: HeaderService ) { }
+  constructor(private acercadeService: AcercadeService ) { }
 
   ngOnInit(): void {
     this.obtenerUsuario()
   }
 
   public obtenerUsuario():void {   
-   this.headerService.obtenerUsuario().subscribe({
+   this.acercadeService.obtenerUsuario().subscribe({
     next:(response: Usuario) =>{
       this.usuario = response;
     },

@@ -6,6 +6,7 @@
    --primary-color:#4831D4;
    --secondary-color:#CCF381;
    --text-color:#3d155f;
+   --nuevo-item:#43CBFF;
 }
 html {
     font-size: 16px;
@@ -30,6 +31,38 @@ h1, h2, h3{
     padding: 15px 25px;
     border: 1px solid var(--primary-color);
 }
+
+.btn-edit{    
+    color: var(--text-color);
+    padding: 15px 20px;
+    border-radius: 50px;
+    border: 2px solid var(--primary-color);
+}
+
+
+.btn-borrar{
+    color: red;
+    background-color: transparent;
+    border:2px solid red;
+}
+
+.btn-borrar:visited{
+    color: red;
+    background-color: transparent;
+    border:2px solid red;
+}
+
+.btn-borrar:hover{
+    background-color: red;
+    border:2px solid red;
+    color: #fff;
+}
+
+.nuevo-item{
+    background-color: var(--nuevo-item);
+}
+
+
 .btn-primary{
     background-color: #fff;
 }

@@ -7,7 +7,7 @@ import { Usuario } from '../models/usuario';
 @Injectable({
   providedIn: 'root'
 })
-export class HeaderService {
+export class AcercadeService {
   private urlApi = environment.apiUrl
   constructor(private http:HttpClient) { }
 
