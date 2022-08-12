@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {LoginService} from '../../servicios/login.service'; 
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import Swal from 'sweetalert2'
+
 
 
 

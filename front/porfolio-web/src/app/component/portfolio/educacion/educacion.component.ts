@@ -2,7 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Educacion } from 'src/app/models/Educacion';
 import { EducacionService } from 'src/app/servicios/educacion.service';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-educacion',
@@ -28,23 +29,49 @@ public traerEducacion():void{
   })
 }
 
+
+public consultarOperacion(id:number, metodo:string){
+  switch (metodo) {
+    case 'borrar':
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.borrarEducacion(id);
+        }
+      })
+      break;
+
+    case 'actualizar':
+      
+      break;
+  }
+}
+
 public borrarEducacion(id:number){
-  alert (id);
-  Swal.fire({
-    title: '¿Seguro?',
-    text: "¿Estas seguro de querer borrar?",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Si, ¡borrar!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire(
-        '!Borrado!',
-        'Se elimino correctamente',
-        'success'
-      )
+  return this.eduService.borrarEducacion(id).subscribe({
+    next: (res) =>{
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Your work has been saved',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    },
+    error: (error:HttpErrorResponse)=>{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
     }
   })
 }

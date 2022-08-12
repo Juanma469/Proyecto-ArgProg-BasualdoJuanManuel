@@ -23,11 +23,11 @@ public crearEducacion(educacion: Educacion):Observable<Educacion>{
 
 
 public actualizarEducacion(educacion: Educacion): Observable<Educacion>{
-  return this.http.put<Educacion>(this.urlApi + "educacion/update", educacion)
+  return this.http.put<Educacion>(this.urlApi + "/educacion/update", educacion)
 }
 
 public borrarEducacion(id: number): Observable<void>{
-  return this.http.delete<void>(this.urlApi + "educacion/delete/" + id);
+  return this.http.delete<void>(this.urlApi + "/educacion/delete/" + id);
 }
 
 
