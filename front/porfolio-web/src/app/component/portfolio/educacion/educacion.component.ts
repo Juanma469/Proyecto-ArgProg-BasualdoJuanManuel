@@ -19,30 +19,47 @@ import { SubirImagenesService } from 'src/app/servicios/subir-imagenes.service';
 export class EducacionComponent implements OnInit {
   public educacion: Educacion[] = []; 
   public formularioEducacion: FormGroup;
-  public tituloFormulario: string = "Agregar nueva educacion";
+  public formularioEducacioEditar:FormGroup;
+  public imagenSeleccionada:any;
+  public imgSubida:boolean = false;
+
+  public imagenSeleccionadaEditada:any;
+  public imgSubidaEditada:boolean = false;
 
   constructor(private eduService: EducacionService, private formbulder:FormBuilder, private storageService:SubirImagenesService) { 
-   // *********VALORES DE FORMULARIO POR DEFECTO Y VALIDACIONES
     this.formularioEducacion = this.formbulder.group({
-      id: [0],
-      titulo: ['', [Validators.required]],
-      descripcion: ['', [Validators.required]],
-      anio: ['', [Validators.required]],
-      imagen: ['',[]]
+      id:          [0],
+      titulo:      ['', Validators.required],
+      descripcion: ['', Validators.required],
+      anio:        ['', Validators.required],
+      imagen:      ['',Validators.required]
 
     })
+
+
+    this.formularioEducacioEditar = this.formbulder.group({
+      idEditar:          [0],
+      tituloEditar:      ['', Validators.required],
+      descripcionEditar: ['', Validators.required],
+      anioEditar:        ['', Validators.required],
+      imagenEditar:      ['',Validators.required],
+      imagenEditarNueva: ['',Validators.required]
+
+    })
+
+
   }
 
-
+  
 
   ngOnInit(): void {
-    this.traerEducacion();
+    this.mostrarEducaciones();
   }
 
 
 
 // *********TRAER TODOS LOS REGISTROS DE EDUCACION GUARDADOS
-public traerEducacion():void{
+public mostrarEducaciones():void{
   this.eduService.obtenerEducacion().subscribe({
     next: (res: Educacion[]) =>{
       this.educacion = res;
@@ -54,46 +71,18 @@ public traerEducacion():void{
 }
 
 
-
-
-//// *********CAMBIAR TITULO SI ES UN REG. NUEVO
-nuevaEducacion(){
-  this.tituloFormulario = "Agregar nueva Educacion";
-}
-
-
-//// *********CARGAR FORMULARIO CON DATOS A EDITAR
-editarEducacion(i:number){
-  this.tituloFormulario = "Editar educacion";
-  this.formularioEducacion.setValue({
-    id: this.educacion[i].id,
-    titulo: this.educacion[i].titulo,
-    descripcion: this.educacion[i].descripcion,
-    anio: this.educacion[i].fecha,
-    imagen: this.educacion[i].img
-  });
-  let abrirModal = document.getElementById('modalcrearEditar');
-  abrirModal?.click();
-  }
-
-
-
-
-
-//// *********GUARDAR SI EL ID ES IGUAL A 0 O EDITAR SI ES MAYOR
-public guardarEditarEducacion():void{
-    if(!this.formularioEducacion.invalid){
-  
+// *********GUARDAR NUEVA EDUCACION
+public guardarEducacion():void{
+   
+  if(!this.formularioEducacion.invalid && this.imgSubida){
       let nuevaEducacion:Educacion = {
         id:this.formularioEducacion.value.id,
         titulo:this.formularioEducacion.value.titulo,
         descripcion:this.formularioEducacion.value.descripcion,
         fecha:this.formularioEducacion.value.anio,
-        img:this.formularioEducacion.value.img
+        img:this.imagenSeleccionada
         
       }
-    
-      if(nuevaEducacion.id<1){
         this.eduService.crearEducacion(nuevaEducacion).subscribe({
           next: res=>{ 
             Swal.fire({
@@ -114,29 +103,6 @@ public guardarEditarEducacion():void{
           }
         })
 
-      }
-       else{
-        this.eduService.actualizarEducacion(nuevaEducacion).subscribe({
-          next: res =>{
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: '¡Actualizado!',
-              showConfirmButton: false,
-              timer: 1000
-            })
-            
-            document.getElementById('cerrarModal')?.click();
-            this.ngOnInit();
-            this.formularioEducacion.reset();
-            
-          },
-          error: (error:HttpErrorResponse)=>{
-            console.log(error)
-          }
-        })
-      }
-  
             this.ngOnInit();
             this.formularioEducacion.reset();
     }
@@ -153,6 +119,72 @@ public guardarEditarEducacion():void{
   }
 
 
+public editarEducacion(i:number){
+  
+  this.formularioEducacioEditar.setValue({
+
+    idEditar:           this.educacion[i].id,
+    tituloEditar:       this.educacion[i].titulo,
+    descripcionEditar:  this.educacion[i].descripcion,
+    anioEditar:         this.educacion[i].fecha,
+    imagenEditar:       this.educacion[i].img,
+    imagenEditarNueva: ''
+
+  });
+
+}
+
+
+
+public guardarEducacionEditada(){
+   
+  if(!this.formularioEducacioEditar.invalid && this.imgSubidaEditada){
+    let educacionEditada:Educacion = {
+      id:           this.formularioEducacioEditar.value.idEditar,
+      titulo:       this.formularioEducacioEditar.value.tituloEditar,
+      descripcion:  this.formularioEducacioEditar.value.descripcionEditar,
+      fecha:        this.formularioEducacioEditar.value.anioEditar,
+      img:          this.imagenSeleccionadaEditada
+     
+     
+
+    }
+
+    console.log(educacionEditada)
+      this.eduService.actualizarEducacion(educacionEditada).subscribe({
+        next: res=>{ 
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Actualizado!',
+            showConfirmButton: false,
+            timer: 1000
+          })           
+          
+          document.getElementById('cerrarModalEditar')?.click();
+          this.ngOnInit();
+          this.formularioEducacioEditar.reset();
+         
+        },
+        error: (error:HttpErrorResponse)=>{
+          alert ("eraasdasdror" + error)
+        }
+      })
+
+          document.getElementById('cerrarModalEditado')?.click();
+          this.ngOnInit();
+          this.formularioEducacion.reset();
+  }
+  else{
+    Swal.fire({
+      position: 'top-end',
+      icon: 'error',
+      title: 'Algo salio mal y no se pudo actualizar',
+      showConfirmButton: false,
+      timer: 1000
+    })
+  }
+}
 
   
 //// *********BORRAR EDUCACION
@@ -168,7 +200,7 @@ public borrarEducacion(id:number){
   }).then((result) => {
     if (result.isConfirmed) {
       this.eduService.borrarEducacion(id).subscribe({
-          next: (res) =>{      
+          next: () =>{      
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -178,7 +210,7 @@ public borrarEducacion(id:number){
             })
             this.ngOnInit();
           },
-          error: (error:HttpErrorResponse)=>{
+          error: ()=>{
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
@@ -190,32 +222,64 @@ public borrarEducacion(id:number){
  })     
 }
 
+//******RESETEAR FORMULARIO */
+
+resetearFormulario(){
+  this.formularioEducacion.reset()
+  this.imagenSeleccionada ='';
+  this.imgSubida = false;
+
+  this.formularioEducacioEditar.reset()
+  this.imagenSeleccionadaEditada ='';
+  this.imgSubidaEditada = false;
+}
+
 
 //******IMAGENES */
 
 imagenes: any[] = [];
-cargarImagen(event: any) {
-  let archivos = event.target.files;
-  let nombre = "jonathan";
-
-  for (let i = 0; i < archivos.length; i++) {
-
-    let reader = new FileReader();
-    reader.readAsDataURL(archivos[0]);
-    reader.onloadend = () => {
+cargarImagen(event: any, op:string ){
+   if(op =="nueva"){
+    if(event !=null){
+      this.imagenSeleccionada = "../../../../assets/loader.gif";
+      let archivos = event.target.files;
+      let nombre = "educacion";
+      for (let i = 0; i < archivos.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(archivos[0]);
+      reader.onloadend = () => {
       console.log(reader.result);
       this.imagenes.push(reader.result);
-      this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
-        // let usuario = {
-        //   name: "jonathan",
-        //   nickName: "yonykikok",
-        //   password: "401325",
-        //   imgProfile: urlImagen
-        // }
-        console.log(urlImagen);
+      this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {        
+          this.imgSubida = true; 
+          this.imagenSeleccionada = urlImagen;
+        
       });
     }
+    }
   }
+   }if(op =='editar'){
+    if(event !=null){
+      this.imagenSeleccionada = "../../../../assets/loader.gif";
+      let archivos = event.target.files;
+      let nombre = "educacion";
+      for (let i = 0; i < archivos.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(archivos[0]);
+      reader.onloadend = () => {
+      console.log(reader.result);
+      this.imagenes.push(reader.result);
+      this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {        
+          this.imgSubidaEditada = true; 
+          this.imagenSeleccionadaEditada = urlImagen;           
+      });
+    }
+    }
+  }
+
+
+
+   }
 
 
 
