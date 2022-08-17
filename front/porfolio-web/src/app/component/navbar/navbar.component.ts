@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from 'src/app/servicios/login.service';
+import { AuthService } from 'src/app/servicios/auth.service';
+
 
 
 @Component({
@@ -10,22 +11,10 @@ import { LoginService } from 'src/app/servicios/login.service';
 })
 export class NavbarComponent implements OnInit {
 
-  logeado:boolean = true;
-
-  
-  constructor(private loginServ: LoginService,
-              private router: Router) { }
-
+  constructor(private router: Router, private usuarioLogeado:AuthService) { }
+  public user: string = '';
   ngOnInit(): void {
+    
   }
-
- cerrarSesion(){
-  this.loginServ.logout()
-  .then(()=>{
-    this.router.navigate(['login']);
-  })
-  .catch(error =>console.log(error))
-  
- }
 
 }

@@ -27,6 +27,8 @@ export class EducacionComponent implements OnInit {
   public imgSubidaEditada: boolean = false;
 
   constructor(private eduService: EducacionService, private formbulder: FormBuilder, private storageService: SubirImagenesService) {
+  
+//FORMULARIO REGISTRO NUEVO 
     this.formularioEducacion = this.formbulder.group({
       id: [0],
       titulo: ['', Validators.required],
@@ -41,7 +43,7 @@ export class EducacionComponent implements OnInit {
       imagen: ['', Validators.required]
     })
 
-
+//FORMULARIO PARA EDITAR
     this.formularioEducacioEditar = this.formbulder.group({
       idEditar: [0],
       tituloEditar: ['', Validators.required],
@@ -69,7 +71,7 @@ export class EducacionComponent implements OnInit {
 
 
 
-  // *********TRAER TODOS LOS REGISTROS DE EDUCACION GUARDADOS
+  //TRAER TODOS LOS REGISTROS DE EDUCACION GUARDADOS
   public mostrarEducaciones(): void {
     this.eduService.obtenerEducacion().subscribe({
       next: (res: Educacion[]) => {
@@ -82,7 +84,7 @@ export class EducacionComponent implements OnInit {
   }
 
 
-  // *********GUARDAR NUEVA EDUCACION
+  //GUARDAR NUEVO REGISTRO
   public guardarEducacion(): void {
 
     if (!this.formularioEducacion.invalid && this.imgSubida) {
@@ -130,7 +132,7 @@ export class EducacionComponent implements OnInit {
 
   }
 
-
+  //TRAER REGISTRO A ACTUALIZAR
   public editarEducacion(i: number) {
 
     this.formularioEducacioEditar.setValue({
@@ -145,7 +147,7 @@ export class EducacionComponent implements OnInit {
   }
 
 
-
+  //ACTUALIZAR EDUCACION 
   public guardarEducacionEditada() {
 
     if (!this.formularioEducacioEditar.invalid && this.imgSubidaEditada) {
@@ -196,7 +198,7 @@ export class EducacionComponent implements OnInit {
   }
 
 
-  //// *********BORRAR EDUCACION
+  //BORRAR EDUCACION
   public borrarEducacion(id: number) {
 
     Swal.fire({
@@ -231,8 +233,7 @@ export class EducacionComponent implements OnInit {
     })
   }
 
-  //******RESETEAR FORMULARIOS */
-
+  //****** RESETEAR FORMULARIOS *******/
   resetearFormulario() {
     this.formularioEducacion.reset()
     this.imagenSeleccionada = '';
@@ -244,8 +245,8 @@ export class EducacionComponent implements OnInit {
   }
 
 
-  //******IMAGENES */
 
+  //SUBIR IMAGENES A FIREBASE
   imagenes: any[] = [];
   cargarImagen(event: any, op: string) {
     if (op == "nueva") {
@@ -257,7 +258,6 @@ export class EducacionComponent implements OnInit {
           let reader = new FileReader();
           reader.readAsDataURL(archivos[0]);
           reader.onloadend = () => {
-            console.log(reader.result);
             this.imagenes.push(reader.result);
             this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
               this.imgSubida = true;
@@ -276,7 +276,6 @@ export class EducacionComponent implements OnInit {
           let reader = new FileReader();
           reader.readAsDataURL(archivos[0]);
           reader.onloadend = () => {
-            console.log(reader.result);
             this.imagenes.push(reader.result);
             this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
               this.imgSubidaEditada = true;
@@ -285,13 +284,7 @@ export class EducacionComponent implements OnInit {
           }
         }
       }
-
-
-
     }
-
-
-
 
   }
 

@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {LoginService} from '../../servicios/login.service'; 
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-
-
-
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/servicios/auth.service';
 
 
 @Component({
@@ -14,55 +9,16 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
- form: FormGroup;
-  constructor( private formbulder: FormBuilder, 
-               private serviceLogin: LoginService, 
-               private userLogeado:AngularFireAuth, 
-               private router:Router) { 
-    this.form = this.formbulder.group(
-      {
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(8)]]
-      }
-    )
-  }
 
-  ngOnInit(): void {
-  }
+  public user = {email:'', password:''};
+
+  constructor(private router:Router, private auth:AuthService) { }
+  ngOnInit(): void {}
+
+public ingresar(){
+  this.auth.signIn(this.user.email, this.user.password)
+}
 
 
-
-
-  login (){
-    // user: jmbasualdo@argprograma.com
-   //  pass: jmArgPrograma
-      this.serviceLogin.login(this.form.value.email, this.form.value.password)
-      .then(response=>{        
-        this.router.navigate(['porfolio'])
-
-      })
-      .catch(error =>{
-        var tipoError = error.code;
-        alert ("error" + error.code);
-
-        })
-        
-       
-  
-  }
-
-  //obtener valores de los inputs
-   get Email(){
-    return this.form.get('email');
-   }
-
-   
-   get Password(){
-    return this.form.get('password');
-   }
-
-   getUserLogged() {
-    return console.log(this.userLogeado.authState);
-  }
 
 }
