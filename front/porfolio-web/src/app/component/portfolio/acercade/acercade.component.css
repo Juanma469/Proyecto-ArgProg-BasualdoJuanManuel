@@ -6,8 +6,50 @@ section{
     position: absolute;
     top:220px;
     left: 30px;
+    
 }
 
 .foto-perfil img{
     width: 200px;
+    
+}
+
+@media (max-width:1024px) {
+
+    html{
+        font-size: 19px;
+    }
+   
+    .foto-perfil{
+        
+        top: 180px;
+        left: 40%;       
+        bottom: 0;
+        margin: auto;
+        
+    }
+
+    h2{
+        margin-top: 100px;
+    }
+}
+
+
+@media (max-width:574px) {  
+    html{
+        font-size: 19px;
+    }
+   
+    .foto-perfil{
+        
+        top: 180px;
+        left: 35%;       
+        bottom: 0;
+        margin: auto;
+        
+    }
+
+    h2{
+        margin-top: 100px;
+    }
 }

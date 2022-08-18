@@ -11,7 +11,6 @@ import { AcercadeService } from 'src/app/servicios/acercade.service';
 })
 export class AcercadeComponent implements OnInit {
   public usuario: Usuario | undefined;
-  public editarUsuario: Usuario | undefined;
   constructor(private acercadeService: AcercadeService ) { }
 
   ngOnInit(): void {

@@ -10,10 +10,10 @@
           <p  class="card-text">Año de finalización <b>{{ edu.fecha }}</b></p>
 
 
-          <button href="#" class="btn btn-edit btn-primary" title="Editar" (click)="editarEducacion(i)"
+          <button class="btn btn-edit btn-primary" title="Editar" (click)="editarEducacion(i)"
             id="modaleditarEducacion" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#editarEducacion"><i
               class="fa-solid fa-pen"></i></button>&nbsp;
-          <button href="#" class="btn btn-edit btn-borrar" *ngIf="editable" title="Eliminar" (click)="borrarEducacion(edu.id)"><i
+          <button class="btn btn-edit btn-borrar" *ngIf="editable" title="Eliminar" (click)="borrarEducacion(edu.id)"><i
               class="fa-solid fa-trash"></i></button>
         </div>
       </div>

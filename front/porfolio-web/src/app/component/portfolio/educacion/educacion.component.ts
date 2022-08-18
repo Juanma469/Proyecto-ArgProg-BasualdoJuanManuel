@@ -7,7 +7,6 @@ import { EducacionService } from 'src/app/servicios/educacion.service';
 
 import Swal from 'sweetalert2';
 import { SubirImagenesService } from 'src/app/servicios/subir-imagenes.service';
-import { AuthService } from 'src/app/servicios/auth.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 
@@ -32,8 +31,7 @@ export class EducacionComponent implements OnInit {
 
   constructor(private eduService: EducacionService, 
               private formbulder: FormBuilder, 
-              private storageService: SubirImagenesService, 
-              private auth:AuthService,              
+              private storageService: SubirImagenesService,                   
               private sesion: AngularFireAuth
               
               ) {
@@ -103,7 +101,7 @@ export class EducacionComponent implements OnInit {
         this.educacion = res;
       },
       error: (error: HttpErrorResponse) => {
-        alert("Error en la consulta -->" + error.message);
+        alert("Error en la consulta de educacion -->" + error.message);
       }
     })
   }
