@@ -7,6 +7,8 @@ import { EducacionService } from 'src/app/servicios/educacion.service';
 
 import Swal from 'sweetalert2';
 import { SubirImagenesService } from 'src/app/servicios/subir-imagenes.service';
+import { AuthService } from 'src/app/servicios/auth.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 
 
@@ -26,7 +28,15 @@ export class EducacionComponent implements OnInit {
   public imagenSeleccionadaEditada: any;
   public imgSubidaEditada: boolean = false;
 
-  constructor(private eduService: EducacionService, private formbulder: FormBuilder, private storageService: SubirImagenesService) {
+  public editable:boolean = false;
+
+  constructor(private eduService: EducacionService, 
+              private formbulder: FormBuilder, 
+              private storageService: SubirImagenesService, 
+              private auth:AuthService,              
+              private sesion: AngularFireAuth
+              
+              ) {
   
 //FORMULARIO REGISTRO NUEVO 
     this.formularioEducacion = this.formbulder.group({
@@ -67,7 +77,22 @@ export class EducacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.mostrarEducaciones();
+
+    this.sesion.onAuthStateChanged((user:any) => {
+      if (user) {           
+       this.editable = true;      
+      } 
+      else {   
+        this.editable = false;
+      }   
+  });
+
+
   }
+
+
+
+
 
 
 

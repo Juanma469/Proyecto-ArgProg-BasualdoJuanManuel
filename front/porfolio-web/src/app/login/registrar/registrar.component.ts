@@ -16,8 +16,7 @@ export class RegisterComponent implements OnInit {
 
   public registrarUsuario(){
       this.auth.register(this.user.email, this.user.password).then((res:any)=>{
-       
-          console.log (res)
+       console.log (res)
        
       })
   }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from 'src/app/servicios/auth.service';
 
 @Component({
@@ -8,9 +9,12 @@ import { AuthService } from 'src/app/servicios/auth.service';
 })
 export class PortfolioComponent implements OnInit {
 
-  constructor(private auth:AuthService) { }
 
-  ngOnInit(): void {
-  }
- 
+  constructor() { }
+
+  ngOnInit() {
+     
+}
+
+
 }

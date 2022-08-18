@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/servicios/auth.service';
 
@@ -11,10 +12,26 @@ import { AuthService } from 'src/app/servicios/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private router: Router, private usuarioLogeado:AuthService) { }
+
+  constructor(private router: Router, 
+              private usuarioLogeado:AuthService,
+              private sesion:AngularFireAuth) { }
   public user: string = '';
   ngOnInit(): void {
-    
-  }
+  this.sesion.onAuthStateChanged((user:any) => {
+    if (user) {           
+       this.user = user.email; 
+    } 
+    else {   
+      this.user = ''; 
+    }   
+  });
+
+
+}
+
+logOut(){ 
+  this.usuarioLogeado.logout();  
+}
 
 }

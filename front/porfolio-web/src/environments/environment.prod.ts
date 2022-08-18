@@ -7,5 +7,6 @@ export const environment = {
     storageBucket: "argentina-programa-porfolio.appspot.com",
     messagingSenderId: "766578924740",
     appId: "1:766578924740:web:0a8ed87cc51d54c9483d91"
-  }
-}; 
+  },
+  apiUrl: 'http://localhost:8080'
+};
