@@ -3,10 +3,10 @@
         <h2 class="text-center">Experiencia</h2>
         <div class="row d-flex justify-content-center py-5">      
            
-           <div class="row experiencia" *ngFor="let exp of experiencia; index as i">
+           <div class="row experiencia my-2" *ngFor="let exp of experiencia; index as i">
                 <div class="col-md-2">
                     <figure>
-                        <img src="{{exp.img}}" width="80%" alt="">
+                        <img  src="{{exp.img}}" width="80%" alt="">
                     </figure>
                 </div>
                 <div class="col-md-10">      
@@ -138,7 +138,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="editarExperiencia"> Editar experiencia</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarModalEditar" aria-label="Close"
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarModalEditarExperiencia" aria-label="Close"
           (click)="resetearFormulario()"></button>
       </div>
       <form [formGroup]="formularioExperienciaEditar" (ngSubmit)="guardarExperienciaEditada()" enctype="multipart/form-data">

@@ -15,14 +15,14 @@ import { ExperienciaService } from 'src/app/servicios/experiencia.service';
   styleUrls: ['./experiencia.component.css']
 })
 export class ExperienciaComponent implements OnInit {
-  public editable:boolean = true;
-  public experiencia: Experiencia[] = [];
-  public formularioExperiencia: FormGroup;
-  public formularioExperienciaEditar: FormGroup;
-  public imagenSeleccionada: any;
-  public imgSubida: boolean = false;
-  public imagenSeleccionadaEditada: any;
-  public imgSubidaEditada: boolean = false;
+   editable:boolean = true;
+   experiencia: Experiencia[] = [];
+   formularioExperiencia: FormGroup;
+   formularioExperienciaEditar: FormGroup;
+   imagenSeleccionada: any;
+   imgSubida: boolean = false;
+   imagenSeleccionadaEditada: any;
+   imgSubidaEditada: boolean = false;
 
 
   constructor(private expService: ExperienciaService, 
@@ -160,8 +160,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
 
   
   //TRAER REGISTRO A ACTUALIZAR
-  public editarExperiencia(i: number) {
-    console.log(this.experiencia[i])
+  public editarExperiencia(i: number) {  
     this.formularioExperienciaEditar.setValue({
       idEditar:          this.experiencia[i].id,
       tituloEditar:      this.experiencia[i].titulo,
@@ -201,7 +200,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
             timer: 1000
           })
 
-          document.getElementById('cerrarModalEditar')?.click();
+          document.getElementById('cerrarModalEditarExperiencia')?.click();
           this.ngOnInit();
           this.formularioExperienciaEditar.reset();
 

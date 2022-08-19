@@ -1,87 +1,26 @@
 <section class="my-5 p-5">
     <div class="container">
-        <h1 class="text-center">Hard & Soft Skills</h1>
-        <div class="row d-flex justify-content-center py-5">      
-            <div class="card" style="width: 18rem;">      
+        <h1 class="text-center">Skills</h1>
+        <div class="row d-flex justify-content-center py-5" >      
+            <div class="card col-md-3" style="width: 18rem;" *ngFor="let sk of skill; index as i">      
                 <div class="card-body">
-                <h5 class="card-title">Hard & Soft Skills</h5>
+                <h5 class="card-title">{{ sk.nombre }}</h5>
                 <circle-progress
-                    [percent]="85"
+                    [percent]= "sk.porcentaje"
                     [radius]="100"
                     [outerStrokeWidth]="16"
                     [innerStrokeWidth]="8"
-                    [imageSrc]="'../../../assets/html-logo.png'"
+                    [imageSrc]="'{{sk.img}}'"
                     [imageWidth]="100"
                     [imageHeight]="100"
                     [showImage]="true"                     
                     [outerStrokeColor]="'var(--primary-color)'"                    
                     [innerStrokeColor]="'#C7E596'"
                     [animation]="true"
-                    [animationDuration]="1000"
-              ></circle-progress>
+                    [animationDuration]="1000">
+                </circle-progress>
                 </div>
-            </div>
-
-            <div class="card" style="width: 18rem;">      
-                <div class="card-body">
-                <h5 class="card-title">Hard & Soft Skills</h5>
-                <circle-progress
-                    [percent]="85"
-                    [radius]="100"
-                    [outerStrokeWidth]="16"
-                    [innerStrokeWidth]="8"
-                    [imageSrc]="'../../../assets/html-logo.png'"
-                    [imageWidth]="100"
-                    [imageHeight]="100"
-                    [showImage]="true"                     
-                    [outerStrokeColor]="'var(--primary-color)'"                    
-                    [innerStrokeColor]="'#C7E596'"
-                    [animation]="true"
-                    [animationDuration]="1000"
-              ></circle-progress>
-                </div>
-            </div>
-
-            <div class="card" style="width: 18rem;">      
-                <div class="card-body">
-                <h5 class="card-title">Hard & Soft Skills</h5>
-                <circle-progress
-                    [percent]="85"
-                    [radius]="100"
-                    [outerStrokeWidth]="16"
-                    [innerStrokeWidth]="8"
-                    [imageSrc]="'../../../assets/html-logo.png'"
-                    [imageWidth]="100"
-                    [imageHeight]="100"
-                    [showImage]="true"                     
-                    [outerStrokeColor]="'var(--primary-color)'"                    
-                    [innerStrokeColor]="'#C7E596'"
-                    [animation]="true"
-                    [animationDuration]="1000"
-              ></circle-progress>
-                </div>
-            </div>
-
-            <div class="card" style="width: 18rem;">      
-                <div class="card-body">
-                <h5 class="card-title">Hard & Soft Skills</h5>
-                <circle-progress
-                    [percent]="85"
-                    [radius]="100"
-                    [outerStrokeWidth]="16"
-                    [innerStrokeWidth]="8"
-                    [imageSrc]="'../../../assets/html-logo.png'"
-                    [imageWidth]="100"
-                    [imageHeight]="100"
-                    [showImage]="true"                     
-                    [outerStrokeColor]="'var(--primary-color)'"                    
-                    [innerStrokeColor]="'#C7E596'"
-                    [animation]="true"
-                    [animationDuration]="1000"
-              ></circle-progress>
-                </div>
-            </div>
-           
+            </div>           
         </div>
     </div>
 </section>
