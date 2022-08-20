@@ -18,13 +18,13 @@ export class ExperienciaService {
     return this.http.get<Experiencia[]>(this.urlApi + "/experiencia/ver");
   }
 
-  public crearExperiencia(educacion: Experiencia): Observable<Experiencia> {
-    return this.http.post<Experiencia>(this.urlApi + "/experiencia/add", educacion)
+  public crearExperiencia(experiencia: Experiencia): Observable<Experiencia> {
+    return this.http.post<Experiencia>(this.urlApi + "/experiencia/add", experiencia)
   }
 
 
-  public actualizarExperiencia(educacion: Experiencia): Observable<Experiencia> {
-    return this.http.put<Experiencia>(this.urlApi + "/experiencia/update", educacion)
+  public actualizarExperiencia(experiencia: Experiencia): Observable<Experiencia> {
+    return this.http.put<Experiencia>(this.urlApi + "/experiencia/update", experiencia)
   }
 
   public borrarExperiencia(id: number): Observable<void> {

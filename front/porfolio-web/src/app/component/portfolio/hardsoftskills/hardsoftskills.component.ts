@@ -19,13 +19,8 @@ export class HardsoftskillsComponent implements OnInit {
   editable: boolean = true;
   skill: Skill[] = [];
   formularioSkill: FormGroup;
-  formularioSkillEditar: FormGroup;
   imagenSeleccionada: any;
   imgSubida: boolean = false;
-  imagenSeleccionadaEditada: any;
-  imgSubidaEditada: boolean = false;
-
-  numero: number=100;
 
 
   constructor(private skillService: SkillService,
@@ -37,21 +32,13 @@ export class HardsoftskillsComponent implements OnInit {
 
     //FORMULARIO REGISTRO NUEVO 
     this.formularioSkill = this.formbulder.group({
-      id: [0],
-      nombre: ['', Validators.required],
+      id:         [0],
+      nombre:     ['', Validators.required],
       porcentaje: ['', Validators.required],
-      img: ['', Validators.required]
+      img:        ['', Validators.required]
     })
 
-    //FORMULARIO PARA EDITAR
-    this.formularioSkillEditar = this.formbulder.group({
-      idEditar: [0],
-      nombreEditar: ['', Validators.required],
-      porcentajeEditar: ['', Validators.required],
-      imgEditar: ['', Validators.required],
-      imagenEditarNueva: ['']
-
-    })
+   
 
   }
 
@@ -84,14 +71,14 @@ export class HardsoftskillsComponent implements OnInit {
 
 
 
-  //TRAER TODOS LOS REGISTROS DE EDUCACION GUARDADOS
+  //TRAER TODOS LOS REGISTROS DE SKILL
   public mostrarSkill() {
     this.skillService.obtenerSkill().subscribe({
       next: (res: Skill[]) => {
         this.skill = res
       },
       error: (error: HttpErrorResponse) => {
-        alert("Error en la consulta  de skill-->" + error.message);
+        alert("Error en la consulta  de skill -->" + error.message);
       }
     })
   }
@@ -104,10 +91,10 @@ export class HardsoftskillsComponent implements OnInit {
 
     if (!this.formularioSkill.invalid && this.imgSubida) {
       let nuevoSkill: Skill = {
-        id: this.formularioSkill.value.id,
-        nombre: this.formularioSkill.value.nombre,
+        id:         this.formularioSkill.value.id,
+        nombre:     this.formularioSkill.value.nombre,
         porcentaje: this.formularioSkill.value.porcentaje,
-        img: this.formularioSkill.value.img,
+        img:        this.imagenSeleccionada,
       }
       this.skillService.crearSkill(nuevoSkill).subscribe({
         next: res => {
@@ -119,7 +106,9 @@ export class HardsoftskillsComponent implements OnInit {
             timer: 1000
           })
 
-          document.getElementById('cerrarModal')?.click();
+          console.log(res)
+
+          document.getElementById('cerrarModalSkill')?.click();
           this.ngOnInit();
           this.formularioSkill.reset();
 
@@ -147,69 +136,6 @@ export class HardsoftskillsComponent implements OnInit {
 
 
 
-
-  //TRAER REGISTRO A ACTUALIZAR
-  public editarSkill(i: number) {
-    this.formularioSkillEditar.setValue({
-      idEditar: this.skill[i].id,
-      nombreEditar: this.skill[i].nombre,
-      porcentajeEditar: this.skill[i].porcentaje,
-   
-      imgEditar: this.skill[i].img,
-      imagenEditarNueva: ''
-    });
-
-  }
-
-
-  //ACTUALIZAR EDUCACION 
-  public guardarSkillEditada() {
-
-    if (!this.formularioSkillEditar.invalid && this.imgSubidaEditada) {
-      let skillEditado: Skill = {
-        id: this.formularioSkillEditar.value.idEditar,
-        nombre: this.formularioSkillEditar.value.nombre,
-        porcentaje: this.formularioSkillEditar.value.porcentaje,      
-        img: this.imagenSeleccionadaEditada
-
-
-
-      }
-
-      this.skillService.actualizarSkill(skillEditado).subscribe({
-        next: res => {
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Actualizado!',
-            showConfirmButton: false,
-            timer: 1000
-          })
-
-          document.getElementById('cerrarModalEditarExperiencia')?.click();
-          this.ngOnInit();
-          this.formularioSkillEditar.reset();
-
-        },
-        error: (error: HttpErrorResponse) => {
-          alert(error.message)
-        }
-      })
-
-      document.getElementById('cerrarModalEditado')?.click();
-      this.ngOnInit();
-      this.formularioSkill.reset();
-    }
-    else {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        title: 'Algo salio mal y no se pudo actualizar',
-        showConfirmButton: false,
-        timer: 1000
-      })
-    }
-  }
 
 
 
@@ -254,9 +180,6 @@ export class HardsoftskillsComponent implements OnInit {
     this.imagenSeleccionada = '';
     this.imgSubida = false;
 
-    this.formularioSkillEditar.reset()
-    this.imagenSeleccionadaEditada = '';
-    this.imgSubidaEditada = false;
   }
 
 
@@ -265,12 +188,12 @@ export class HardsoftskillsComponent implements OnInit {
 
   //SUBIR IMAGENES A FIREBASE
   imagenes: any[] = [];
-  cargarImagen(event: any, op: string) {
-    if (op == "nueva") {
+  cargarImagen(event: any) {
+
       if (event != null) {
         this.imagenSeleccionada = "../../../../assets/loader.gif";
         let archivos = event.target.files;
-        let nombre = "skill";
+        let nombre = "skill__";
         for (let i = 0; i < archivos.length; i++) {
           let reader = new FileReader();
           reader.readAsDataURL(archivos[0]);
@@ -284,25 +207,7 @@ export class HardsoftskillsComponent implements OnInit {
           }
         }
       }
-    } if (op == 'editar') {
-      if (event != null) {
-        this.imagenSeleccionada = "../../../../assets/loader.gif";
-        let archivos = event.target.files;
-        let nombre = "skill";
-        for (let i = 0; i < archivos.length; i++) {
-          let reader = new FileReader();
-          reader.readAsDataURL(archivos[0]);
-          reader.onloadend = () => {
-            this.imagenes.push(reader.result);
-            this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
-              this.imgSubidaEditada = true;
-              this.imagenSeleccionadaEditada = urlImagen;
-            });
-          }
-        }
-      }
-    }
-
+   
   }
 
 

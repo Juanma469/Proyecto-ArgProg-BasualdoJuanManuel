@@ -18,13 +18,13 @@ export class SkillService {
     return this.http.get<Skill[]>(this.urlApi + "/skill/ver");
   }
 
-  public crearSkill(educacion: Skill): Observable<Skill> {
-    return this.http.post<Skill>(this.urlApi + "/experiencia/add", educacion)
+  public crearSkill(skill: Skill): Observable<Skill> {
+    return this.http.post<Skill>(this.urlApi + "/skill/add", skill)
   }
 
 
-  public actualizarSkill(educacion: Skill): Observable<Skill> {
-    return this.http.put<Skill>(this.urlApi + "/skill/update", educacion)
+  public actualizarSkill(skill: Skill): Observable<Skill> {
+    return this.http.put<Skill>(this.urlApi + "/skill/update", skill)
   }
 
   public borrarSkill(id: number): Observable<void> {

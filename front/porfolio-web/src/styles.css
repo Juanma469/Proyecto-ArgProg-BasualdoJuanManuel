@@ -44,6 +44,7 @@ h1, h2, h3{
     color: red;
     background-color: transparent;
     border:2px solid red;
+    width: 70px;
 }
 
 .btn-borrar:visited{
