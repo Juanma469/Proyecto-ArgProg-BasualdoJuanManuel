@@ -3,12 +3,215 @@
         <h2>Proyectos</h2>
         <div class="row">
             
-            <div class="col-md-7 bg-1 p-3">
-                <h3>Proyecto Nro 1</h3>
-                <p class="subtitle-proyecto">Subtitulo del proyecto</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut assumenda perspiciatis amet aliquid nemo quis obcaecati magni quam fuga reprehenderit libero vel consequatur, in error at dolor, deserunt neque asperiores.</p>
+            <div class="col-md-12  p-3"  *ngFor="let proye of proyectos; index as i">
+                <div class="row">
+                    <div class="col-md-4 d-flex justify-content-center align-items-center ">
+                       <figure class="" >
+                            <img src="{{ proye.img }}" width="350px" alt="">
+                       </figure>
+                    </div>
+                    <div class="col-md-8">
+                        <h2> <i class="fa-solid fa-calendar"></i> {{ proye.fecha }}</h2>
+                        <hr>
+                        <h4>{{ proye.nombre }}</h4>
+                        <p class="subtitle-proyecto"> <span class="badge bg-primary">{{ proye.tecno }}</span></p>
+                        <p>{{ proye.descripcion }}</p>
+                    </div>
+                </div>                
+                <button  class="btn btn-edit btn-primary" title="Editar" (click)="editarProyecto(i)" id="modalProyectoEditar" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#editarProyecto"><i class="fa-solid fa-pen"></i></button>&nbsp;
+                <button  class="btn btn-edit btn-borrar" *ngIf="editable" title="Eliminar" (click)="borrarProyecto(proye.id)"><i  class="fa-solid fa-trash"></i></button>
             </div>
             
+            <div class="card nuevo-item" style="width: 18rem;min-height:300px" *ngIf="editable">
+                <div class="card-body d-flex justify-content-center align-items-center">
+                  <i class="fa-solid fa-circle-plus" style="font-size:5rem;" title="Añadir nuevo item" id="modalNuevoProyecto" data-bs-toggle="modal" data-bs-target="#crearNuevoProyecto"></i>
+                </div>
+              </div>
+
+
         </div>
     </div>
 </section>
+
+
+
+
+
+
+<!-- Modal  NUEVO ITEM -->
+<div class="modal fade" id="crearNuevoProyecto" tabindex="-1" aria-labelledby="crearNuevoProyecto" aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearNuevoProyecto"> Agregar proyecto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarModalProyecto" aria-label="Close"
+          (click)="resetearFormulario()"></button>
+      </div>
+      <form [formGroup]="formularioProyecto" (ngSubmit)="guardarProyecto()" enctype="multipart/form-data">
+        <div class="modal-body">
+
+          <label for="titulo">Nombre del proyecto</label>
+          <input type="text" id="nombre" name="nombre" formControlName="nombre" class="form-control">
+
+          <div id="nombreHelp"
+            *ngIf="formularioProyecto.get('nombre')?.errors && formularioProyecto.get('nombre')?.touched"
+            class="form-text">
+            <p *ngIf="formularioProyecto.get('nombre')?.hasError('required')" class="text-danger">Falta ingresar nombre
+            </p>
+          </div>
+
+          <label for="tecnologias">Tecnologias</label>
+          <input type="text" id="tecnologias" name="tecnologias" formControlName="tecno" class="form-control">
+
+          <div id="tecnologiasHelp"
+            *ngIf="formularioProyecto.get('tecno')?.errors && formularioProyecto.get('tecno')?.touched"
+            class="form-text">
+            <p *ngIf="formularioProyecto.get('tecno')?.hasError('required')" class="text-danger">Falta ingresar tecnoligias
+            </p>
+          </div>
+
+
+          <label for="descripcion">Descripcion</label>
+          <input type="text" id="descripcion" name="descripcion" formControlName="descripcion" class="form-control">
+
+          <div id="descripcionHelp"
+            *ngIf="formularioProyecto.get('descripcion')?.errors && formularioProyecto.get('descripcion')?.touched"
+            class="form-text">
+            <p *ngIf="formularioProyecto.get('descripcion')?.hasError('required')" class="text-danger">Falta ingresar
+              descripcion</p>
+          </div>
+
+
+          <label for="anio">Año</label>
+          <input type="text" id="anio" name="anio" formControlName="anio" maxlength="4" pattern="[0-9]+" class="form-control">
+
+          <div id="anioHelp" *ngIf="formularioProyecto.get('anio')?.errors && formularioProyecto.get('anio')?.touched"
+            class="form-text">
+            <p *ngIf="formularioProyecto.get('anio')?.hasError('required')" class="text-danger">Falta ingresar año</p>
+          </div>
+
+
+
+
+          <label for="imagen">Subir una imagen</label>
+          <input type="file" name="imagen" accept=".png, .jpg, .jpeg" formControlName="img"
+            (change)="cargarImagen($event, 'nueva')" id="inputFile">
+
+          <div id="vistapreviaIMG" class="my-2" *ngIf="imagenSeleccionada !=''">
+            <img src="{{ imagenSeleccionada }}" width="20%" alt="">
+          </div>
+
+
+
+          <div id="imgHelp"
+            *ngIf="formularioProyecto.get('img')?.errors && formularioProyecto.get('img')?.touched"
+            class="form-text">
+            <p *ngIf="formularioProyecto.get('img')?.hasError('img')" class="text-danger">Falta una imagen</p>
+          </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            (click)="resetearFormulario()">Cancelar</button>
+          <input type="submit" class="btn btn-primary" *ngIf="!formularioProyecto.invalid && imgSubida"
+            value="Guardar">
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Modal  EDITAR ITEM -->
+<div class="modal fade" id="editarProyecto" tabindex="-1" aria-labelledby="editarProyecto" aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarProyecto"> Editar proyecto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarModalProyectoEditar" aria-label="Close"
+          (click)="resetearFormulario()"></button>
+      </div>
+      <form [formGroup]="formularioProyectoEditar" (ngSubmit)="guardarProyectoEditado()" enctype="multipart/form-data">
+        <div class="modal-body">
+
+          <label for="nombreEditar">Nombre del proyecto</label>
+          <input type="text" id="nombreEditar" name="nombreEditar" formControlName="nombreEditar" class="form-control">
+
+          <div id="nombreEditarHelp"
+            *ngIf="formularioProyectoEditar.get('nombreEditar')?.errors && formularioProyectoEditar.get('nombreEditar')?.touched"
+            class="form-text">
+            <p *ngIf="formularioProyectoEditar.get('nombreEditar')?.hasError('required')" class="text-danger">Falta ingresar nombre
+            </p>
+          </div>
+
+          <label for="tecnologiasEditar">Tecnologias</label>
+          <input type="text" id="tecnologiasEditar" formControlName="tecnoEditar" class="form-control">
+
+          <div id="tecnologiasEditarHelp"
+            *ngIf="formularioProyectoEditar.get('tecnoEditar')?.errors && formularioProyectoEditar.get('tecnoEditar')?.touched"
+            class="form-text">
+            <p *ngIf="formularioProyectoEditar.get('tecnoEditar')?.hasError('required')" class="text-danger">Falta ingresar tecnoligias
+            </p>
+          </div>
+
+
+          <label for="descripcionEditar">Descripcion</label>
+          <input type="text" id="descripcionEditar" name="descripcionEditar" formControlName="descripcionEditar" class="form-control">
+
+          <div id="tecnologiasEditarHelp"
+            *ngIf="formularioProyectoEditar.get('descripcionEditar')?.errors && formularioProyectoEditar.get('descripcionEditar')?.touched"
+            class="form-text">
+            <p *ngIf="formularioProyectoEditar.get('descripcionEditar')?.hasError('required')" class="text-danger">Falta ingresar
+              descripcion</p>
+          </div>
+
+
+          <label for="anioEditar">Año</label>
+          <input type="text" id="anioEditar" name="anioEditar" formControlName="anioEditar" maxlength="4" pattern="[0-9]+" class="form-control">
+
+          <div id="anioEditarHelp" *ngIf="formularioProyectoEditar.get('anioEditar')?.errors && formularioProyectoEditar.get('anioEditar')?.touched"
+            class="form-text">
+            <p *ngIf="formularioProyectoEditar.get('anioEditar')?.hasError('required')" class="text-danger">Falta ingresar año</p>
+          </div>
+
+
+
+
+          <label for="imagenEditar">Subir una imagen</label>
+          <input type="file" id="imagenEditar" name="imgEditar" accept=".png, .jpg, .jpeg" formControlName="imgEditar"
+            (change)="cargarImagen($event, 'editar')" id="inputFile">
+
+          <div id="vistapreviaIMG" class="my-2" *ngIf="imagenSeleccionadaEditada !=''">
+            <img src="{{ imagenSeleccionadaEditada }}" width="20%" alt="">
+          </div>
+
+
+
+          <div id="imagenEditarHelp"
+            *ngIf="formularioProyecto.get('img')?.errors && formularioProyecto.get('img')?.touched"
+            class="form-text">
+            <p *ngIf="formularioProyecto.get('img')?.hasError('img')" class="text-danger">Falta una imagen</p>
+          </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            (click)="resetearFormulario()">Cancelar</button>
+          <input type="submit" class="btn btn-primary" *ngIf="!formularioProyectoEditar.invalid && imgSubidaEditada"
+            value="Guardar">
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+

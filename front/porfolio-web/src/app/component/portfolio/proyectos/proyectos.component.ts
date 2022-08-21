@@ -51,7 +51,7 @@ this.formularioProyecto = this.formbulder.group({
                 
 //FORMULARIO PARA EDITAR
 this.formularioProyectoEditar = this.formbulder.group({
-  idNombre: [0],
+  idEditar: [0],
   nombreEditar: ['', Validators.required],
   tecnoEditar: ['', Validators.required],
   descripcionEditar: ['', Validators.required],
@@ -108,16 +108,16 @@ this.formularioProyectoEditar = this.formbulder.group({
 
 
   //GUARDAR NUEVO REGISTRO
-  public guardarExperiencia(): void {
+  public guardarProyecto(): void {
 
     if (!this.formularioProyecto.invalid && this.imgSubida) {
       let nuevoProyecto: Proyectos = {
-        id: this.formularioProyecto.value.id,
-        nombre: this.formularioProyecto.value.nombre,
-        tecno: this.formularioProyecto.value.tecno,
+        id:          this.formularioProyecto.value.id,
+        nombre:      this.formularioProyecto.value.nombre,
+        tecno:       this.formularioProyecto.value.tecno,
         descripcion: this.formularioProyecto.value.descripcion,
-        fecha: this.formularioProyecto.value.anio,
-        img: this.imagenSeleccionada
+        fecha:       this.formularioProyecto.value.anio,
+        img:         this.imagenSeleccionada
         
 
       }
@@ -161,14 +161,14 @@ this.formularioProyectoEditar = this.formbulder.group({
 
   
   //TRAER REGISTRO A ACTUALIZAR
-  public editarExperiencia(i: number) {  
+  public editarProyecto(i: number) {  
     this.formularioProyectoEditar.setValue({
-      idEditar:          this.proyectos[i].id,
-      nombreEditar:      this.proyectos[i].nombre,
-      tecnoEditar:      this.proyectos[i].tecno,
-      descripcionEditar: this.proyectos[i].descripcion,
-      anioEditar:        this.proyectos[i].fecha,
-      imgEditar:      this.proyectos[i].img,
+      idEditar:           this.proyectos[i].id,
+      nombreEditar:       this.proyectos[i].nombre,
+      tecnoEditar:        this.proyectos[i].tecno,
+      descripcionEditar:  this.proyectos[i].descripcion,
+      anioEditar:         this.proyectos[i].fecha,
+      imgEditar:          '',
       imagenEditarNueva: ''
     });
 
@@ -176,20 +176,22 @@ this.formularioProyectoEditar = this.formbulder.group({
 
 
   //ACTUALIZAR EDUCACION 
-  public guardarExperienciaEditada() {
+  public guardarProyectoEditado() {
 
     if (!this.formularioProyectoEditar.invalid && this.imgSubidaEditada) {
       let proyectoEditado: Proyectos = {
-        id: this.formularioProyectoEditar.value.idEditar,
-        nombre: this.formularioProyectoEditar.value.nombreEditar,
-        tecno: this.formularioProyectoEditar.value.tecnoEditar,
+        id:          this.formularioProyectoEditar.value.idEditar,
+        nombre:      this.formularioProyectoEditar.value.nombreEditar,
+        tecno:       this.formularioProyectoEditar.value.tecnoEditar,
         descripcion: this.formularioProyectoEditar.value.descripcionEditar,
-        fecha: this.formularioProyectoEditar.value.anioEditar,
-        img: this.imagenSeleccionadaEditada
-
-
+        fecha:       this.formularioProyectoEditar.value.anioEditar,
+        img:         this.imagenSeleccionadaEditada
 
       }
+
+      
+  
+
 
       this.proService.actualizarProyecto(proyectoEditado).subscribe({
         next: res => {
@@ -201,7 +203,7 @@ this.formularioProyectoEditar = this.formbulder.group({
             timer: 1000
           })
 
-          document.getElementById('cerrarModalEditarExperiencia')?.click();
+          document.getElementById('cerrarModalProyectoEditar')?.click();
           this.ngOnInit();
           this.formularioProyectoEditar.reset();
 
@@ -211,7 +213,7 @@ this.formularioProyectoEditar = this.formbulder.group({
         }
       })
 
-      document.getElementById('cerrarModalEditado')?.click();
+      document.getElementById('cerrarModalProyectoEditar')?.click();
       this.ngOnInit();
       this.formularioProyecto.reset();
     }
@@ -312,6 +314,7 @@ this.formularioProyectoEditar = this.formbulder.group({
             this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
               this.imgSubidaEditada = true;
               this.imagenSeleccionadaEditada = urlImagen;
+            
             });
           }
         }

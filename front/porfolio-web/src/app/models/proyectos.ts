@@ -3,6 +3,6 @@ export interface Proyectos {
     nombre: string;
     tecno: string;
     descripcion: string;
-    fecha: string;   
+    fecha: number;   
     img: string;
 }
