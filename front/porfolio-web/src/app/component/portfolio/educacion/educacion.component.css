@@ -7,11 +7,3 @@ section {
     background-color: var(--primary-color);
 }
 
-.card{
-    top:0;
-    transition: top .2s;
-}
-
-.card:hover{
-    top:-10px
-}

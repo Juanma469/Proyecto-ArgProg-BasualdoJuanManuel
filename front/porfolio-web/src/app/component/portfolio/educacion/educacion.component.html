@@ -2,12 +2,12 @@
   <div class="container">
     <h2 class="text-center text-white">Educación</h2>
     <div class="row d-flex justify-content-center py-5">
-      <div *ngFor="let edu of educacion; index as i" class="card" style="width: 18rem;">
+      <div *ngFor="let edu of educacion; index as i" class="card col-sm-12 col-md-4">
+        <img src="{{ edu.img }}"  class="card-img-top"  alt="...">
         <div class="card-body">
-          <img src="{{ edu.img }}" class="card-img-top" alt="...">
           <h5 class="display-6">{{ edu.titulo }}</h5>
           <p class="card-text">{{ edu.descripcion }}</p>
-          <p  class="card-text">Año de finalización <b>{{ edu.fecha }}</b></p>
+          <p class="card-text">Año de finalización <b>{{ edu.fecha }}</b></p>
 
 
           <button class="btn btn-edit btn-primary" title="Editar" (click)="editarEducacion(i)"
@@ -15,6 +15,7 @@
               class="fa-solid fa-pen"></i></button>&nbsp;
           <button class="btn btn-edit btn-borrar" *ngIf="editable" title="Eliminar" (click)="borrarEducacion(edu.id)"><i
               class="fa-solid fa-trash"></i></button>
+
         </div>
       </div>
       <div class="card nuevo-item" style="width: 18rem;min-height:300px" *ngIf="editable">
@@ -53,7 +54,7 @@
 
 
           <label for="descripcion">Descripcion</label>
-          <input type="text" id="descripcion" formControlName="descripcion" class="form-control">
+          <textarea type="text" id="descripcion" formControlName="descripcion" class="form-control"></textarea>
 
           <div id="descripcionHelp"
             *ngIf="formularioEducacion.get('descripcion')?.errors && formularioEducacion.get('descripcion')?.touched"

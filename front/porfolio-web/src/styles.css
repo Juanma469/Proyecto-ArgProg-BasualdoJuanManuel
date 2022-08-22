@@ -6,7 +6,7 @@
    --primary-color:#4831D4;
    --secondary-color:#CCF381;
    --text-color:#3d155f;
-   --nuevo-item:#43CBFF;
+
 }
 html {
     font-size: 16px;
@@ -25,25 +25,29 @@ h1, h2, h3{
 }
 
 
-.btn{    
-    color: var(--text-color);
-    border-radius: 0;
-    padding: 15px 25px;
-    border: 1px solid var(--primary-color);
-}
+
 
 .btn-edit{    
     color: var(--text-color);
     padding: 15px 20px;
     border-radius: 50px;
-    border: 2px solid var(--primary-color);
+   
+
+    -webkit-box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+    -moz-box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+    box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
 }
 
 
 .btn-borrar{
     color: red;
-    background-color: transparent;
-    border:2px solid red;
+    background-color: #fff;
+    
+    -webkit-box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+    -moz-box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+    box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+  
+    
     width: 70px;
 }
 
@@ -60,21 +64,54 @@ h1, h2, h3{
 }
 
 .nuevo-item{
-    background-color: var(--nuevo-item);
-}
-
-
-.btn-primary{
     background-color: #fff;
+
+    -webkit-box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+    -moz-box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+    box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
 }
 
+.btn{
+    border-radius: 50px;
+}
+.btn-primary{
+    border: none;
+    background-color: var(--primary-color);
+    color: #fff;
+
+     
+    -webkit-box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+    -moz-box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+    box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+}
+
+
+
+.btn-secondary{
+
+    border: none;
+    background-color: #fff;
+    color: var(--text-color);
+
+     
+    -webkit-box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+    -moz-box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+    box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+
+}
 
 
 
 .card{
-    border: none;
+    top:0;
+    transition: top .2s;
+    /* border: none; */
     margin:0.5rem;
     border-radius: 0px;
+}
+
+.card:hover{
+    top:-10px
 }
 
 .form-control{

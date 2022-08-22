@@ -1,14 +1,108 @@
 <section class="my-5 ">
     <div class="container">
         <figure class="foto-perfil">
-            <img src="https://firebasestorage.googleapis.com/v0/b/argentina-programa-porfolio.appspot.com/o/argprog%2Ffoto_perfil.jpg?alt=media&token=222afa2e-5a41-493e-963c-8597591685db" style="border-radius:100% ;" alt="">
+            <img src="{{ usuario?.img}}" style="border-radius:100% ;" alt="">
+
+            <button class="btn btn-edit btn-primary editar-foto"  title="Editar foto de perfil" (click)="editarUsuario()"
+            id="modalEditarUsuario" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#edicionUsuario"><i
+              class="fa-solid fa-pen"></i></button>
+
         </figure>
-        <h2 class="text-center"> {{usuario?.nombre}} {{usuario?.apellido}} </h2>
+        <h2 class="text-center"> {{usuario?.nombre}} {{usuario?.apellido | uppercase}} </h2>
         <h3 class="text-center"> {{usuario?.titulo }} </h3>
+       
         <div class="row">           
             <div class="col-md-12">              
-                <p class="text-center">{{usuario?.descripcion}}</p>
+                <p class="text-center descri">{{usuario?.descripcion}}</p>
             </div>
+        </div>
+
+        <div class="text-center"><a href="{{usuario?.linkedin}}" target="_blank" ><i class="fa-brands fa-linkedin fa-2xl"></i></a></div>
+
+        <div class="text-center"> 
+            <button class="btn btn-edit btn-primary" title="Editar" (click)="editarUsuario()"
+        id="modalEditarUsuario" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#edicionUsuario"><i
+          class="fa-solid fa-pen"></i></button>
         </div>
     </div>
 </section>
+
+
+
+
+
+<!-- Modal  Editar Usuario-->
+<div class="modal fade" id="edicionUsuario" tabindex="-1" aria-labelledby="edicionUsuario" aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="edicionUsuario"> Editar usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarModalUsuario" aria-label="Close"
+          (click)="resetearFormulario()"></button>
+      </div>
+      <form [formGroup]="formularioUsuario" (ngSubmit)="guardarEdicionUsuario()" enctype="multipart/form-data">
+        <div class="modal-body">
+
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" formControlName="nombre" class="form-control">
+
+          <div id="nombreHelp"
+            *ngIf="formularioUsuario.get('nombre')?.errors && formularioUsuario.get('nombre')?.touched"
+            class="form-text">
+            <p *ngIf="formularioUsuario.get('nombre')?.hasError('required')" class="text-danger">Falta ingresar nombre
+            </p>
+          </div>
+
+          <label for="apellido">Apellido</label>
+          <input type="text" id="apellido" formControlName="apellido" class="form-control">
+
+          <div id="apellidoHelp"
+            *ngIf="formularioUsuario.get('apellido')?.errors && formularioUsuario.get('apellido')?.touched"
+            class="form-text">
+            <p *ngIf="formularioUsuario.get('apellido')?.hasError('required')" class="text-danger">Falta ingresar el apellido
+            </p>
+          </div>
+
+          <label for="titulo">Titulo</label>
+          <input type="text" id="titulo" formControlName="titulo" class="form-control">
+
+          <div id="tituloHelp"
+            *ngIf="formularioUsuario.get('titulo')?.errors && formularioUsuario.get('titulo')?.touched"
+            class="form-text">
+            <p *ngIf="formularioUsuario.get('titulo')?.hasError('required')" class="text-danger">Falta ingresar el titulo
+            </p>
+          </div>
+
+
+          <label for="descripcion">Descripcion</label>
+          <textarea type="text" id="descripcion" formControlName="descripcion" class="form-control"></textarea>
+
+          <div id="descripcionHelp"
+            *ngIf="formularioUsuario.get('descripcion')?.errors && formularioUsuario.get('descripcion')?.touched"
+            class="form-text">
+            <p *ngIf="formularioUsuario.get('descripcion')?.hasError('required')" class="text-danger">Falta ingresar una descripcion</p>
+          </div>
+
+
+          <label for="linkedin">Linkein</label>
+          <input type="text" id="linkedin" formControlName="linkedin" class="form-control">
+
+          <div id="linkedinHelp" *ngIf="formularioUsuario.get('linkedin')?.errors && formularioUsuario.get('linkedin')?.touched"
+            class="form-text">
+            <p *ngIf="formularioUsuario.get('linkedin')?.hasError('required')" class="text-danger">Falta ingresar LinkeIn</p>
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            (click)="resetearFormulario()">Cancelar</button>
+          <input type="submit" class="btn btn-primary" *ngIf="!formularioUsuario.invalid"
+            value="Guardar">
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
