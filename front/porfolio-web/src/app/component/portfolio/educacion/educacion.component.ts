@@ -119,6 +119,8 @@ export class EducacionComponent implements OnInit {
         img: this.imagenSeleccionada
 
       }
+
+      console.log(nuevaEducacion)
       this.eduService.crearEducacion(nuevaEducacion).subscribe({
         next: res => {
           Swal.fire({

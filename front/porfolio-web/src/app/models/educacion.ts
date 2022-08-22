@@ -2,6 +2,6 @@ export interface Educacion {
     id: number;
     titulo: string;
     descripcion: string;
-    fecha: string;   
+    fecha: number;   
     img: string;
 }
