@@ -18,7 +18,7 @@ export class AcercadeComponent implements OnInit {
   editable: boolean = false;
   formularioUsuario: FormGroup;
   imagenSeleccionada: any = '';
-  imgSubida:boolean = false;
+  imgSubida: boolean = false;
 
   constructor(private acercadeService: AcercadeService,
     private storageService: SubirImagenesService,
@@ -27,14 +27,13 @@ export class AcercadeComponent implements OnInit {
 
 
 
-    //FORMULARIO PARA EDITAR
     this.formularioUsuario = this.formbulder.group({
-      id: [''],
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      linkedin: ['', Validators.required],
-      titulo: ['', Validators.required],
-      descripcion: ['', Validators.required],
+      id:       [''],
+      nombre:   ['', [Validators.required, Validators.pattern(/^[a-zA-Z \u00E0-\u00FC ñ Ñ ]{4,40}$/)]],
+      apellido: ['', [Validators.required, Validators.pattern(/^[a-zA-Z \u00E0-\u00FC ñ Ñ]{4,40}$/)]],
+      linkedin: ['', [Validators.required, Validators.pattern(/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/)]],
+      titulo:   ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]{4,50}$/)]],
+      descripcion: ['', [Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
       img: ['', Validators.required]
 
     })
@@ -71,7 +70,7 @@ export class AcercadeComponent implements OnInit {
 
   //TRAER REGISTRO A ACTUALIZAR
   public editarUsuario() {
- 
+
 
     this.formularioUsuario.setValue({
       id: this.usuario?.id,
@@ -148,25 +147,25 @@ export class AcercadeComponent implements OnInit {
 
 
 
-   //ACTUALIZAR FOTO PERFIL USUARIO
-   imagenes: any[] = [];
-   cargarImagen(event: any, op: string) {  
-       if (event != null) {
-         this.imagenSeleccionada = "../../../../assets/loader.gif";
-         let archivos = event.target.files;
-         let nombre = "usuarioPerfil";
-         for (let i = 0; i < archivos.length; i++) {
-           let reader = new FileReader();
-           reader.readAsDataURL(archivos[0]);
-           reader.onloadend = () => {
-             this.imagenes.push(reader.result);
-             this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
-               this.imgSubida = true;
-               this.imagenSeleccionada = urlImagen;
- 
-             });
-           }
-         }
-       }
-     }
+  //ACTUALIZAR FOTO PERFIL USUARIO
+  imagenes: any[] = [];
+  cargarImagen(event: any, op: string) {
+    if (event != null) {
+      this.imagenSeleccionada = "../../../../assets/loader.gif";
+      let archivos = event.target.files;
+      let nombre = "usuarioPerfil";
+      for (let i = 0; i < archivos.length; i++) {
+        let reader = new FileReader();
+        reader.readAsDataURL(archivos[0]);
+        reader.onloadend = () => {
+          this.imagenes.push(reader.result);
+          this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
+            this.imgSubida = true;
+            this.imagenSeleccionada = urlImagen;
+
+          });
+        }
+      }
+    }
+  }
 }

@@ -39,15 +39,9 @@ export class EducacionComponent implements OnInit {
 //FORMULARIO REGISTRO NUEVO 
     this.formularioEducacion = this.formbulder.group({
       id: [0],
-      titulo: ['', Validators.required],
-      descripcion: ['', Validators.required],
-      anio: ['',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(4)
-        ]
-      ],
+      titulo: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+      descripcion: ['',[Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
+      anio: ['', [ Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
       imagen: ['', Validators.required]
     })
 

@@ -2,11 +2,8 @@
     <div class="container">
         <figure class="foto-perfil">
             <img src="{{ usuario?.img}}" style="border-radius:100% ;" alt="">
-
             <button class="btn btn-edit btn-primary editar-foto"  title="Editar foto de perfil" (click)="editarUsuario()"
-            id="modalEditarUsuario" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#edicionUsuario"><i
-              class="fa-solid fa-pen"></i></button>
-
+            id="modalEditarUsuario" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#edicionUsuario"><i class="fa-solid fa-pen"></i></button>
         </figure>
         <h2 class="text-center"> {{usuario?.nombre}} {{ usuario?.apellido }} </h2>
         <h3 class="text-center"> {{usuario?.titulo }} </h3>
@@ -17,7 +14,7 @@
             </div>
         </div>
 
-        <div class="text-center"><a href="{{usuario?.linkedin}}" target="_blank" ><i class="fa-brands fa-linkedin fa-2xl"></i></a></div>
+        <div class="text-center mt-2"><a href="{{usuario?.linkedin}}" target="_blank" ><i class="fa-brands fa-linkedin fa-2xl"></i></a></div>
 
         <div class="text-center"> 
             <button class="btn btn-edit btn-primary" title="Editar" (click)="editarUsuario()"
@@ -43,63 +40,69 @@
       </div>
       <form [formGroup]="formularioUsuario" (ngSubmit)="guardarEdicionUsuario()" enctype="multipart/form-data">
         <div class="modal-body">
+            <div class="mb-3">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" formControlName="nombre" class="form-control">         
+              <div id="nombreHelp"
+                *ngIf="formularioUsuario.get('nombre')?.errors && formularioUsuario.get('nombre')?.touched"
+                class="form-text">
+                <p *ngIf="formularioUsuario.get('nombre')?.hasError('required')" class="text-danger">Falta ingresar nombre</p>
+                <p *ngIf="formularioUsuario.get('nombre')?.hasError('pattern')" class="text-danger">Solo texto sin numeros ni simbolos. de 3 a 20 caracteres</p>
+              </div>
+            </div>
 
-          <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" formControlName="nombre" class="form-control">
+            <div class="mb-3">
+              <label for="apellido">Apellido</label>
+              <input type="text" id="apellido" formControlName="apellido" class="form-control">
+              <div id="apellidoHelp"
+                *ngIf="formularioUsuario.get('apellido')?.errors && formularioUsuario.get('apellido')?.touched"
+                class="form-text">
+                <p *ngIf="formularioUsuario.get('apellido')?.hasError('required')" class="text-danger">Falta ingresar el apellido</p>
+                <p *ngIf="formularioUsuario.get('apellido')?.hasError('pattern')" class="text-danger">Solo texto sin numeros ni simbolos. de 3 a 20 caracteres</p>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="titulo">Titulo</label>
+              <input type="text" id="titulo" formControlName="titulo" class="form-control">
+              <div id="tituloHelp"
+                *ngIf="formularioUsuario.get('titulo')?.errors && formularioUsuario.get('titulo')?.touched"
+                class="form-text">
+                <p *ngIf="formularioUsuario.get('titulo')?.hasError('required')" class="text-danger">Falta ingresar el titulo</p>
+                <p *ngIf="formularioUsuario.get('titulo')?.hasError('pattern')" class="text-danger">Solo texto sin números ni símbolos. De 3 a 20 caracteres</p>
+              </div>
+            </div>
 
-          <div id="nombreHelp"
-            *ngIf="formularioUsuario.get('nombre')?.errors && formularioUsuario.get('nombre')?.touched"
-            class="form-text">
-            <p *ngIf="formularioUsuario.get('nombre')?.hasError('required')" class="text-danger">Falta ingresar nombre
-            </p>
-          </div>
+            <div class="mb-3">
+              <label for="descripcion">Descripción</label>
+              <textarea type="text" id="descripcion" rows="6" formControlName="descripcion" class="form-control"></textarea>
+              <small class="my-1 d-block small-text" [className]="formularioUsuario.get('descripcion')?.hasError('pattern') ? 'text-danger' : 'text-muted'">{{formularioUsuario.get('descripcion')?.value?.length}} / 200</small>
+            
+              <div id="descripcionHelp"
+                *ngIf="formularioUsuario.get('descripcion')?.errors && formularioUsuario.get('descripcion')?.touched"
+                class="form-text">
+                <p *ngIf="formularioUsuario.get('descripcion')?.hasError('required')" class="text-danger">Falta ingresar una descripción</p>
+                <p *ngIf="formularioUsuario.get('descripcion')?.hasError('pattern')" class="text-danger">Maximo 200 caracteres </p>
+              </div>
+            </div>
 
-          <label for="apellido">Apellido</label>
-          <input type="text" id="apellido" formControlName="apellido" class="form-control">
-
-          <div id="apellidoHelp"
-            *ngIf="formularioUsuario.get('apellido')?.errors && formularioUsuario.get('apellido')?.touched"
-            class="form-text">
-            <p *ngIf="formularioUsuario.get('apellido')?.hasError('required')" class="text-danger">Falta ingresar el apellido
-            </p>
-          </div>
-
-          <label for="titulo">Titulo</label>
-          <input type="text" id="titulo" formControlName="titulo" class="form-control">
-
-          <div id="tituloHelp"
-            *ngIf="formularioUsuario.get('titulo')?.errors && formularioUsuario.get('titulo')?.touched"
-            class="form-text">
-            <p *ngIf="formularioUsuario.get('titulo')?.hasError('required')" class="text-danger">Falta ingresar el titulo
-            </p>
-          </div>
-
-
-          <label for="descripcion">Descripcion</label>
-          <textarea type="text" id="descripcion" formControlName="descripcion" class="form-control"></textarea>
-
-          <div id="descripcionHelp"
-            *ngIf="formularioUsuario.get('descripcion')?.errors && formularioUsuario.get('descripcion')?.touched"
-            class="form-text">
-            <p *ngIf="formularioUsuario.get('descripcion')?.hasError('required')" class="text-danger">Falta ingresar una descripcion</p>
-          </div>
-
-
-          <label for="linkedin">Linkein</label>
-          <input type="text" id="linkedin" formControlName="linkedin" class="form-control">
-
-          <div id="linkedinHelp" *ngIf="formularioUsuario.get('linkedin')?.errors && formularioUsuario.get('linkedin')?.touched"
-            class="form-text">
-            <p *ngIf="formularioUsuario.get('linkedin')?.hasError('required')" class="text-danger">Falta ingresar LinkeIn</p>
-          </div>
-
-
+            <div class="mb-3">
+              <label for="linkedin" class="my-2">Linkein</label>
+              <input type="text" id="linkedin" formControlName="linkedin" class="form-control">
+              
+              <div id="linkedinHelp" *ngIf="formularioUsuario.get('linkedin')?.errors && formularioUsuario.get('linkedin')?.touched"
+                class="form-text">
+                <p *ngIf="formularioUsuario.get('linkedin')?.hasError('required')" class="text-danger">Falta ingresar LinkeIn</p>
+                <p *ngIf="formularioUsuario.get('linkedin')?.hasError('pattern')" class="text-danger">Ingresa una URL valida </p>
+              </div>
+            </div>
         </div>
+
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-            (click)="resetearFormulario()">Cancelar</button>
-          <input type="submit" class="btn btn-primary" *ngIf="!formularioUsuario.invalid"
-            value="Guardar">
+          <div class="mb-3">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetearFormulario()">Cancelar</button>
+            <input type="submit" class="btn btn-primary" *ngIf="!formularioUsuario.invalid" value="Guardar">
+          </div>
         </div>
       </form>
 
