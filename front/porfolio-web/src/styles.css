@@ -8,6 +8,10 @@
    --text-color:#3d155f;
 
 }
+*{
+    font-family: 'Fira Code', sans-serif;
+    color: var(--text-color);
+}
 html {
     font-size: 16px;
     font-family: 'Encode Sans Expanded', sans-serif;
@@ -107,7 +111,15 @@ h1, h2, h3{
     transition: top .2s;
     /* border: none; */
     margin:0.5rem;
-    border-radius: 0px;
+    border-radius: 24px;
+     
+    -webkit-box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+    -moz-box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+    box-shadow: -5px 6px 39px -17px rgba(0,0,0,0.75);
+}
+
+.card-text{
+    font-size: 18px;
 }
 
 .card:hover{

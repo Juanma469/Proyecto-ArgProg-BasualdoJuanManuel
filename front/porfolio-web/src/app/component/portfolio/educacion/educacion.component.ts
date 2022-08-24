@@ -48,18 +48,11 @@ export class EducacionComponent implements OnInit {
 //FORMULARIO PARA EDITAR
     this.formularioEducacioEditar = this.formbulder.group({
       idEditar: [0],
-      tituloEditar: ['', Validators.required],
-      descripcionEditar: ['', Validators.required],
-      anioEditar: ['',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(5)
-        ]
-      ],
-      imagenEditar: ['', Validators.required],
+      tituloEditar: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+      descripcionEditar: ['',[Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
+      anioEditar: ['', [ Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
+      imagenEditar: [''],
       imagenEditarNueva: ['']
-
     })
 
 

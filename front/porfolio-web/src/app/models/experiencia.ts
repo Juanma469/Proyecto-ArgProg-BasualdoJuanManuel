@@ -3,6 +3,6 @@ export interface Experiencia {
     titulo: string;
     puesto: string;
     descripcion: string;
-    fecha: string;   
+    fecha: number;   
     img: string;
 }

@@ -35,32 +35,20 @@ export class ExperienciaComponent implements OnInit {
 //FORMULARIO REGISTRO NUEVO 
 this.formularioExperiencia = this.formbulder.group({
   id: [0],
-  titulo: ['', Validators.required],
-  puesto: ['', Validators.required],
-  descripcion: ['', Validators.required],
-  anio: ['',
-    [
-      Validators.required,
-      Validators.minLength(4),
-      Validators.maxLength(4)
-    ]
-  ],
+  titulo: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+  puesto: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+  descripcion: ['', [Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
+  anio: ['', [ Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
   imagen: ['', Validators.required]
 })
 
 //FORMULARIO PARA EDITAR
 this.formularioExperienciaEditar = this.formbulder.group({
   idEditar: [0],
-  tituloEditar: ['', Validators.required],
-  puestoEditar: ['', Validators.required],
-  descripcionEditar: ['', Validators.required],
-  anioEditar: ['',
-    [
-      Validators.required,
-      Validators.minLength(4),
-      Validators.maxLength(5)
-    ]
-  ],
+  tituloEditar: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+  puestoEditar: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+  descripcionEditar: ['', [Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
+  anioEditar: ['',[ Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
   imagenEditar: ['', Validators.required],
   imagenEditarNueva: ['']
 
@@ -95,7 +83,8 @@ this.formularioExperienciaEditar = this.formbulder.group({
   public mostrarExperiencias(){
     this.expService.obtenerExperiencia().subscribe({
       next: (res:Experiencia[]) =>{
-        this.experiencia = res
+        this.experiencia = res     
+        
       },
       error: (error: HttpErrorResponse) => {
         alert("Error en la consulta  de experiencia-->" + error.message);

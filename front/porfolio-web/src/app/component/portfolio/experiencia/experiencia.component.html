@@ -3,7 +3,7 @@
         <h2 class="text-center">Experiencia</h2>
         <div class="row d-flex justify-content-center py-5">      
            
-           <div class="row experiencia my-2" *ngFor="let exp of experiencia; index as i">
+           <div class="row experiencia my-2" *ngFor="let exp of experiencia ; index as i">
                 <div class="col-md-2">
                     <figure>
                         <img  src="{{exp.img}}" width="80%" alt="">
@@ -11,27 +11,23 @@
                 </div>
                 <div class="col-md-10">      
                     <div>
-                    <h4>{{exp.titulo}}</h4>
-                      <h5>{{exp.puesto}}</h5>
-                    <p>{{exp.descripcion}}</p>
+                      <h4>{{exp.titulo}}</h4>
+                        <h5>{{exp.puesto}}</h5>
+                      <p>{{exp.descripcion}}</p>
+                      <p>{{exp.fecha}}</p>
                     </div>
 
-                     <button  class="btn btn-edit btn-primary" title="Editar" (click)="editarExperiencia(i)" id="modaleditarExperiencia" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#editarExperiencia"><i class="fa-solid fa-pen"></i></button>&nbsp;
-                      <button  class="btn btn-edit btn-borrar" *ngIf="editable" title="Eliminar" (click)="borrarExperiencia(exp.id)"><i  class="fa-solid fa-trash"></i></button>
+                    <button  class="btn btn-edit btn-primary" title="Editar" (click)="editarExperiencia(i)" id="modaleditarExperiencia" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#editarExperiencia"><i class="fa-solid fa-pen"></i></button>&nbsp;
+                    <button  class="btn btn-edit btn-borrar" *ngIf="editable" title="Eliminar" (click)="borrarExperiencia(exp.id)"><i  class="fa-solid fa-trash"></i></button>
                 </div>
            </div>
 
            <div class="card nuevo-item" style="width: 18rem;min-height:300px" *ngIf="editable">
             <div class="card-body d-flex justify-content-center align-items-center">
-              <i class="fa-solid fa-circle-plus" style="font-size:5rem;" title="Añadir nuevo item" id="modalNuevaExperiencia"
-                data-bs-toggle="modal" data-bs-target="#crearNuevaExperiencia"></i>
+              <i class="fa-solid fa-circle-plus" style="font-size:5rem;" title="Añadir nuevo item" id="modalNuevaExperiencia" data-bs-toggle="modal" data-bs-target="#crearNuevaExperiencia"></i>
             </div>
           </div>
-
-  
-          
-        
-        </div>
+      </div>
     </div>
 </section>
 
@@ -51,67 +47,61 @@
       <form [formGroup]="formularioExperiencia" (ngSubmit)="guardarExperiencia()" enctype="multipart/form-data">
         <div class="modal-body">
 
-          <label for="titulo">Titulo</label>
-          <input type="text" id="titulo" formControlName="titulo" class="form-control">
-
-          <div id="tituloHelp"
-            *ngIf="formularioExperiencia.get('titulo')?.errors && formularioExperiencia.get('titulo')?.touched"
-            class="form-text">
-            <p *ngIf="formularioExperiencia.get('titulo')?.hasError('required')" class="text-danger">Falta ingresar titulo
-            </p>
+          <div class="mb-2">
+            <label for="titulo">Titulo</label>
+            <input type="text" id="titulo" formControlName="titulo" class="form-control">         
+            <div id="tituloHelp" *ngIf="formularioExperiencia.get('titulo')?.errors && formularioExperiencia.get('titulo')?.touched" class="form-text">
+              <p *ngIf="formularioExperiencia.get('titulo')?.hasError('required')" class="text-danger">Falta ingresar titulo</p>
+              <p *ngIf="formularioExperiencia.get('titulo')?.hasError('pattern')" class="text-danger">Ingrese un titulo valido entre 4 y 40 caracteres</p>                
+            </div>           
           </div>
 
-          <label for="puesto">Puesto</label>
-          <input type="text" id="titulo" formControlName="puesto" class="form-control">
+          <div class="mb-2">
+            <label for="puesto">Puesto</label>
+            <input type="text" id="titulo" formControlName="puesto" class="form-control">
+            <div id="puestoHelp"
+              *ngIf="formularioExperiencia.get('puesto')?.errors && formularioExperiencia.get('puesto')?.touched"
+              class="form-text">
+              <p *ngIf="formularioExperiencia.get('puesto')?.hasError('required')" class="text-danger">Falta ingresar puesto</p>
+              <p *ngIf="formularioExperiencia.get('puesto')?.hasError('pattern')" class="text-danger">Ingrese el puesto valido entre 4 y 40 caracteres</p>                
+            </div>
+         </div>
 
-          <div id="puestoHelp"
-            *ngIf="formularioExperiencia.get('puesto')?.errors && formularioExperiencia.get('puesto')?.touched"
-            class="form-text">
-            <p *ngIf="formularioExperiencia.get('puesto')?.hasError('required')" class="text-danger">Falta ingresar puesto
-            </p>
-          </div>
-
-
-          <label for="descripcion">Descripcion</label>
-          <input type="text" id="descripcion" formControlName="descripcion" class="form-control">
-
-          <div id="descripcionHelp"
-            *ngIf="formularioExperiencia.get('descripcion')?.errors && formularioExperiencia.get('descripcion')?.touched"
-            class="form-text">
-            <p *ngIf="formularioExperiencia.get('descripcion')?.hasError('required')" class="text-danger">Falta ingresar
-              descripcion</p>
-          </div>
-
-
-          <label for="anio">Año finalizacion</label>
-          <input type="text" id="anio" formControlName="anio" maxlength="4" pattern="[0-9]+" class="form-control">
-
-          <div id="anioHelp" *ngIf="formularioExperiencia.get('anio')?.errors && formularioExperiencia.get('anio')?.touched"
-            class="form-text">
-            <p *ngIf="formularioExperiencia.get('anio')?.hasError('required')" class="text-danger">Falta ingresar año de
-              finalizacion</p>
-          </div>
+         <div class="mb-2">          
+            <label for="descripcion">Descripcion</label>
+            <textarea type="text" rows="6" id="descripcion" formControlName="descripcion" class="form-control"></textarea>
+            <small class="my-1 d-block small-text" [className]="formularioExperiencia.get('descripcion')?.hasError('pattern') ? 'text-danger' : 'text-muted'">{{formularioExperiencia.get('descripcion')?.value?.length}} / 200</small>
+            <div id="descripcionHelp"
+              *ngIf="formularioExperiencia.get('descripcion')?.errors && formularioExperiencia.get('descripcion')?.touched"
+              class="form-text">
+              <p *ngIf="formularioExperiencia.get('descripcion')?.hasError('required')" class="text-danger">Falta ingresar descripcion</p>
+              <p *ngIf="formularioExperiencia.get('descripcion')?.hasError('pattern')" class="text-danger">Ingrese la descripcion. hasta 200 caracteres</p>                
+            </div>
+         </div>
 
 
+         <div class="mb-2">
+            <label for="anio">Año finalizacion</label>
+            <input type="text" id="anio" formControlName="anio" maxlength="4" pattern="[0-9]+" class="form-control">
+            <div id="anioHelp" *ngIf="formularioExperiencia.get('anio')?.errors && formularioExperiencia.get('anio')?.touched" class="form-text">
+              <p *ngIf="formularioExperiencia.get('anio')?.hasError('required')" class="text-danger">Falta ingresar año de finalizacion</p>
+              <p *ngIf="formularioExperiencia.get('anio')?.hasError('max')" class="text-danger">El año debe ser entre 1965 y 2022</p>
+              <p *ngIf="formularioExperiencia.get('anio')?.hasError('min')" class="text-danger">El año debe ser entre 1965 y 2022</p>
+              <p *ngIf="formularioExperiencia.get('anio')?.hasError('pattern')" class="text-danger">Solo numeros</p>
+            </div>
+         </div>
 
 
-          <label for="anio">Subir una imagen</label>
-          <input type="file" accept=".png, .jpg, .jpeg" formControlName="imagen"
-            (change)="cargarImagen($event, 'nueva')" id="inputFile">
-
-          <div id="vistapreviaIMG" class="my-2" *ngIf="imagenSeleccionada !=''">
-            <img src="{{ imagenSeleccionada }}" width="20%" alt="">
-          </div>
-
-
-
-          <div id="imgHelp"
-            *ngIf="formularioExperiencia.get('imagen')?.errors && formularioExperiencia.get('imagen')?.touched"
-            class="form-text">
-            <p *ngIf="formularioExperiencia.get('imagen')?.hasError('imagen')" class="text-danger">Falta una imagen</p>
-          </div>
-
-
+         <div class="mb-2">
+            <label for="anio">Subir una imagen</label>
+            <input type="file" accept=".png, .jpg, .jpeg" formControlName="imagen"(change)="cargarImagen($event, 'nueva')" id="inputFile">
+            <div id="vistapreviaIMG" class="my-2" *ngIf="imagenSeleccionada !=''">
+              <img src="{{ imagenSeleccionada }}" width="20%" alt="">
+            </div>
+            <div id="imgHelp" *ngIf="formularioExperiencia.get('imagen')?.errors && formularioExperiencia.get('imagen')?.touched" class="form-text">
+              <p *ngIf="formularioExperiencia.get('imagen')?.hasError('required')" class="text-danger">Falta una imagen</p>
+            </div>
+         </div>
 
         </div>
         <div class="modal-footer">
@@ -144,74 +134,66 @@
       <form [formGroup]="formularioExperienciaEditar" (ngSubmit)="guardarExperienciaEditada()" enctype="multipart/form-data">
         <div class="modal-body">
 
-          <label for="tituloeditar">Titulo</label>
-          <input type="text" id="tituloeditar" formControlName="tituloEditar" class="form-control">
-
-          <div id="tituloHelpeditar"
-            *ngIf="formularioExperienciaEditar.get('tituloEditar')?.errors && formularioExperienciaEditar.get('tituloEditar')?.touched"
-            class="form-text">
-            <p *ngIf="formularioExperienciaEditar.get('tituloEditar')?.hasError('required')" class="text-danger">Falta ingresar
-              titulo</p>
+          <div class="mb-2">
+            <label for="tituloeditar">Titulo</label>
+            <input type="text" id="tituloeditar" formControlName="tituloEditar" class="form-control">
+            <div id="tituloHelpeditar"
+              *ngIf="formularioExperienciaEditar.get('tituloEditar')?.errors && formularioExperienciaEditar.get('tituloEditar')?.touched"
+              class="form-text">
+              <p *ngIf="formularioExperienciaEditar.get('tituloEditar')?.hasError('required')" class="text-danger">Falta ingresar titulo</p>
+              <p *ngIf="formularioExperienciaEditar.get('tituloEditar')?.hasError('pattern')" class="text-danger">Ingrese un titulo valido entre 4 y 40 caracteres</p>                
+            </div>
           </div>
 
-          <label for="puestoEditar">Puesto</label>
-          <input type="text" id="puestoEditar" formControlName="puestoEditar" class="form-control">
-
-          <div id="puestoEditar"
-            *ngIf="formularioExperienciaEditar.get('puestoEditar')?.errors && formularioExperienciaEditar.get('puestoEditar')?.touched"
-            class="form-text">
-            <p *ngIf="formularioExperienciaEditar.get('puestoEditar')?.hasError('required')" class="text-danger">Falta ingresar
-              puesto</p>
-          </div>
-
-
-          <label for="descripcioneditar">Descripcion</label>
-          <input type="text" id="descripcioneditar" formControlName="descripcionEditar" class="form-control">
-
-          <div id="descripcionHelpeditar"
-            *ngIf="formularioExperienciaEditar.get('descripcionEditar')?.errors && formularioExperienciaEditar.get('descripcionEditar')?.touched"
-            class="form-text">
-            <p *ngIf="formularioExperienciaEditar.get('descripcionEditar')?.hasError('required')" class="text-danger">Falta
-              ingresar descripcion</p>
+          <div class="mb-2">            
+            <label for="puestoEditar">Puesto</label>
+            <input type="text" id="puestoEditar" formControlName="puestoEditar" class="form-control">
+            <div id="puestoEditar"
+              *ngIf="formularioExperienciaEditar.get('puestoEditar')?.errors && formularioExperienciaEditar.get('puestoEditar')?.touched"
+              class="form-text">
+              <p *ngIf="formularioExperienciaEditar.get('puestoEditar')?.hasError('required')" class="text-danger">Falta ingresar
+              <p *ngIf="formularioExperienciaEditar.get('puestoEditar')?.hasError('pattern')" class="text-danger">Ingrese el puesto valido entre 4 y 40 caracteres</p>                        
+            </div>
           </div>
 
 
+         <div class="mb-2">
+            <label for="descripcioneditar">Descripcion</label>
+            <textarea type="text" id="descripcioneditar" formControlName="descripcionEditar" rows="6" class="form-control"></textarea>
+            <small class="my-1 d-block small-text" [className]="formularioExperienciaEditar.get('descripcionEditar')?.hasError('pattern') ? 'text-danger' : 'text-muted'">{{formularioExperienciaEditar.get('descripcionEditar')?.value?.length}} / 200</small>
+            <div id="descripcionHelpeditar"
+              *ngIf="formularioExperienciaEditar.get('descripcionEditar')?.errors && formularioExperienciaEditar.get('descripcionEditar')?.touched"
+              class="form-text">
+              <p *ngIf="formularioExperienciaEditar.get('descripcionEditar')?.hasError('required')" class="text-danger">Falta ingresar descripcion</p>
+              <p *ngIf="formularioExperienciaEditar.get('descripcionEditar')?.hasError('pattern')" class="text-danger">Ingrese la descripcion. hasta 200 caracteres</p>                
+            </div>
+         </div>
+
+
+        <div class="mb-2">
           <label for="anioeditar">Año finalizacion</label>
-          <input type="text" id="anioeditar" formControlName="anioEditar" maxlength="4" pattern="[0-9]+"
-            class="form-control">
-
-          <div id="anioHelpeditar"
-            *ngIf="formularioExperienciaEditar.get('anio')?.errors && formularioExperienciaEditar.get('anio')?.touched"
-            class="form-text">
-            <p *ngIf="formularioExperienciaEditar.get('anioEditar')?.hasError('required')" class="text-danger">Falta
-              ingresar año de finalizacion</p>
+          <input type="text" id="anioeditar" formControlName="anioEditar" maxlength="4" pattern="[0-9]+" class="form-control">
+          <div id="anioHelpeditar" *ngIf="formularioExperienciaEditar.get('anioEditar')?.errors && formularioExperienciaEditar.get('anioEditar')?.touched" class="form-text">
+            <p *ngIf="formularioExperienciaEditar.get('anioEditar')?.hasError('required')" class="text-danger">Falta ingresar año de finalizacion</p>
+            <p *ngIf="formularioExperienciaEditar.get('anioEditar')?.hasError('max')" class="text-danger">El año debe ser entre 1965 y 2022</p>
+            <p *ngIf="formularioExperienciaEditar.get('anioEditar')?.hasError('min')" class="text-danger">El año debe ser entre 1965 y 2022</p>
+            <p *ngIf="formularioExperienciaEditar.get('anioEditar')?.hasError('pattern')" class="text-danger">Solo numeros</p>
           </div>
-
-          <div *ngIf="formularioExperienciaEditar.get('anioEditar')?.errors?.['maxlength']">
-            El año debe contener 4 caracteres
-          </div>
-
-          <div *ngIf="formularioExperienciaEditar.get('anioEditar')?.errors?.['maxlength']">
-            El año debe contener 4 caracteres
-          </div>
-
+        </div>
 
 
           <div id="vistapreviaIMGeditar" class="my-2">
             <img src="{{formularioExperienciaEditar.value.imagenEditar}}" width="50%" alt="">
           </div>
 
-
-          <label for="anioeditar">Actualizar imagen</label>
-          <input type="file" accept=".png, .jpg, .jpeg" formControlName="imagenEditarNueva"
-           (change)="cargarImagen($event, 'editar')"
-            id="inputFile">
-
-          <div id="imgHelpeditar"
-            *ngIf="formularioExperienciaEditar.get('imagen')?.errors && formularioExperienciaEditar.get('imagen')?.touched"
-            class="form-text">
-            <p *ngIf="formularioExperienciaEditar.get('imagen')?.hasError('imagen')" class="text-danger">Falta una imagen
-            </p>
+          <div class="mb-2">            
+            <label for="anioeditar">Actualizar imagen</label>
+            <input type="file" accept=".png, .jpg, .jpeg" formControlName="imagenEditarNueva"
+            (change)="cargarImagen($event, 'editar')" id="inputFile">
+            <div id="imgHelpeditar"
+              *ngIf="formularioExperienciaEditar.get('imagenEditar')?.errors && formularioExperienciaEditar.get('imagen')?.touched" class="form-text">
+              <p *ngIf="formularioExperienciaEditar.get('imagenEditar')?.hasError('required')" class="text-danger">Falta una imagen</p>
+            </div>
           </div>
 
 
