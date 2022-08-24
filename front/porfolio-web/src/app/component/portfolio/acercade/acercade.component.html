@@ -1,9 +1,8 @@
 <section class="my-5 ">
     <div class="container">
         <figure class="foto-perfil">
-            <img src="{{ usuario?.img}}" style="border-radius:100% ;" alt="">
-            <button class="btn btn-edit btn-primary editar-foto"  title="Editar foto de perfil" (click)="editarUsuario()"
-            id="modalEditarUsuario" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#edicionUsuario"><i class="fa-solid fa-pen"></i></button>
+            <img src="{{ usuario?.img}}" style="border-radius:100%;" alt="">
+            <button class="btn btn-edit btn-primary editar-foto"  title="Actualizar foto de perfil"  id="modalActualizarFotoPerfil" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#actualizarFotoPerfil"><i class="fa-solid fa-pen"></i></button>
         </figure>
         <h2 class="text-center"> {{usuario?.nombre}} {{ usuario?.apellido }} </h2>
         <h3 class="text-center"> {{usuario?.titulo }} </h3>
@@ -17,9 +16,7 @@
         <div class="text-center mt-2"><a href="{{usuario?.linkedin}}" target="_blank" ><i class="fa-brands fa-linkedin fa-2xl"></i></a></div>
 
         <div class="text-center"> 
-            <button class="btn btn-edit btn-primary" title="Editar" (click)="editarUsuario()"
-        id="modalEditarUsuario" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#edicionUsuario"><i
-          class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-edit btn-primary" title="Editar" (click)="editarUsuario()" id="modalEditarUsuario" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#edicionUsuario"><i class="fa-solid fa-pen"></i></button>
         </div>
     </div>
 </section>
@@ -82,7 +79,7 @@
                 *ngIf="formularioUsuario.get('descripcion')?.errors && formularioUsuario.get('descripcion')?.touched"
                 class="form-text">
                 <p *ngIf="formularioUsuario.get('descripcion')?.hasError('required')" class="text-danger">Falta ingresar una descripción</p>
-                <p *ngIf="formularioUsuario.get('descripcion')?.hasError('pattern')" class="text-danger">Maximo 200 caracteres </p>
+                <p *ngIf="formularioUsuario.get('descripcion')?.hasError('pattern')" class="text-danger">Maximo 200 caracteres</p>
               </div>
             </div>
 
@@ -106,6 +103,45 @@
         </div>
       </form>
 
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal  Editar Usuario-->
+<div class="modal fade" id="actualizarFotoPerfil" tabindex="-1" aria-labelledby="#actualizarFotoPerfil" aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="actualizarFotoPerfil">Actualizar foto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarModalUsuarioFotoPerfil" aria-label="Close" (click)="resetearFormulario()"></button>
+      </div>
+        <div class="container">            
+            <div class="row my-5 d-flex justify-content-center">
+              <div class="col-md-6 text-center">
+                <p>Actual </p>
+                <img src="{{ usuario?.img }}" width="50%" style="border-radius:100%;" alt="">
+              </div>
+              <div class="col-md-6 text-center">
+                <small>Vista previa - nueva</small>
+                <img src="{{ imagenSeleccionada }}" width="50%" style="border-radius:100%;" alt="">
+              </div>
+              <hr>
+              <div class="mb-2">
+                <input type="file" accept=".png, .jpg, .jpeg" style="display:none;" formControlName="imagen" (change)="editarUsuarioFotoPerfil($event)" id="inputFile" id="btnUpload">
+                <label for="btnUpload" class="btn btn-primary" title="Buscar imagen para subir">Subir Imagen <i class="fa-solid fa-cloud-arrow-up"></i></label>
+              </div>
+              <hr>
+              <div class="card-footer mb-2">
+                <div class="container d-flex justify-content-end">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetearFormulario()">Cancelar</button>             
+                  <button class="btn btn-primary" (click)="actualizarFotoPerfil()"  [ngClass]="imgSubida ? 'block' : 'disabled'"  >Actualizar</button>
+                </div>
+              </div>
+            </div>
+        </div>
     </div>
   </div>
 </div>

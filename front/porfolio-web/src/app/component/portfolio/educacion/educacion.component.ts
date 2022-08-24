@@ -76,11 +76,6 @@ export class EducacionComponent implements OnInit {
   }
 
 
-
-
-
-
-
   //TRAER TODOS LOS REGISTROS DE EDUCACION GUARDADOS
   public mostrarEducaciones(): void {
     this.eduService.obtenerEducacion().subscribe({
