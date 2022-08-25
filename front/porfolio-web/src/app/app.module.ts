@@ -24,6 +24,8 @@ import { RegisterComponent } from './login/registrar/registrar.component';
 import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
+import { ModalImgComponent } from './component/modal-img/modal-img.component';
+import { ModalImg2Component } from './component/modal-img2/modal-img2.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { HttpClientModule } from '@angular/common/http';
     AcercadeComponent,
     PortfolioComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ModalImgComponent,
+    ModalImg2Component
     
   ],
   imports: [

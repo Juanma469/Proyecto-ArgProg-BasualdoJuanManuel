@@ -6,7 +6,6 @@ import { EducacionService } from 'src/app/servicios/educacion.service';
 
 
 import Swal from 'sweetalert2';
-import { SubirImagenesService } from 'src/app/servicios/subir-imagenes.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 
@@ -24,17 +23,18 @@ export class EducacionComponent implements OnInit {
   public imagenSeleccionada: any;
   public imgSubida: boolean = false;
 
+  regEditar: any;
+
+  modalEditImg = "#editarImagenEducacionModal";
+
   public imagenSeleccionadaEditada: any;
   public imgSubidaEditada: boolean = false;
 
   public editable:boolean = false;
 
   constructor(private eduService: EducacionService, 
-              private formbulder: FormBuilder, 
-              private storageService: SubirImagenesService,                   
-              private sesion: AngularFireAuth
-              
-              ) {
+              private formbulder: FormBuilder,                           
+              private sesion: AngularFireAuth) {
   
 //FORMULARIO REGISTRO NUEVO 
     this.formularioEducacion = this.formbulder.group({
@@ -42,7 +42,7 @@ export class EducacionComponent implements OnInit {
       titulo: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
       descripcion: ['',[Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
       anio: ['', [ Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
-      imagen: ['', Validators.required]
+      imagen: ['../../../../assets/sin-imagen.png']
     })
 
 //FORMULARIO PARA EDITAR
@@ -51,8 +51,7 @@ export class EducacionComponent implements OnInit {
       tituloEditar: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
       descripcionEditar: ['',[Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
       anioEditar: ['', [ Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
-      imagenEditar: [''],
-      imagenEditarNueva: ['']
+      imagenEditar: ['']
     })
 
 
@@ -92,17 +91,17 @@ export class EducacionComponent implements OnInit {
   //GUARDAR NUEVO REGISTRO
   public guardarEducacion(): void {
 
-    if (!this.formularioEducacion.invalid && this.imgSubida) {
-      let nuevaEducacion: Educacion = {
-        id: this.formularioEducacion.value.id,
-        titulo: this.formularioEducacion.value.titulo,
-        descripcion: this.formularioEducacion.value.descripcion,
-        fecha: this.formularioEducacion.value.anio,
-        img: this.imagenSeleccionada
+    if (!this.formularioEducacion.invalid) {
 
+      let nuevaEducacion: Educacion = {
+          id: this.formularioEducacion.value.id,
+          titulo: this.formularioEducacion.value.titulo,
+          descripcion: this.formularioEducacion.value.descripcion,
+          fecha: this.formularioEducacion.value.anio,
+          img: this.formularioEducacion.value.imagen
       }
 
-      console.log(nuevaEducacion)
+     
       this.eduService.crearEducacion(nuevaEducacion).subscribe({
         next: res => {
           Swal.fire({
@@ -115,7 +114,7 @@ export class EducacionComponent implements OnInit {
 
           document.getElementById('cerrarModal')?.click();
           this.ngOnInit();
-          this.formularioEducacion.reset();
+        
 
         },
         error: (error: HttpErrorResponse) => {
@@ -125,7 +124,7 @@ export class EducacionComponent implements OnInit {
       })
 
       this.ngOnInit();
-      this.formularioEducacion.reset();
+     
     }
     else {
       Swal.fire({
@@ -147,8 +146,7 @@ export class EducacionComponent implements OnInit {
       tituloEditar: this.educacion[i].titulo,
       descripcionEditar: this.educacion[i].descripcion,
       anioEditar: this.educacion[i].fecha,
-      imagenEditar: this.educacion[i].img,
-      imagenEditarNueva: ''
+      imagenEditar: this.educacion[i].img,  
     });
 
   }
@@ -157,16 +155,14 @@ export class EducacionComponent implements OnInit {
   //ACTUALIZAR EDUCACION 
   public guardarEducacionEditada() {
 
-    if (!this.formularioEducacioEditar.invalid && this.imgSubidaEditada) {
+    if (!this.formularioEducacioEditar.invalid) {
       let educacionEditada: Educacion = {
         id: this.formularioEducacioEditar.value.idEditar,
         titulo: this.formularioEducacioEditar.value.tituloEditar,
         descripcion: this.formularioEducacioEditar.value.descripcionEditar,
         fecha: this.formularioEducacioEditar.value.anioEditar,
-        img: this.imagenSeleccionadaEditada
-
-
-
+        img: this.formularioEducacioEditar.value.imagenEditar
+      
       }
 
       this.eduService.actualizarEducacion(educacionEditada).subscribe({
@@ -252,47 +248,9 @@ export class EducacionComponent implements OnInit {
   }
 
 
-
-  //SUBIR IMAGENES A FIREBASE
-  imagenes: any[] = [];
-  cargarImagen(event: any, op: string) {
-    if (op == "nueva") {
-      if (event != null) {
-        this.imagenSeleccionada = "../../../../assets/loader.gif";
-        let archivos = event.target.files;
-        let nombre = "educacion";
-        for (let i = 0; i < archivos.length; i++) {
-          let reader = new FileReader();
-          reader.readAsDataURL(archivos[0]);
-          reader.onloadend = () => {
-            this.imagenes.push(reader.result);
-            this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
-              this.imgSubida = true;
-              this.imagenSeleccionada = urlImagen;
-
-            });
-          }
-        }
-      }
-    } if (op == 'editar') {
-      if (event != null) {
-        this.imagenSeleccionada = "../../../../assets/loader.gif";
-        let archivos = event.target.files;
-        let nombre = "educacion";
-        for (let i = 0; i < archivos.length; i++) {
-          let reader = new FileReader();
-          reader.readAsDataURL(archivos[0]);
-          reader.onloadend = () => {
-            this.imagenes.push(reader.result);
-            this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
-              this.imgSubidaEditada = true;
-              this.imagenSeleccionadaEditada = urlImagen;
-            });
-          }
-        }
-      }
-    }
-
+  editarFoto(i:number){
+    this.regEditar = this.educacion[i]
+    console.log(this.regEditar)
   }
 
 }

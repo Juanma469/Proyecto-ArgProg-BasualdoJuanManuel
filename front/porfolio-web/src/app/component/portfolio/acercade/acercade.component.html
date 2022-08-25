@@ -16,7 +16,7 @@
         <div class="text-center mt-2"><a href="{{usuario?.linkedin}}" target="_blank" ><i class="fa-brands fa-linkedin fa-2xl"></i></a></div>
 
         <div class="text-center"> 
-            <button class="btn btn-edit btn-primary" title="Editar" (click)="editarUsuario()" id="modalEditarUsuario" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#edicionUsuario"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-edit btn-primary" title="Editar" (click)="editarUsuario()"  data-bs-toggle="modal" *ngIf="editable" data-bs-target="#edicionUsuario"><i class="fa-solid fa-pen"></i></button>
         </div>
     </div>
 </section>
@@ -26,7 +26,7 @@
 
 
 <!-- Modal  Editar Usuario-->
-<div class="modal fade" id="edicionUsuario" tabindex="-1" aria-labelledby="edicionUsuario" aria-hidden="true"
+<div class="modal fade" id="edicionUsuario" tabindex="-1" aria-hidden="true"
   data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -38,20 +38,19 @@
       <form [formGroup]="formularioUsuario" (ngSubmit)="guardarEdicionUsuario()" enctype="multipart/form-data">
         <div class="modal-body">
             <div class="mb-3">
-              <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" formControlName="nombre" class="form-control">         
-              <div id="nombreHelp"
-                *ngIf="formularioUsuario.get('nombre')?.errors && formularioUsuario.get('nombre')?.touched"
-                class="form-text">
+              <label for="nombreUsuario">Nombre</label>
+              <input type="text" id="nombreUsuario" formControlName="nombre" class="form-control">         
+              <div id="nombreUsuarioHelp"
+                *ngIf="formularioUsuario.get('nombre')?.errors && formularioUsuario.get('nombre')?.touched" class="form-text">
                 <p *ngIf="formularioUsuario.get('nombre')?.hasError('required')" class="text-danger">Falta ingresar nombre</p>
                 <p *ngIf="formularioUsuario.get('nombre')?.hasError('pattern')" class="text-danger">Solo texto sin numeros ni simbolos. de 3 a 20 caracteres</p>
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="apellido">Apellido</label>
-              <input type="text" id="apellido" formControlName="apellido" class="form-control">
-              <div id="apellidoHelp"
+              <label for="apellidoUsuario">Apellido</label>
+              <input type="text" id="apellidoUsuario" formControlName="apellido" class="form-control">
+              <div id="apellidoUsuarioHelp"
                 *ngIf="formularioUsuario.get('apellido')?.errors && formularioUsuario.get('apellido')?.touched"
                 class="form-text">
                 <p *ngIf="formularioUsuario.get('apellido')?.hasError('required')" class="text-danger">Falta ingresar el apellido</p>
@@ -60,9 +59,9 @@
             </div>
             
             <div class="mb-3">
-              <label for="titulo">Titulo</label>
-              <input type="text" id="titulo" formControlName="titulo" class="form-control">
-              <div id="tituloHelp"
+              <label for="tituloUsuario">Titulo</label>
+              <input type="text" id="tituloUsuario" formControlName="titulo" class="form-control">
+              <div id="tituloUsuarioHelp"
                 *ngIf="formularioUsuario.get('titulo')?.errors && formularioUsuario.get('titulo')?.touched"
                 class="form-text">
                 <p *ngIf="formularioUsuario.get('titulo')?.hasError('required')" class="text-danger">Falta ingresar el titulo</p>
@@ -71,11 +70,11 @@
             </div>
 
             <div class="mb-3">
-              <label for="descripcion">Descripción</label>
-              <textarea type="text" id="descripcion" rows="6" formControlName="descripcion" class="form-control"></textarea>
+              <label for="descripcionUsuario">Descripción</label>
+              <textarea type="text" id="descripcionUsuario" rows="6" formControlName="descripcion" class="form-control"></textarea>
               <small class="my-1 d-block small-text" [className]="formularioUsuario.get('descripcion')?.hasError('pattern') ? 'text-danger' : 'text-muted'">{{formularioUsuario.get('descripcion')?.value?.length}} / 200</small>
             
-              <div id="descripcionHelp"
+              <div id="descripcionUsuarioHelp"
                 *ngIf="formularioUsuario.get('descripcion')?.errors && formularioUsuario.get('descripcion')?.touched"
                 class="form-text">
                 <p *ngIf="formularioUsuario.get('descripcion')?.hasError('required')" class="text-danger">Falta ingresar una descripción</p>
@@ -84,17 +83,16 @@
             </div>
 
             <div class="mb-3">
-              <label for="linkedin" class="my-2">Linkein</label>
-              <input type="text" id="linkedin" formControlName="linkedin" class="form-control">
+              <label for="linkedinUsuario" class="my-2">Linkein</label>
+              <input type="text" id="linkedinUsuario" formControlName="linkedin" class="form-control">
               
-              <div id="linkedinHelp" *ngIf="formularioUsuario.get('linkedin')?.errors && formularioUsuario.get('linkedin')?.touched"
+              <div id="linkedinUsuarioHelp" *ngIf="formularioUsuario.get('linkedin')?.errors && formularioUsuario.get('linkedin')?.touched"
                 class="form-text">
                 <p *ngIf="formularioUsuario.get('linkedin')?.hasError('required')" class="text-danger">Falta ingresar LinkeIn</p>
                 <p *ngIf="formularioUsuario.get('linkedin')?.hasError('pattern')" class="text-danger">Ingresa una URL valida </p>
               </div>
             </div>
         </div>
-
         <div class="modal-footer">
           <div class="mb-3">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetearFormulario()">Cancelar</button>
@@ -102,46 +100,11 @@
           </div>
         </div>
       </form>
-
     </div>
   </div>
 </div>
 
+<!-- SUBIR IMAGEN -->
+<app-modal-img [usuario]="usuario"></app-modal-img>
 
 
-<!-- Modal  Editar Usuario-->
-<div class="modal fade" id="actualizarFotoPerfil" tabindex="-1" aria-labelledby="#actualizarFotoPerfil" aria-hidden="true"
-  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="actualizarFotoPerfil">Actualizar foto</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarModalUsuarioFotoPerfil" aria-label="Close" (click)="resetearFormulario()"></button>
-      </div>
-        <div class="container">            
-            <div class="row my-5 d-flex justify-content-center">
-              <div class="col-md-6 text-center">
-                <p>Actual </p>
-                <img src="{{ usuario?.img }}" width="50%" style="border-radius:100%;" alt="">
-              </div>
-              <div class="col-md-6 text-center">
-                <small>Vista previa - nueva</small>
-                <img src="{{ imagenSeleccionada }}" width="50%" style="border-radius:100%;" alt="">
-              </div>
-              <hr>
-              <div class="mb-2">
-                <input type="file" accept=".png, .jpg, .jpeg" style="display:none;" formControlName="imagen" (change)="editarUsuarioFotoPerfil($event)" id="inputFile" id="btnUpload">
-                <label for="btnUpload" class="btn btn-primary" title="Buscar imagen para subir">Subir Imagen <i class="fa-solid fa-cloud-arrow-up"></i></label>
-              </div>
-              <hr>
-              <div class="card-footer mb-2">
-                <div class="container d-flex justify-content-end">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetearFormulario()">Cancelar</button>             
-                  <button class="btn btn-primary" (click)="actualizarFotoPerfil()"  [ngClass]="imgSubida ? 'block' : 'disabled'"  >Actualizar</button>
-                </div>
-              </div>
-            </div>
-        </div>
-    </div>
-  </div>
-</div>

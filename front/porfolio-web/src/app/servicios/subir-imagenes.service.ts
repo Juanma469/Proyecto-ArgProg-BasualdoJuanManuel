@@ -18,7 +18,6 @@ export class SubirImagenesService {
 
     try {
       let respuesta = await this.storareRef.child("/argprog/" + nombre).putString(imgBase64, 'data_url');
-      console.log(respuesta);
       return await respuesta.ref.getDownloadURL();
     } catch (err) {
       console.log(err);

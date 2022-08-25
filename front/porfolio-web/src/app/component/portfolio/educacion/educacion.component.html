@@ -3,7 +3,10 @@
     <h2 class="text-center text-white">Educación</h2>
     <div class="row d-flex justify-content-center py-5">
       <div *ngFor="let edu of educacion; index as i" class="card col-sm-12 col-md-4">
-       
+        <figure>
+          <img src="{{edu.img}}" width="50%" alt="">
+          <button (click)="editarFoto(i)" class="btn btn-edit btn-primary editar-foto"  title="Actualizar foto de perfil"  data-bs-toggle="modal" *ngIf="editable" data-bs-target="#editarImagenEducacionModal"><i class="fa-solid fa-pen"></i></button>
+        </figure>
         <div class="card-body">
           <h4 class="">{{ edu.titulo }}</h4>
           <p class="card-text">{{ edu.descripcion }}</p>
@@ -75,27 +78,12 @@
               </div>
           </div>
 
-
-
-          <div class="mb-3">          
-              <label for="anio">Subir una imagen</label>
-              <input type="file" accept=".png, .jpg, .jpeg" formControlName="imagen" (change)="cargarImagen($event, 'nueva')" id="inputFile">
-              <div id="vistapreviaIMG" class="my-2" *ngIf="imagenSeleccionada !=''">
-                <img src="{{ imagenSeleccionada }}" width="20%" alt="">
-              </div>
-              <div id="imgHelp"
-                *ngIf="formularioEducacion.get('imagen')?.errors && formularioEducacion.get('imagen')?.touched" class="form-text">
-                <p *ngIf="formularioEducacion.get('imagen')?.hasError('imagen')" class="text-danger">Falta una imagen</p>
-              </div>
-          </div>
-
+            {{ formularioEducacion.value.imagen }}
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-            (click)="resetearFormulario()">Cancelar</button>
-          <input type="submit" class="btn btn-primary" *ngIf="!formularioEducacion.invalid && imgSubida"
-            value="Guardar">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"(click)="resetearFormulario()">Cancelar</button>
+          <input type="submit" class="btn btn-primary" *ngIf="!formularioEducacion.invalid" value="Guardar">
         </div>
       </form>
 
@@ -140,7 +128,6 @@
             </div>
           </div>
 
-
          <div class="mb-2">
             <label for="anioeditar">Año finalizacion</label>
             <input type="text" id="anioeditar" formControlName="anioEditar" maxlength="4" pattern="[0-9]+" class="form-control">
@@ -152,35 +139,22 @@
             </div>
          </div>
 
+         {{ formularioEducacioEditar.value.imagenEditar }}
 
           <div id="vistapreviaIMGeditar" class="my-2">
             <img src="{{formularioEducacioEditar.value.imagenEditar}}" width="50%" alt="">
           </div>
 
-
-         <div class="mb-2">
-            <label for="anioeditar">Actualizar imagen</label>
-            <input type="file" accept=".png, .jpg, .jpeg" formControlName="imagenEditarNueva"
-            (change)="cargarImagen($event, 'editar')"
-              id="inputFile">
-
-            <div id="imgHelpeditar"
-              *ngIf="formularioEducacioEditar.get('imagenEditar')?.errors && formularioEducacioEditar.get('imagenEditar')?.touched" class="form-text">
-              <p *ngIf="formularioEducacioEditar.get('imagenEditar')?.hasError('required')" class="text-danger">Falta una imagen</p>
-            </div>
-         </div>
-
-
-
         </div>
         <div class="modal-footer">   
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-            (click)="resetearFormulario()">Cancelar</button>
-          <input type="submit" class="btn btn-primary" *ngIf="!formularioEducacioEditar.invalid && imgSubidaEditada "
-            value="Guardar">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetearFormulario()">Cancelar</button>
+          <input type="submit" class="btn btn-primary" *ngIf="!formularioEducacioEditar.invalid" value="Guardar">
         </div>
       </form>
 
     </div>
   </div>
 </div>
+
+
+<app-modal-img2 [regEditar]="regEditar" [nombreModal]="'#editarImagenEducacionModal'"></app-modal-img2>
