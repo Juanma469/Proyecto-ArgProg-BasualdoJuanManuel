@@ -6,7 +6,8 @@
            <div class="row experiencia my-2" *ngFor="let exp of experiencia ; index as i">
                 <div class="col-md-2">
                     <figure>
-                        <img  src="{{exp.img}}" width="80%" alt="">
+                      <img  src="{{exp.img}}" width="80%" alt="">
+                      <button (click)="editarFoto(i)" class="btn btn-edit btn-primary editar-foto"  title="Actualizar foto de experiencia"  data-bs-toggle="modal" *ngIf="editable" data-bs-target="#editarImagenExperienciaModal"><i class="fa-solid fa-pen"></i></button>
                     </figure>
                 </div>
                 <div class="col-md-10">      
@@ -41,7 +42,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="crearNuevaExperiencia"> Agregar experiencia</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarModal" aria-label="Close"
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarModalExperiencia" aria-label="Close"
           (click)="resetearFormulario()"></button>
       </div>
       <form [formGroup]="formularioExperiencia" (ngSubmit)="guardarExperiencia()" enctype="multipart/form-data">
@@ -71,9 +72,7 @@
             <label for="descripcion">Descripcion</label>
             <textarea type="text" rows="6" id="descripcion" formControlName="descripcion" class="form-control"></textarea>
             <small class="my-1 d-block small-text" [className]="formularioExperiencia.get('descripcion')?.hasError('pattern') ? 'text-danger' : 'text-muted'">{{formularioExperiencia.get('descripcion')?.value?.length}} / 200</small>
-            <div id="descripcionHelp"
-              *ngIf="formularioExperiencia.get('descripcion')?.errors && formularioExperiencia.get('descripcion')?.touched"
-              class="form-text">
+            <div id="descripcionHelp" *ngIf="formularioExperiencia.get('descripcion')?.errors && formularioExperiencia.get('descripcion')?.touched"class="form-text">
               <p *ngIf="formularioExperiencia.get('descripcion')?.hasError('required')" class="text-danger">Falta ingresar descripcion</p>
               <p *ngIf="formularioExperiencia.get('descripcion')?.hasError('pattern')" class="text-danger">Ingrese la descripcion. hasta 200 caracteres</p>                
             </div>
@@ -92,23 +91,13 @@
          </div>
 
 
-         <div class="mb-2">
-            <label for="anio">Subir una imagen</label>
-            <input type="file" accept=".png, .jpg, .jpeg" formControlName="imagen"(change)="cargarImagen($event, 'nueva')" id="inputFile">
-            <div id="vistapreviaIMG" class="my-2" *ngIf="imagenSeleccionada !=''">
-              <img src="{{ imagenSeleccionada }}" width="20%" alt="">
-            </div>
-            <div id="imgHelp" *ngIf="formularioExperiencia.get('imagen')?.errors && formularioExperiencia.get('imagen')?.touched" class="form-text">
-              <p *ngIf="formularioExperiencia.get('imagen')?.hasError('required')" class="text-danger">Falta una imagen</p>
-            </div>
-         </div>
+         
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
             (click)="resetearFormulario()">Cancelar</button>
-          <input type="submit" class="btn btn-primary" *ngIf="!formularioExperiencia.invalid && imgSubida"
-            value="Guardar">
+          <input type="submit" class="btn btn-primary" *ngIf="!formularioExperiencia.invalid" value="Guardar">
         </div>
       </form>
 
@@ -137,8 +126,7 @@
           <div class="mb-2">
             <label for="tituloeditar">Titulo</label>
             <input type="text" id="tituloeditar" formControlName="tituloEditar" class="form-control">
-            <div id="tituloHelpeditar"
-              *ngIf="formularioExperienciaEditar.get('tituloEditar')?.errors && formularioExperienciaEditar.get('tituloEditar')?.touched"
+            <div id="tituloHelpeditar"*ngIf="formularioExperienciaEditar.get('tituloEditar')?.errors && formularioExperienciaEditar.get('tituloEditar')?.touched"
               class="form-text">
               <p *ngIf="formularioExperienciaEditar.get('tituloEditar')?.hasError('required')" class="text-danger">Falta ingresar titulo</p>
               <p *ngIf="formularioExperienciaEditar.get('tituloEditar')?.hasError('pattern')" class="text-danger">Ingrese un titulo valido entre 4 y 40 caracteres</p>                
@@ -186,27 +174,55 @@
             <img src="{{formularioExperienciaEditar.value.imagenEditar}}" width="50%" alt="">
           </div>
 
-          <div class="mb-2">            
-            <label for="anioeditar">Actualizar imagen</label>
-            <input type="file" accept=".png, .jpg, .jpeg" formControlName="imagenEditarNueva"
-            (change)="cargarImagen($event, 'editar')" id="inputFile">
-            <div id="imgHelpeditar"
-              *ngIf="formularioExperienciaEditar.get('imagenEditar')?.errors && formularioExperienciaEditar.get('imagen')?.touched" class="form-text">
-              <p *ngIf="formularioExperienciaEditar.get('imagenEditar')?.hasError('required')" class="text-danger">Falta una imagen</p>
-            </div>
-          </div>
-
-
-
         </div>
         <div class="modal-footer">   
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
             (click)="resetearFormulario()">Cancelar</button>
-          <input type="submit" class="btn btn-primary" *ngIf="!formularioExperienciaEditar.invalid && imgSubidaEditada "
-            value="Guardar">
+          <input type="submit" class="btn btn-primary" *ngIf="!formularioExperienciaEditar.invalid" value="Guardar">
         </div>
       </form>
 
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal subir foto  -->
+<div class="modal fade" id="editarImagenExperienciaModal" tabindex="-1"    aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarImagenExperienciaModal">Actualizar foto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarmodalfoto" aria-label="Close"></button>
+      </div>
+      <div class="container">
+        <div class="row my-5 d-flex justify-content-center">
+          <div class="col-md-6 text-center">
+            <p>Actual </p>
+            <img src="{{ regfotoEditar?.img }}" width="50%" style="border-radius:100%;" alt="">
+          </div>
+          <div class="col-md-6 text-center">
+            <small>Vista previa - nueva</small>
+            <img src="{{ imagenSeleccionada }}" width="50%" style="border-radius:100%;" alt="">
+          </div>
+          <hr>
+          <div class="mb-2">
+            <form>
+              <input type="file" accept=".png, .jpg, .jpeg" style="display:none;" (change)="editarimg($event)" id="btnUpload3">
+            </form>
+            <label for="btnUpload3" class="btn btn-primary" title="Buscar imagen para subir">Subir Imagen<i class="fa-solid fa-cloud-arrow-up"></i></label>
+          </div>
+          <hr>
+          <div class="card-footer mb-2">
+            <div class="container d-flex justify-content-end">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>             
+              <button class="btn btn-primary" (click)="actualizarFotoPerfil()"   [ngClass]="imgSubida ? 'block' : 'disabled'">Actualizar</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

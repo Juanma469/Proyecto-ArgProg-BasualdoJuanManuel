@@ -24,9 +24,9 @@ export class HardsoftskillsComponent implements OnInit {
 
 
   constructor(private skillService: SkillService,
-    private formbulder: FormBuilder,
-    private storageService: SubirImagenesService,
-    private sesion: AngularFireAuth) {
+              private formbulder: FormBuilder,
+              private storageService: SubirImagenesService,
+              private sesion: AngularFireAuth) {
 
 
 
@@ -34,7 +34,7 @@ export class HardsoftskillsComponent implements OnInit {
     this.formularioSkill = this.formbulder.group({
       id:         [0],
       nombre:     ['', Validators.required],
-      porcentaje: ['', Validators.required],
+      porcentaje: ['0', [Validators.required, Validators.pattern(/^[0-9]{1,3}$/),  Validators.min(1), Validators.max(100)]],
       img:        ['', Validators.required]
     })
 

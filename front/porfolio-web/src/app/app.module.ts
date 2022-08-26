@@ -25,7 +25,7 @@ import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ModalImgComponent } from './component/modal-img/modal-img.component';
-import { ModalImg2Component } from './component/modal-img2/modal-img2.component';
+
 
 @NgModule({
   declarations: [
@@ -41,9 +41,7 @@ import { ModalImg2Component } from './component/modal-img2/modal-img2.component'
     PortfolioComponent,
     LoginComponent,
     RegisterComponent,
-    ModalImgComponent,
-    ModalImg2Component
-    
+    ModalImgComponent
   ],
   imports: [
     BrowserModule,

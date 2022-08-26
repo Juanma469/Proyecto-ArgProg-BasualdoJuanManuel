@@ -21,8 +21,8 @@ export class ExperienciaComponent implements OnInit {
    formularioExperienciaEditar: FormGroup;
    imagenSeleccionada: any;
    imgSubida: boolean = false;
-   imagenSeleccionadaEditada: any;
    imgSubidaEditada: boolean = false;
+   regfotoEditar:any;
 
 
   constructor(private expService: ExperienciaService, 
@@ -39,7 +39,7 @@ this.formularioExperiencia = this.formbulder.group({
   puesto: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
   descripcion: ['', [Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
   anio: ['', [ Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
-  imagen: ['', Validators.required]
+  imagen: ['../../../../assets/sin-imagen.png']
 })
 
 //FORMULARIO PARA EDITAR
@@ -49,9 +49,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
   puestoEditar: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
   descripcionEditar: ['', [Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
   anioEditar: ['',[ Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
-  imagenEditar: ['', Validators.required],
-  imagenEditarNueva: ['']
-
+  imagenEditar: ['']
 })
 
 
@@ -98,35 +96,29 @@ this.formularioExperienciaEditar = this.formbulder.group({
   //GUARDAR NUEVO REGISTRO
   public guardarExperiencia(): void {
 
-    if (!this.formularioExperiencia.invalid && this.imgSubida) {
+    if (!this.formularioExperiencia.invalid) {
       let nuevaExperiencia: Experiencia = {
         id: this.formularioExperiencia.value.id,
         titulo: this.formularioExperiencia.value.titulo,
         puesto: this.formularioExperiencia.value.puesto,
         descripcion: this.formularioExperiencia.value.descripcion,
         fecha: this.formularioExperiencia.value.anio,
-        img: this.imagenSeleccionada
+        img: this.formularioExperiencia.value.imagen
         
+    }
 
-      }
       this.expService.crearExperiencia(nuevaExperiencia).subscribe({
         next: res => {
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Guardado!',
-            showConfirmButton: false,
-            timer: 1000
-          })
+          Swal.fire({ position: 'top-end',icon: 'success', title: 'Guardado!',showConfirmButton: false, timer: 1000})
 
-          document.getElementById('cerrarModal')?.click();
+          document.getElementById('cerrarModalExperiencia')?.click();
           this.ngOnInit();
           this.formularioExperiencia.reset();
 
         },
         error: (error: HttpErrorResponse) => {
           alert("error")
-          console.log(error.message)
+        
         }
       })
 
@@ -134,13 +126,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
       this.formularioExperiencia.reset();
     }
     else {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        title: 'Algo salio mal',
-        showConfirmButton: false,
-        timer: 1000
-      })
+      Swal.fire({position: 'top-end', icon: 'error', title: 'Algo salio mal',showConfirmButton: false,timer: 1000})
     }
 
   }
@@ -149,7 +135,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
 
   
   //TRAER REGISTRO A ACTUALIZAR
-  public editarExperiencia(i: number) {  
+  public editarExperiencia(i:number) {  
     this.formularioExperienciaEditar.setValue({
       idEditar:          this.experiencia[i].id,
       tituloEditar:      this.experiencia[i].titulo,
@@ -157,7 +143,6 @@ this.formularioExperienciaEditar = this.formbulder.group({
       descripcionEditar: this.experiencia[i].descripcion,
       anioEditar:        this.experiencia[i].fecha,
       imagenEditar:      this.experiencia[i].img,
-      imagenEditarNueva: ''
     });
 
   }
@@ -166,28 +151,21 @@ this.formularioExperienciaEditar = this.formbulder.group({
   //ACTUALIZAR EDUCACION 
   public guardarExperienciaEditada() {
 
-    if (!this.formularioExperienciaEditar.invalid && this.imgSubidaEditada) {
+    if (!this.formularioExperienciaEditar.invalid) {
       let experienciaeditada: Experiencia = {
         id: this.formularioExperienciaEditar.value.idEditar,
         titulo: this.formularioExperienciaEditar.value.tituloEditar,
         puesto: this.formularioExperienciaEditar.value.puestoEditar,
         descripcion: this.formularioExperienciaEditar.value.descripcionEditar,
         fecha: this.formularioExperienciaEditar.value.anioEditar,
-        img: this.imagenSeleccionadaEditada
-
+        img: this.formularioExperienciaEditar.value.imagenEditar
 
 
       }
 
       this.expService.actualizarExperiencia(experienciaeditada).subscribe({
         next: res => {
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Actualizado!',
-            showConfirmButton: false,
-            timer: 1000
-          })
+          Swal.fire({ position: 'top-end',  icon: 'success', title: 'Actualizado!',showConfirmButton: false,timer: 1000})
 
           document.getElementById('cerrarModalEditarExperiencia')?.click();
           this.ngOnInit();
@@ -204,13 +182,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
       this.formularioExperiencia.reset();
     }
     else {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        title: 'Algo salio mal y no se pudo actualizar',
-        showConfirmButton: false,
-        timer: 1000
-      })
+      Swal.fire({ position: 'top-end', icon: 'error', title: 'Algo salio mal y no se pudo actualizar', showConfirmButton: false, timer: 1000 })
     }
   }
 
@@ -219,14 +191,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
   //BORRAR EXPERIENCIA
   public borrarExperiencia(id: number) {
 
-    Swal.fire({
-      title: '¿Estas seguro?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, borrar'
-    }).then((result) => {
+    Swal.fire({ title: '¿Estas seguro?',  icon: 'warning',showCancelButton: true,confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Si, borrar'}).then((result) => {
       if (result.isConfirmed) {
         this.expService.borrarExperiencia(id).subscribe({
           next: () => {
@@ -240,16 +205,70 @@ this.formularioExperienciaEditar = this.formbulder.group({
             this.ngOnInit();
           },
           error: (error: HttpErrorResponse) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Algo salio mal' + error.message
-            })
+            Swal.fire({icon: 'error', title: 'Oops...', text: 'Algo salio mal' + error.message})
           }
         })
       }
     })
   }
+
+
+
+
+
+  editarFoto(i:number) {
+    this.regfotoEditar = this.experiencia[i]
+
+  }
+
+//CARGAR FOTO Y GUARDARLA 
+  actualizarFotoPerfil() {
+    let experienciaActualizada: any = this.regfotoEditar
+    experienciaActualizada.img = this.imagenSeleccionada
+
+
+    this.expService.actualizarExperiencia(experienciaActualizada).subscribe({
+      next: res => {
+        Swal.fire({ position: 'top-end', icon: 'success', title: '!Foto actualizada¡', showConfirmButton: false, timer: 1000 })
+
+        document.getElementById('cerrarmodalfoto')?.click();
+        this.ngOnInit();
+      },
+      error: (error: HttpErrorResponse) => {
+        alert(error.message)
+      }
+    })
+
+    document.getElementById('cerrarmodalfoto')?.click();
+    this.ngOnInit();
+    this.imagenSeleccionada = '';
+  }
+
+
+  //ENVIAR FOTO A FIREBASE PARA GUARDARLA
+  imagenes: any[] = [];
+  editarimg(event: any) {
+    if (event != null) {
+      this.imagenSeleccionada = "../../../../assets/loader.gif";
+      let archivos = event.target.files;
+      let nombre = "fotoExperiencia";
+      for (let i = 0; i < archivos.length; i++) {
+        let reader = new FileReader();
+        reader.readAsDataURL(archivos[0]);
+        reader.onloadend = () => {
+          this.imagenes.push(reader.result);
+          this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
+            this.imgSubida = true;
+            this.imagenSeleccionada = urlImagen;
+         
+          });
+        }
+      }
+    }
+  }
+
+
+
 
   //****** RESETEAR FORMULARIOS *******/
   resetearFormulario() {
@@ -258,57 +277,9 @@ this.formularioExperienciaEditar = this.formbulder.group({
     this.imgSubida = false;
 
     this.formularioExperienciaEditar.reset()
-    this.imagenSeleccionadaEditada = '';
+
     this.imgSubidaEditada = false;
   }
-
-
-
-  
-
-  //SUBIR IMAGENES A FIREBASE
-  imagenes: any[] = [];
-  cargarImagen(event: any, op: string) {
-    if (op == "nueva") {
-      if (event != null) {
-        this.imagenSeleccionada = "../../../../assets/loader.gif";
-        let archivos = event.target.files;
-        let nombre = "educacion";
-        for (let i = 0; i < archivos.length; i++) {
-          let reader = new FileReader();
-          reader.readAsDataURL(archivos[0]);
-          reader.onloadend = () => {
-            this.imagenes.push(reader.result);
-            this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
-              this.imgSubida = true;
-              this.imagenSeleccionada = urlImagen;
-
-            });
-          }
-        }
-      }
-    } if (op == 'editar') {
-      if (event != null) {
-        this.imagenSeleccionada = "../../../../assets/loader.gif";
-        let archivos = event.target.files;
-        let nombre = "experiencia";
-        for (let i = 0; i < archivos.length; i++) {
-          let reader = new FileReader();
-          reader.readAsDataURL(archivos[0]);
-          reader.onloadend = () => {
-            this.imagenes.push(reader.result);
-            this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
-              this.imgSubidaEditada = true;
-              this.imagenSeleccionadaEditada = urlImagen;
-            });
-          }
-        }
-      }
-    }
-
-  }
-
-
 
 
 

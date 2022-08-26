@@ -66,22 +66,31 @@
 
           <div class="my-1">
             <label for="porcentaje" >Porcentaje {{formularioSkill.value.porcentaje}}%</label>
-            <input type="range" min="0" max="100" id="porcentaje" formControlName="porcentaje" class="form-range" step="10" value="0">
+            <input type="range" min="0" max="100" id="porcentaje" formControlName="porcentaje" class="form-range">
           </div>
 
-          <div id="porcentajeHelp" *ngIf="formularioSkill.get('porcentaje')?.errors && formularioSkill.get('Porcentaje')"   class="form-text">
-            <p *ngIf="formularioSkill.get('porcentaje')?.hasError('required')" class="text-danger">Falta porcentaje
-            </p>
+          <div id="porcentajeHelp" *ngIf="formularioSkill.get('porcentaje')?.errors && formularioSkill.get('porcentaje')?.touched"   class="form-text">
+            <p *ngIf="formularioSkill.get('porcentaje')?.hasError('required')" class="text-danger">Falta porcentaje</p>
+            <p *ngIf="formularioSkill.get('porcentaje')?.hasError('pattern')" class="text-danger">El porcentaje debe ser mayor a 1 y menor a 100</p>
+            <p *ngIf="formularioSkill.get('porcentaje')?.hasError('min')" class="text-danger">El porcentaje debe ser mayor a 1 y menor a 100</p>
+            <p *ngIf="formularioSkill.get('porcentaje')?.hasError('max')" class="text-danger">El porcentaje debe ser mayor a 1 y menor a 100</p>
           </div>
 
 
-          <label for="img">Subir el logo</label>
-          <input type="file" accept=".png, .jpg, .jpeg" id="img" formControlName="img"
-            (change)="cargarImagen($event)" id="inputFile">
+         
+          <input type="file" accept=".png, .jpg, .jpeg" id="img" style="display:none;" formControlName="img" (change)="cargarImagen($event)" id="inputFile4">
+          <label for="inputFile4" class="btn btn-primary" title="Buscar imagen para subir">Subir Imagen<i class="fa-solid fa-cloud-arrow-up"></i></label>
+
+          <div id="porcentajeHelp" *ngIf="formularioSkill.get('img')?.errors && formularioSkill.get('img')?.touched"   class="form-text">
+            <p *ngIf="formularioSkill.get('img')?.hasError('required')" class="text-danger">Falta una imagen</p>           
+          </div>
+
 
           <div id="vistapreviaIMG" class="my-2" *ngIf="imagenSeleccionada !=''">
             <img src="{{ imagenSeleccionada }}" width="20%" alt="">
           </div>
+
+
 
 
 
