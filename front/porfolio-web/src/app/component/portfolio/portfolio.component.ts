@@ -1,6 +1,5 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AuthService } from 'src/app/servicios/auth.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+
 
 @Component({
   selector: 'app-portfolio',
@@ -9,11 +8,20 @@ import { AuthService } from 'src/app/servicios/auth.service';
 })
 export class PortfolioComponent implements OnInit {
 
-
   constructor() { }
 
+
+  irA(ele:any){
+    ele.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
+
+
+
+
+
   ngOnInit() {
-     
+   
+
 }
 
 

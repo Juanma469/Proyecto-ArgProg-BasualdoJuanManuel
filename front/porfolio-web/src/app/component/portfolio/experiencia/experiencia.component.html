@@ -3,7 +3,7 @@
         <h2 class="text-center">Experiencia</h2>
         <div class="row d-flex justify-content-center py-5">      
            
-           <div class="row experiencia my-2" *ngFor="let exp of experiencia ; index as i">
+           <div class="row experiencia my-2" *ngFor="let exp of experiencia | OrdenarPorAnioPipe:'fecha' ; index as i">
                 <div class="col-md-2">
                     <figure>
                       <img  src="{{exp.img}}" width="80%" alt="">
@@ -189,13 +189,12 @@
 
 
 <!-- Modal subir foto  -->
-<div class="modal fade" id="editarImagenExperienciaModal" tabindex="-1"    aria-hidden="true"
-  data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="editarImagenExperienciaModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="editarImagenExperienciaModal">Actualizar foto</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarmodalfoto" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarmodalfotoExperiencia" aria-label="Close"></button>
       </div>
       <div class="container">
         <div class="row my-5 d-flex justify-content-center">

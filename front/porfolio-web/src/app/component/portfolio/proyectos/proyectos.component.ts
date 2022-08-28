@@ -15,87 +15,67 @@ import { ProyectosService } from 'src/app/servicios/proyectos.service';
   styleUrls: ['./proyectos.component.css']
 })
 export class ProyectosComponent implements OnInit {
-  editable:boolean = true;
+  editable: boolean = true;
   proyectos: Proyectos[] = [];
-   formularioProyecto: FormGroup;
-   formularioProyectoEditar: FormGroup;
-   imagenSeleccionada: any;
-   imgSubida: boolean = false;
-   imagenSeleccionadaEditada: any;
-   imgSubidaEditada: boolean = false;
+  formularioProyecto: FormGroup;
+  formularioProyectoEditar: FormGroup;
+  imagenSeleccionada: any;
+  imgSubida: boolean = false;
+  regfotoEditar: any;
+  imgSubidaEditada: any;
+
+  constructor(private proService: ProyectosService,
+    private formbulder: FormBuilder,
+    private storageService: SubirImagenesService,
+    private sesion: AngularFireAuth) {
 
 
-  constructor(private proService: ProyectosService, 
-              private formbulder: FormBuilder, 
-              private storageService: SubirImagenesService,                   
-              private sesion: AngularFireAuth) {
+
+    //FORMULARIO REGISTRO NUEVO 
+    this.formularioProyecto = this.formbulder.group({
+      id: [0],
+      nombre: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+      tecno: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+      descripcion: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
+      anio: ['', [Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
+      imagen: ['../../../../assets/sin-imagen.png']
+    })
 
 
- 
-//FORMULARIO REGISTRO NUEVO 
-this.formularioProyecto = this.formbulder.group({
-  id: [0],
-  nombre: ['', Validators.required],
-  tecno: ['', Validators.required],
-  descripcion: ['', Validators.required],
-  anio: ['',
-    [
-      Validators.required,
-      Validators.minLength(4),
-      Validators.maxLength(4)
-    ]
-  ],
-  img: ['', Validators.required]
-})
+    //FORMULARIO PARA EDITAR
+    this.formularioProyectoEditar = this.formbulder.group({
+      idEditar: [0],
+      nombreEditar: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+      tecnoEditar: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+      descripcionEditar: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
+      anioEditar: ['', [Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
+      imagenEditar: ['']
 
-                
-//FORMULARIO PARA EDITAR
-this.formularioProyectoEditar = this.formbulder.group({
-  idEditar: [0],
-  nombreEditar: ['', Validators.required],
-  tecnoEditar: ['', Validators.required],
-  descripcionEditar: ['', Validators.required],
-  anioEditar: ['',
-    [
-      Validators.required,
-      Validators.minLength(4),
-      Validators.maxLength(5)
-    ]
-  ],
-  imgEditar: ['', Validators.required],
-  imagenEditarNueva: ['']
-
-})
-
-                
-               }
-
-  ngOnInit(): void {
-
-
-    this.mostrarProyectos();
-
-    this.sesion.onAuthStateChanged((user:any) => {
-      if (user) {           
-       this.editable = true;      
-      } 
-      else {   
-        this.editable = false;
-      }   
-  });
-
+    })
 
 
   }
 
+  ngOnInit(): void {
+    this.mostrarProyectos();
+    this.sesion.onAuthStateChanged((user: any) => {
+      if (user) {
+        this.editable = true;
+      }
+      else {
+        this.editable = false;
+      }
+    });
+  }
 
 
-  
+
+
 
   //TRAER TODOS LOS REGISTROS DE EDUCACION GUARDADOS
-  public mostrarProyectos(){
+  public mostrarProyectos() {
     this.proService.obtenerProyectos().subscribe({
-      next: (res:Proyectos[]) =>{
+      next: (res: Proyectos[]) => {
         this.proyectos = res
       },
       error: (error: HttpErrorResponse) => {
@@ -110,28 +90,21 @@ this.formularioProyectoEditar = this.formbulder.group({
   //GUARDAR NUEVO REGISTRO
   public guardarProyecto(): void {
 
-    if (!this.formularioProyecto.invalid && this.imgSubida) {
+    if (!this.formularioProyecto.invalid) {
       let nuevoProyecto: Proyectos = {
-        id:          this.formularioProyecto.value.id,
-        nombre:      this.formularioProyecto.value.nombre,
-        tecno:       this.formularioProyecto.value.tecno,
+        id: this.formularioProyecto.value.id,
+        nombre: this.formularioProyecto.value.nombre,
+        tecno: this.formularioProyecto.value.tecno,
         descripcion: this.formularioProyecto.value.descripcion,
-        fecha:       this.formularioProyecto.value.anio,
-        img:         this.imagenSeleccionada
-        
-
+        fecha: this.formularioProyecto.value.anio,
+        img: this.formularioProyecto.value.imagen
       }
+
       this.proService.crearProyecto(nuevoProyecto).subscribe({
         next: res => {
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Guardado!',
-            showConfirmButton: false,
-            timer: 1000
-          })
+          Swal.fire({ position: 'top-end', icon: 'success', title: 'Guardado!', showConfirmButton: false, timer: 1000 })
 
-          document.getElementById('cerrarModal')?.click();
+          document.getElementById('cerrarModalProyecto')?.click();
           this.ngOnInit();
           this.formularioProyecto.reset();
 
@@ -146,30 +119,23 @@ this.formularioProyectoEditar = this.formbulder.group({
       this.formularioProyecto.reset();
     }
     else {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        title: 'Algo salio mal',
-        showConfirmButton: false,
-        timer: 1000
-      })
+      Swal.fire({ position: 'top-end', icon: 'error', title: 'Algo salio mal', showConfirmButton: false, timer: 1000 })
     }
 
   }
 
 
 
-  
+
   //TRAER REGISTRO A ACTUALIZAR
-  public editarProyecto(i: number) {  
+  public editarProyecto(i: number) {
     this.formularioProyectoEditar.setValue({
-      idEditar:           this.proyectos[i].id,
-      nombreEditar:       this.proyectos[i].nombre,
-      tecnoEditar:        this.proyectos[i].tecno,
-      descripcionEditar:  this.proyectos[i].descripcion,
-      anioEditar:         this.proyectos[i].fecha,
-      imgEditar:          '',
-      imagenEditarNueva: ''
+      idEditar: this.proyectos[i].id,
+      nombreEditar: this.proyectos[i].nombre,
+      tecnoEditar: this.proyectos[i].tecno,
+      descripcionEditar: this.proyectos[i].descripcion,
+      anioEditar: this.proyectos[i].fecha,
+      imagenEditar: this.proyectos[i].img
     });
 
   }
@@ -178,30 +144,20 @@ this.formularioProyectoEditar = this.formbulder.group({
   //ACTUALIZAR EDUCACION 
   public guardarProyectoEditado() {
 
-    if (!this.formularioProyectoEditar.invalid && this.imgSubidaEditada) {
+    if (!this.formularioProyectoEditar.invalid) {
       let proyectoEditado: Proyectos = {
-        id:          this.formularioProyectoEditar.value.idEditar,
-        nombre:      this.formularioProyectoEditar.value.nombreEditar,
-        tecno:       this.formularioProyectoEditar.value.tecnoEditar,
+        id: this.formularioProyectoEditar.value.idEditar,
+        nombre: this.formularioProyectoEditar.value.nombreEditar,
+        tecno: this.formularioProyectoEditar.value.tecnoEditar,
         descripcion: this.formularioProyectoEditar.value.descripcionEditar,
-        fecha:       this.formularioProyectoEditar.value.anioEditar,
-        img:         this.imagenSeleccionadaEditada
-
+        fecha: this.formularioProyectoEditar.value.anioEditar,
+        img: this.formularioProyectoEditar.value.imagen
       }
-
-      
-  
 
 
       this.proService.actualizarProyecto(proyectoEditado).subscribe({
         next: res => {
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Actualizado!',
-            showConfirmButton: false,
-            timer: 1000
-          })
+          Swal.fire({ position: 'top-end', icon: 'success', title: 'Actualizado!', showConfirmButton: false, timer: 1000 })
 
           document.getElementById('cerrarModalProyectoEditar')?.click();
           this.ngOnInit();
@@ -218,52 +174,84 @@ this.formularioProyectoEditar = this.formbulder.group({
       this.formularioProyecto.reset();
     }
     else {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        title: 'Algo salio mal y no se pudo actualizar',
-        showConfirmButton: false,
-        timer: 1000
-      })
+      Swal.fire({ position: 'top-end', icon: 'error', title: 'Algo salio mal y no se pudo actualizar', showConfirmButton: false, timer: 1000 })
     }
   }
 
 
-  
+
   //BORRAR EXPERIENCIA
   public borrarProyecto(id: number) {
 
-    Swal.fire({
-      title: '¿Estas seguro?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, borrar'
-    }).then((result) => {
+    Swal.fire({ title: '¿Estas seguro?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Si, borrar' }).then((result) => {
       if (result.isConfirmed) {
         this.proService.borrarProyecto(id).subscribe({
           next: () => {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: 'Se elimino correctamente',
-              showConfirmButton: false,
-              timer: 1000
-            })
+            Swal.fire({ position: 'top-end', icon: 'success', title: 'Se elimino correctamente', showConfirmButton: false, timer: 1000 })
             this.ngOnInit();
           },
           error: (error: HttpErrorResponse) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Algo salio mal' + error.message
-            })
+            Swal.fire({ icon: 'error', title: 'Oops...', text: 'Algo salio mal' + error.message })
           }
         })
       }
     })
   }
+
+
+
+
+  editarFoto(i: number) {
+    this.regfotoEditar = this.proyectos[i]
+  }
+
+  //CARGAR FOTO Y GUARDARLA 
+  actualizarFotoPerfil() {
+    let proyectoActualizado: any = this.regfotoEditar
+    proyectoActualizado.img = this.imagenSeleccionada
+
+
+    this.proService.actualizarProyecto(proyectoActualizado).subscribe({
+      next: res => {
+        Swal.fire({ position: 'top-end', icon: 'success', title: '!Foto actualizada¡', showConfirmButton: false, timer: 1000 })
+
+        document.getElementById('cerrarmodalfotoProyecto')?.click();
+        this.ngOnInit();
+      },
+      error: (error: HttpErrorResponse) => {
+        alert(error.message)
+      }
+    })
+
+    document.getElementById('cerrarmodalfotoProyecto')?.click();
+    this.ngOnInit();
+    this.imagenSeleccionada = '';
+  }
+
+
+  //ENVIAR FOTO A FIREBASE PARA GUARDARLA
+  imagenes: any[] = [];
+  editarimg(event: any) {
+    if (event != null) {
+      this.imagenSeleccionada = "../../../../assets/loader.gif";
+      let archivos = event.target.files;
+      let nombre = "fotoProyecto";
+      for (let i = 0; i < archivos.length; i++) {
+        let reader = new FileReader();
+        reader.readAsDataURL(archivos[0]);
+        reader.onloadend = () => {
+          this.imagenes.push(reader.result);
+          this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
+            this.imgSubida = true;
+            this.imagenSeleccionada = urlImagen;
+
+          });
+        }
+      }
+    }
+  }
+
+
 
   //****** RESETEAR FORMULARIOS *******/
   resetearFormulario() {
@@ -272,57 +260,8 @@ this.formularioProyectoEditar = this.formbulder.group({
     this.imgSubida = false;
 
     this.formularioProyectoEditar.reset()
-    this.imagenSeleccionadaEditada = '';
     this.imgSubidaEditada = false;
   }
-
-
-
-  
-
-  //SUBIR IMAGENES A FIREBASE
-  imagenes: any[] = [];
-  cargarImagen(event: any, op: string) {
-    if (op == "nueva") {
-      if (event != null) {
-        this.imagenSeleccionada = "../../../../assets/loader.gif";
-        let archivos = event.target.files;
-        let nombre = "proyecto";
-        for (let i = 0; i < archivos.length; i++) {
-          let reader = new FileReader();
-          reader.readAsDataURL(archivos[0]);
-          reader.onloadend = () => {
-            this.imagenes.push(reader.result);
-            this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
-              this.imgSubida = true;
-              this.imagenSeleccionada = urlImagen;
-
-            });
-          }
-        }
-      }
-    } if (op == 'editar') {
-      if (event != null) {
-        this.imagenSeleccionada = "../../../../assets/loader.gif";
-        let archivos = event.target.files;
-        let nombre = "proyecto";
-        for (let i = 0; i < archivos.length; i++) {
-          let reader = new FileReader();
-          reader.readAsDataURL(archivos[0]);
-          reader.onloadend = () => {
-            this.imagenes.push(reader.result);
-            this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
-              this.imgSubidaEditada = true;
-              this.imagenSeleccionadaEditada = urlImagen;
-            
-            });
-          }
-        }
-      }
-    }
-
-  }
-
 
 
 

@@ -1,11 +1,10 @@
-<section class="my-5 p-5">
+<section class="my-5 p-5" >
   <div class="container">
     <h2 class="text-center text-white">Educación</h2>
     <div class="row d-flex justify-content-center py-5">
-      <div *ngFor="let edu of educacion; index as i" class="card col-sm-12 col-md-4">
-        <figure>
-          <img src="{{edu.img}}" width="50%" alt="">
-          <button (click)="editarFoto(i)" class="btn btn-edit btn-primary editar-foto"  title="Actualizar foto de perfil"  data-bs-toggle="modal" *ngIf="editable" data-bs-target="#editarImagenEducacionModal"><i class="fa-solid fa-pen"></i></button>
+      <div *ngFor="let edu of educacion |OrdenarPorAnioPipe:'fecha'; index as i" class="card"  style="width: 18rem;">
+        <figure [ngStyle]="{'background-image': 'url(' + edu.img + ')'}">        
+          <button (click)="editarFoto(i)" class="btn btn-edit btn-primary editar-foto"  title="Actualizar foto de educacion"  data-bs-toggle="modal" *ngIf="editable" data-bs-target="#editarImagenEducacionModal"><i class="fa-solid fa-pen"></i></button>
         </figure>
         <div class="card-body">
           <h4 class="">{{ edu.titulo }}</h4>
@@ -32,7 +31,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="crearNuevaEducacion"> Agregar educacion</h5>
+        <h5 class="modal-title" id="crearNuevaEducacion"> Agregar educación</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarModal" aria-label="Close"
           (click)="resetearFormulario()"></button>
       </div>
@@ -50,8 +49,7 @@
           <label for="descripcion">Descripcion</label>
           <textarea type="text" id="descripcion" rows="6" formControlName="descripcion" class="form-control"></textarea>
           <small class="my-1 d-block small-text" [className]="formularioEducacion.get('descripcion')?.hasError('pattern') ? 'text-danger' : 'text-muted'">{{formularioEducacion.get('descripcion')?.value?.length}} / 200</small>
-          <div id="descripcionHelp"
-            *ngIf="formularioEducacion.get('descripcion')?.errors && formularioEducacion.get('descripcion')?.touched" class="form-text">
+          <div id="descripcionHelp"*ngIf="formularioEducacion.get('descripcion')?.errors && formularioEducacion.get('descripcion')?.touched" class="form-text">
             <p *ngIf="formularioEducacion.get('descripcion')?.hasError('required')" class="text-danger">Falta ingresar descripcion</p>
             <p *ngIf="formularioEducacion.get('descripcion')?.hasError('pattern')" class="text-danger">Maximo 200 caracteres</p>
           </div>
@@ -82,7 +80,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editarEducacion"> Editar educacion</h5>
+        <h5 class="modal-title" id="editarEducacion"> Editar educación</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarModalEditar" aria-label="Close"
           (click)="resetearFormulario()"></button>
       </div>

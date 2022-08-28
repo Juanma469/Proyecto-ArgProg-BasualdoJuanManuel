@@ -177,7 +177,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
         }
       })
 
-      document.getElementById('cerrarModalEditado')?.click();
+      document.getElementById('cerrarModalEditarExperiencia')?.click();
       this.ngOnInit();
       this.formularioExperiencia.reset();
     }
@@ -231,7 +231,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
       next: res => {
         Swal.fire({ position: 'top-end', icon: 'success', title: '!Foto actualizada¡', showConfirmButton: false, timer: 1000 })
 
-        document.getElementById('cerrarmodalfoto')?.click();
+        document.getElementById('cerrarmodalfotoExperiencia')?.click();
         this.ngOnInit();
       },
       error: (error: HttpErrorResponse) => {
@@ -239,7 +239,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
       }
     })
 
-    document.getElementById('cerrarmodalfoto')?.click();
+    document.getElementById('cerrarmodalfotoExperiencia')?.click();
     this.ngOnInit();
     this.imagenSeleccionada = '';
   }

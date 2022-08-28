@@ -25,6 +25,11 @@ import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ModalImgComponent } from './component/modal-img/modal-img.component';
+import { OrdenarPorAnioPipe } from './pipe/ordenar-por-anio.pipe';
+
+
+
+
 
 
 @NgModule({
@@ -41,7 +46,8 @@ import { ModalImgComponent } from './component/modal-img/modal-img.component';
     PortfolioComponent,
     LoginComponent,
     RegisterComponent,
-    ModalImgComponent
+    ModalImgComponent,
+    OrdenarPorAnioPipe
   ],
   imports: [
     BrowserModule,

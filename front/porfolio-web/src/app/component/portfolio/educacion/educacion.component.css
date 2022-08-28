@@ -7,3 +7,17 @@ section {
     background-color: var(--primary-color);
 }
 
+.card-text{
+    font-size: 14px;
+}
+.card{
+    padding: 0;
+    
+}
+figure{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    height: 150px;
+    background-size: cover;
+    overflow: hidden;
+}

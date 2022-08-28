@@ -193,8 +193,7 @@ export class EducacionComponent implements OnInit {
 
 
   editarFoto(i: number) {
-    this.regfotoEditar = this.educacion[i]
-    console.log(this.regfotoEditar)
+    this.regfotoEditar = this.educacion[i]    
   }
 
 //CARGAR FOTO Y GUARDARLA 
