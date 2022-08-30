@@ -17,7 +17,8 @@
             <h2 class="display-6"> <i class="fa-solid fa-calendar"></i> {{ proye.fecha }}</h2>
             <h4>{{ proye.nombre }}</h4>
             <p class="subtitle-proyecto"> <span class="badge bg-primary">{{ proye.tecno }}</span></p>
-            <p class="text-wrap">{{ proye.descripcion }}</p>
+            <p class="card-text">{{ proye.descripcion }}</p>
+            <p class="card-text text-muted">{{ proye.link }}</p>
             <div class="mb-2">
               <button class="btn btn-edit btn-primary" title="Editar" (click)="editarProyecto(i)"
                 id="modalProyectoEditar" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#editarProyecto"><i
@@ -100,6 +101,16 @@
                 descripcion</p>
               <p *ngIf="formularioProyecto.get('descripcion')?.hasError('pattern')" class="text-danger">Puede ingresar
                 de 4 a 200 caracteres</p>
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <label for="descripcion">Link del proyecto</label>
+            <input type="text" id="link" formControlName="link" class="form-control">
+            <div id="linkHelp" *ngIf="formularioProyecto.get('link')?.errors && formularioProyecto.get('link')?.touched"
+              class="form-text">
+              <p *ngIf="formularioProyecto.get('link')?.hasError('pattern')" class="text-danger">Ingrese un link valido
+              </p>
             </div>
           </div>
 
@@ -191,6 +202,17 @@
                 Falta ingresar descripcion</p>
               <p *ngIf="formularioProyectoEditar.get('descripcionEditar')?.hasError('pattern')" class="text-danger">
                 Puede ingresar de 4 a 200 caracteres</p>
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <label for="descripcionEditar">Link del proyecto</label>
+            <input type="text" id="linkEditar" formControlName="linkEditar" class="form-control">
+            <div id="linkEditarHelp"
+              *ngIf="formularioProyectoEditar.get('linkEditar')?.errors && formularioProyectoEditar.get('linkEditar')?.touched"
+              class="form-text">
+              <p *ngIf="formularioProyectoEditar.get('linkEditar')?.hasError('pattern')" class="text-danger">Ingrese un
+                link valido</p>
             </div>
           </div>
 

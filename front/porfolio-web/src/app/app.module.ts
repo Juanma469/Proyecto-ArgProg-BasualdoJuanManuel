@@ -24,7 +24,7 @@ import { RegisterComponent } from './login/registrar/registrar.component';
 import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
-import { ModalImgComponent } from './component/modal-img/modal-img.component';
+
 import { OrdenarPorAnioPipe } from './pipe/ordenar-por-anio.pipe';
 
 
@@ -46,7 +46,6 @@ import { OrdenarPorAnioPipe } from './pipe/ordenar-por-anio.pipe';
     PortfolioComponent,
     LoginComponent,
     RegisterComponent,
-    ModalImgComponent,
     OrdenarPorAnioPipe
   ],
   imports: [

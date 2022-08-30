@@ -15,42 +15,42 @@ import { ExperienciaService } from 'src/app/servicios/experiencia.service';
   styleUrls: ['./experiencia.component.css']
 })
 export class ExperienciaComponent implements OnInit {
-   editable:boolean = true;
-   experiencia: Experiencia[] = [];
-   formularioExperiencia: FormGroup;
-   formularioExperienciaEditar: FormGroup;
-   imagenSeleccionada: any;
-   imgSubida: boolean = false;
-   imgSubidaEditada: boolean = false;
-   regfotoEditar:any;
+  editable: boolean = true;
+  experiencia: Experiencia[] = [];
+  formularioExperiencia: FormGroup;
+  formularioExperienciaEditar: FormGroup;
+  imagenSeleccionada: any;
+  imgSubida: boolean = false;
+  imgSubidaEditada: boolean = false;
+  regfotoEditar: any;
 
 
-  constructor(private expService: ExperienciaService, 
-              private formbulder: FormBuilder, 
-              private storageService: SubirImagenesService,                   
-              private sesion: AngularFireAuth) { 
+  constructor(private expService: ExperienciaService,
+    private formbulder: FormBuilder,
+    private storageService: SubirImagenesService,
+    private sesion: AngularFireAuth) {
 
 
-    
-//FORMULARIO REGISTRO NUEVO 
-this.formularioExperiencia = this.formbulder.group({
-  id: [0],
-  titulo: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
-  puesto: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
-  descripcion: ['', [Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
-  anio: ['', [ Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
-  imagen: ['../../../../assets/sin-imagen.png']
-})
 
-//FORMULARIO PARA EDITAR
-this.formularioExperienciaEditar = this.formbulder.group({
-  idEditar: [0],
-  tituloEditar: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
-  puestoEditar: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
-  descripcionEditar: ['', [Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
-  anioEditar: ['',[ Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
-  imagenEditar: ['']
-})
+    //FORMULARIO REGISTRO NUEVO 
+    this.formularioExperiencia = this.formbulder.group({
+      id: [0],
+      titulo: ['', [Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+      puesto: ['', [Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+      descripcion: ['', [Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
+      anio: ['', [Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
+      imagen: ['../../../../assets/sin-imagen.png']
+    })
+
+    //FORMULARIO PARA EDITAR
+    this.formularioExperienciaEditar = this.formbulder.group({
+      idEditar: [0],
+      tituloEditar: ['', [Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+      puestoEditar: ['', [Validators.required, Validators.pattern(/^[a-zA-Z . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
+      descripcionEditar: ['', [Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
+      anioEditar: ['', [Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
+      imagenEditar: ['']
+    })
 
 
 
@@ -58,31 +58,32 @@ this.formularioExperienciaEditar = this.formbulder.group({
 
   }
 
-  
+
   ngOnInit(): void {
     this.mostrarExperiencias();
-
-    this.sesion.onAuthStateChanged((user:any) => {
-      if (user) {           
-       this.editable = true;      
-      } 
-      else {   
+    
+    //VERIFICAR SI TIENE SESION ACTIVA PARA EDITAR
+    this.sesion.onAuthStateChanged((user: any) => {
+      if (user) {
+        this.editable = true;
+      }
+      else {
         this.editable = false;
-      }   
-  });
+      }
+    });
 
 
   }
 
 
-  
 
-  //TRAER TODOS LOS REGISTROS DE EDUCACION GUARDADOS
-  public mostrarExperiencias(){
+
+  //TRAER TODOS LOS REGISTROS 
+  public mostrarExperiencias() {
     this.expService.obtenerExperiencia().subscribe({
-      next: (res:Experiencia[]) =>{
-        this.experiencia = res     
-        
+      next: (res: Experiencia[]) => {
+        this.experiencia = res
+
       },
       error: (error: HttpErrorResponse) => {
         alert("Error en la consulta  de experiencia-->" + error.message);
@@ -104,12 +105,12 @@ this.formularioExperienciaEditar = this.formbulder.group({
         descripcion: this.formularioExperiencia.value.descripcion,
         fecha: this.formularioExperiencia.value.anio,
         img: this.formularioExperiencia.value.imagen
-        
-    }
+
+      }
 
       this.expService.crearExperiencia(nuevaExperiencia).subscribe({
         next: res => {
-          Swal.fire({ position: 'top-end',icon: 'success', title: 'Guardado!',showConfirmButton: false, timer: 1000})
+          Swal.fire({ position: 'top-end', icon: 'success', title: 'Guardado!', showConfirmButton: false, timer: 1000 })
 
           document.getElementById('cerrarModalExperiencia')?.click();
           this.ngOnInit();
@@ -118,7 +119,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
         },
         error: (error: HttpErrorResponse) => {
           alert("error")
-        
+
         }
       })
 
@@ -126,29 +127,29 @@ this.formularioExperienciaEditar = this.formbulder.group({
       this.formularioExperiencia.reset();
     }
     else {
-      Swal.fire({position: 'top-end', icon: 'error', title: 'Algo salio mal',showConfirmButton: false,timer: 1000})
+      Swal.fire({ position: 'top-end', icon: 'error', title: 'Algo salio mal', showConfirmButton: false, timer: 1000 })
     }
 
   }
 
 
 
-  
+
   //TRAER REGISTRO A ACTUALIZAR
-  public editarExperiencia(i:number) {  
+  public editarExperiencia(i: number) {
     this.formularioExperienciaEditar.setValue({
-      idEditar:          this.experiencia[i].id,
-      tituloEditar:      this.experiencia[i].titulo,
-      puestoEditar:      this.experiencia[i].puesto,
+      idEditar: this.experiencia[i].id,
+      tituloEditar: this.experiencia[i].titulo,
+      puestoEditar: this.experiencia[i].puesto,
       descripcionEditar: this.experiencia[i].descripcion,
-      anioEditar:        this.experiencia[i].fecha,
-      imagenEditar:      this.experiencia[i].img,
+      anioEditar: this.experiencia[i].fecha,
+      imagenEditar: this.experiencia[i].img,
     });
 
   }
 
 
-  //ACTUALIZAR EDUCACION 
+  //ACTUALIZAR  
   public guardarExperienciaEditada() {
 
     if (!this.formularioExperienciaEditar.invalid) {
@@ -165,7 +166,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
 
       this.expService.actualizarExperiencia(experienciaeditada).subscribe({
         next: res => {
-          Swal.fire({ position: 'top-end',  icon: 'success', title: 'Actualizado!',showConfirmButton: false,timer: 1000})
+          Swal.fire({ position: 'top-end', icon: 'success', title: 'Actualizado!', showConfirmButton: false, timer: 1000 })
 
           document.getElementById('cerrarModalEditarExperiencia')?.click();
           this.ngOnInit();
@@ -187,11 +188,11 @@ this.formularioExperienciaEditar = this.formbulder.group({
   }
 
 
-  
+
   //BORRAR EXPERIENCIA
   public borrarExperiencia(id: number) {
 
-    Swal.fire({ title: '¿Estas seguro?',  icon: 'warning',showCancelButton: true,confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Si, borrar'}).then((result) => {
+    Swal.fire({ title: '¿Estas seguro?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Si, borrar' }).then((result) => {
       if (result.isConfirmed) {
         this.expService.borrarExperiencia(id).subscribe({
           next: () => {
@@ -205,7 +206,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
             this.ngOnInit();
           },
           error: (error: HttpErrorResponse) => {
-            Swal.fire({icon: 'error', title: 'Oops...', text: 'Algo salio mal' + error.message})
+            Swal.fire({ icon: 'error', title: 'Oops...', text: 'Algo salio mal' + error.message })
           }
         })
       }
@@ -215,13 +216,13 @@ this.formularioExperienciaEditar = this.formbulder.group({
 
 
 
-
-  editarFoto(i:number) {
+//ACTUALIZAR Y EDITAR FOTO 
+  editarFoto(i: number) {
     this.regfotoEditar = this.experiencia[i]
 
   }
 
-//CARGAR FOTO Y GUARDARLA 
+  //CARGAR FOTO Y GUARDARLA 
   actualizarFotoPerfil() {
     let experienciaActualizada: any = this.regfotoEditar
     experienciaActualizada.img = this.imagenSeleccionada
@@ -260,7 +261,7 @@ this.formularioExperienciaEditar = this.formbulder.group({
           this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
             this.imgSubida = true;
             this.imagenSeleccionada = urlImagen;
-         
+
           });
         }
       }

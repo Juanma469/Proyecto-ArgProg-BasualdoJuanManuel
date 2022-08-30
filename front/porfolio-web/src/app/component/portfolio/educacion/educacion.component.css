@@ -1,5 +1,6 @@
 section {
-    background-color: var(--primary-color);
+    background: rgb(72,49,212);
+    background: linear-gradient(41deg, rgba(72,49,212,1) 0%, rgba(61,21,95,1) 100%);
 
 }
 
@@ -10,6 +11,7 @@ section {
 .card-text{
     font-size: 14px;
 }
+
 .card{
     padding: 0;
     
@@ -21,3 +23,14 @@ figure{
     background-size: cover;
     overflow: hidden;
 }
+
+@media (max-width:412px) {  
+    figure{       
+        height: 200px;      
+    }
+        
+    }
+
+ 
+
+

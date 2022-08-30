@@ -4,14 +4,12 @@ section{
 
 .foto-perfil{
     position: absolute;
-    top:220px;
-    left: 30px;
-    
+    top:200px;
+    left: 30px; 
 }
 
 .foto-perfil img{
     width: 200px;
-    
 }
 
 .editar-foto{
@@ -21,31 +19,35 @@ section{
     opacity: 0.7;
 }
 
+
 @media (max-width:1024px) {
 
-    html{
-        font-size: 19px;
-    }
-   
-    .foto-perfil{
-        
+    .foto-perfil{        
         top: 180px;
         left: 40%;       
         bottom: 0;
-        margin: auto;
-        
-    }
-
-    h2{
-        margin-top: 100px;
+        margin: auto;       
     }
 }
 
+ul{
+    list-style: none;
+    margin:0;
+    padding: 0;
+}
+ul li {
+    float: left;
+}
+
+ul li a {
+    color: var(--primary-color);
+    display: block;
+    padding: 1rem;
+    text-decoration: none;
+}
 
 @media (max-width:574px) {  
-  
-  
-   
+
     .foto-perfil{ 
         top: 180px;
         left: 35%;       
@@ -53,26 +55,25 @@ section{
         margin: auto;
         
     }
-
-
 }
 
 
 @media (max-width:412px) {  
-    html{
-        font-size: 19px;
+
+    .nombre{
+        font-size: 25px;
     }
-   
+
+    .titulo{
+        font-size: 20px;
+    }
+    
     .foto-perfil{
         
         top: 200px;
         left: 25%;       
         bottom: 0;
-        margin: auto;
-        
+        margin: auto;        
     }
-
- 
-
 
 }

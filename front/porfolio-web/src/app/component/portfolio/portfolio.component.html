@@ -1,60 +1,59 @@
 
-  
-  <nav class="nav__cont" >
-    <ul class="nav">
-      <li class="nav__items">
-        <a (click)="irA(header)" title="header">
-           <i class="fa-solid fa-address-card fa-xl"></i>
-        </a>
-      </li>
-      
-      <li class="nav__items">
-        <a (click)="irA(educacion)" title="educacion">
-           <i class="fa-solid fa-graduation-cap fa-xl"></i>
-        </a>
-      </li>
+    <nav class="nav__cont" >
+      <ul class="nav">
+        <li class="nav__items">
+          <a (click)="irA(header)" title="acerca de">
+            <i class="fa-solid fa-address-card fa-xl"></i>
+          </a>
+        </li>
         
-      <li class="nav__items">
-        <a (click)="irA(experiencia)" title="experiencia">
-          <i class="fa-solid fa-briefcase fa-xl"></i>
-       </a>
-      </li>
+        <li class="nav__items">
+          <a (click)="irA(educacion)" title="educacion">
+            <i class="fa-solid fa-graduation-cap fa-xl"></i>
+          </a>
+        </li>
+          
+        <li class="nav__items">
+          <a (click)="irA(experiencia)" title="experiencia">
+            <i class="fa-solid fa-briefcase fa-xl"></i>
+        </a>
+        </li>
+      
+        <li class="nav__items">
+          <a (click)="irA(skill)" title="skill">
+            <i class="fa-solid fa-people-group fa-xl"></i>
+          </a>
+        </li>
+
+        <li class="nav__items">
+          <a (click)="irA(proyectos)" title="proyectos">
+            <i class="fa-solid fa-code fa-xl"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
     
-      <li class="nav__items">
-        <a (click)="irA(skill)" title="skill">
-          <i class="fa-solid fa-people-group fa-xl"></i>
-        </a>
-      </li>
+  <div #header>  
+  <app-header></app-header>
+  </div>
 
-      <li class="nav__items">
-        <a (click)="irA(proyectos)" title="proyectos">
-          <i class="fa-solid fa-code fa-xl"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  
-<div #header>  
-<app-header></app-header>
-</div>
+  <div>
+  <app-acercade></app-acercade>
+  </div>
 
-<div>
-<app-acercade></app-acercade>
-</div>
+  <div #educacion>
+  <app-educacion></app-educacion>
+  </div>
 
-<div #educacion>
-<app-educacion></app-educacion>
-</div>
+  <div #experiencia>
+  <app-experiencia></app-experiencia>
+  </div>
 
-<div #experiencia>
-<app-experiencia></app-experiencia>
-</div>
+  <div  #skill>
+  <app-hardsoftskills></app-hardsoftskills>
+  </div>
 
-<div  #skill>
-<app-hardsoftskills></app-hardsoftskills>
-</div>
-
-<div #proyectos>
-<app-proyectos ></app-proyectos>
-</div>
+  <div #proyectos>
+  <app-proyectos ></app-proyectos>
+  </div>
 

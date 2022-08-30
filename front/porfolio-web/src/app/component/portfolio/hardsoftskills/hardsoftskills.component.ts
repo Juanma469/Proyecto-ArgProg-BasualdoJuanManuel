@@ -24,38 +24,28 @@ export class HardsoftskillsComponent implements OnInit {
 
 
   constructor(private skillService: SkillService,
-              private formbulder: FormBuilder,
-              private storageService: SubirImagenesService,
-              private sesion: AngularFireAuth) {
+    private formbulder: FormBuilder,
+    private storageService: SubirImagenesService,
+    private sesion: AngularFireAuth) {
 
 
 
     //FORMULARIO REGISTRO NUEVO 
     this.formularioSkill = this.formbulder.group({
-      id:         [0],
-      nombre:     ['', Validators.required],
-      porcentaje: ['0', [Validators.required, Validators.pattern(/^[0-9]{1,3}$/),  Validators.min(1), Validators.max(100)]],
-      img:        ['', Validators.required]
+      id: [0],
+      nombre: ['', Validators.required],
+      porcentaje: ['0', [Validators.required, Validators.pattern(/^[0-9]{1,3}$/), Validators.min(1), Validators.max(100)]],
+      img: ['', Validators.required]
     })
 
-   
+
 
   }
 
 
-
-
-
-
-
-
-
-
-
-
   ngOnInit(): void {
     this.mostrarSkill();
-
+    //VERIFICAR SI TIENE SESION ACTIVA PARA EDITAR
     this.sesion.onAuthStateChanged((user: any) => {
       if (user) {
         this.editable = true;
@@ -71,7 +61,7 @@ export class HardsoftskillsComponent implements OnInit {
 
 
 
-  //TRAER TODOS LOS REGISTROS DE SKILL
+  //TRAER TODOS LOS REGISTROS
   public mostrarSkill() {
     this.skillService.obtenerSkill().subscribe({
       next: (res: Skill[]) => {
@@ -91,10 +81,10 @@ export class HardsoftskillsComponent implements OnInit {
 
     if (!this.formularioSkill.invalid && this.imgSubida) {
       let nuevoSkill: Skill = {
-        id:         this.formularioSkill.value.id,
-        nombre:     this.formularioSkill.value.nombre,
+        id: this.formularioSkill.value.id,
+        nombre: this.formularioSkill.value.nombre,
         porcentaje: this.formularioSkill.value.porcentaje,
-        img:        this.imagenSeleccionada,
+        img: this.imagenSeleccionada,
       }
       this.skillService.crearSkill(nuevoSkill).subscribe({
         next: res => {
@@ -133,10 +123,6 @@ export class HardsoftskillsComponent implements OnInit {
     }
 
   }
-
-
-
-
 
 
   //BORRAR SKILL
@@ -190,24 +176,24 @@ export class HardsoftskillsComponent implements OnInit {
   imagenes: any[] = [];
   cargarImagen(event: any) {
 
-      if (event != null) {
-        this.imagenSeleccionada = "../../../../assets/loader.gif";
-        let archivos = event.target.files;
-        let nombre = "skill__";
-        for (let i = 0; i < archivos.length; i++) {
-          let reader = new FileReader();
-          reader.readAsDataURL(archivos[0]);
-          reader.onloadend = () => {
-            this.imagenes.push(reader.result);
-            this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
-              this.imgSubida = true;
-              this.imagenSeleccionada = urlImagen;
+    if (event != null) {
+      this.imagenSeleccionada = "../../../../assets/loader.gif";
+      let archivos = event.target.files;
+      let nombre = "skill__";
+      for (let i = 0; i < archivos.length; i++) {
+        let reader = new FileReader();
+        reader.readAsDataURL(archivos[0]);
+        reader.onloadend = () => {
+          this.imagenes.push(reader.result);
+          this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
+            this.imgSubida = true;
+            this.imagenSeleccionada = urlImagen;
 
-            });
-          }
+          });
         }
       }
-   
+    }
+
   }
 
 

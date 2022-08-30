@@ -37,6 +37,7 @@ export class ProyectosComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
       tecno: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
       descripcion: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
+      link: ['', [Validators.required, Validators.pattern(/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/)]],
       anio: ['', [Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
       imagen: ['../../../../assets/sin-imagen.png']
     })
@@ -48,6 +49,7 @@ export class ProyectosComponent implements OnInit {
       nombreEditar: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
       tecnoEditar: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 . \u00E0-\u00FC , : ; ( ) ]{4,50}$/)]],
       descripcionEditar: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
+      linkEditar: ['', [Validators.required, Validators.pattern(/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/)]],
       anioEditar: ['', [Validators.required, Validators.min(1965), Validators.max(2022), Validators.pattern(/^[0-9]{4,4}$/)]],
       imagenEditar: ['']
 
@@ -96,12 +98,13 @@ export class ProyectosComponent implements OnInit {
         nombre: this.formularioProyecto.value.nombre,
         tecno: this.formularioProyecto.value.tecno,
         descripcion: this.formularioProyecto.value.descripcion,
+        link: this.formularioProyecto.value.link,
         fecha: this.formularioProyecto.value.anio,
         img: this.formularioProyecto.value.imagen
       }
 
       this.proService.crearProyecto(nuevoProyecto).subscribe({
-        next: res => {
+        next: () => {
           Swal.fire({ position: 'top-end', icon: 'success', title: 'Guardado!', showConfirmButton: false, timer: 1000 })
 
           document.getElementById('cerrarModalProyecto')?.click();
@@ -134,6 +137,7 @@ export class ProyectosComponent implements OnInit {
       nombreEditar: this.proyectos[i].nombre,
       tecnoEditar: this.proyectos[i].tecno,
       descripcionEditar: this.proyectos[i].descripcion,
+      linkEditar: this.proyectos[i].link,
       anioEditar: this.proyectos[i].fecha,
       imagenEditar: this.proyectos[i].img
     });
@@ -150,6 +154,7 @@ export class ProyectosComponent implements OnInit {
         nombre: this.formularioProyectoEditar.value.nombreEditar,
         tecno: this.formularioProyectoEditar.value.tecnoEditar,
         descripcion: this.formularioProyectoEditar.value.descripcionEditar,
+        link: this.formularioProyectoEditar.value.linkEditar,
         fecha: this.formularioProyectoEditar.value.anioEditar,
         img: this.formularioProyectoEditar.value.imagen
       }

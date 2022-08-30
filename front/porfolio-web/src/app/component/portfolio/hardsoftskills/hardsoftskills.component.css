@@ -1,6 +1,4 @@
 section{
-    /* background-color: var(--secondary-color); */
-    background-color: #FEE140;
-    background-image: linear-gradient(153deg, #FEE140 0%, #ff99bb 100%);
-
+    background: rgb(72,49,212);
+    background: linear-gradient(41deg, rgba(72,49,212,1) 0%, rgba(61,21,95,1) 100%);
 }

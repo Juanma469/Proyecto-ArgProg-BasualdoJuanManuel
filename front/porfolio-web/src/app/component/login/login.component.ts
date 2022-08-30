@@ -10,24 +10,24 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  public user = {email:'', password:''};
+  public user = { email: '', password: '' };
 
-  constructor(private router:Router, private auth:AuthService) { }
-  ngOnInit(): void {}
+  constructor(private router: Router, private auth: AuthService) { }
+  ngOnInit(): void { }
 
 
-
+//INICIAR SESION 
   ingresar() {
     const { email, password } = this.user;
-    this.auth.login(email, password).then(user => {    
-      if(!user) {
+    this.auth.login(email, password).then(user => {
+      if (!user) {
 
-         Swal.fire({
-              icon: 'error',
-              title: 'Error al intentar iniciar',
-              text: 'revise los datos ingresados y vuelva a intentar'
-            })
-            
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al intentar iniciar',
+          text: 'revise los datos ingresados y vuelva a intentar'
+        })
+
         return;
       };
 
@@ -37,9 +37,9 @@ export class LoginComponent implements OnInit {
         title: 'Ingresando!',
         showConfirmButton: false,
         timer: 1000
-      })       
+      })
       this.router.navigate(['/portfolio'])
-    }).catch(err=>{
+    }).catch(err => {
       console.log(err)
     })
   }
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
 
 
 
-  
+
 
 
 }

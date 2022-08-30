@@ -11,8 +11,8 @@ export class PortfolioComponent implements OnInit {
   constructor() { }
 
 
-  irA(ele:any){
-    ele.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  irA(ele: any) {
+    ele.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
   }
 
 
@@ -20,9 +20,9 @@ export class PortfolioComponent implements OnInit {
 
 
   ngOnInit() {
-   
 
-}
+
+  }
 
 
 }

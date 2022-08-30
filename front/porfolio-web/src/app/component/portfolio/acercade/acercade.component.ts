@@ -20,6 +20,10 @@ export class AcercadeComponent implements OnInit {
   imagenSeleccionada: any = '';
   imgSubida: boolean = false;
 
+
+
+
+
   constructor(private acercadeService: AcercadeService,
     private storageService: SubirImagenesService,
     private formbulder: FormBuilder,
@@ -28,11 +32,12 @@ export class AcercadeComponent implements OnInit {
 
 
     this.formularioUsuario = this.formbulder.group({
-      id:       [''],
-      nombre:   ['', [Validators.required, Validators.pattern(/^[a-zA-Z \u00E0-\u00FC ñ Ñ ]{4,40}$/)]],
+      id: [''],
+      nombre: ['', [Validators.required, Validators.pattern(/^[a-zA-Z \u00E0-\u00FC ñ Ñ ]{4,40}$/)]],
       apellido: ['', [Validators.required, Validators.pattern(/^[a-zA-Z \u00E0-\u00FC ñ Ñ]{4,40}$/)]],
       linkedin: ['', [Validators.required, Validators.pattern(/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/)]],
-      titulo:   ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]{4,50}$/)]],
+      email: ['', [Validators.required, Validators.email]],
+      titulo: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]{4,50}$/)]],
       descripcion: ['', [Validators.required, Validators.pattern(/^[a-zA-Z 0-9 ñ Ñ . \u00E0-\u00FC , : ; ( ) ]{4,200}$/)]],
       img: ['', Validators.required]
 
@@ -45,6 +50,7 @@ export class AcercadeComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerUsuario()
 
+    //VERIFICAR SI TIENE SESION INICIADA PARA EDITAR
     this.sesion.onAuthStateChanged((user: any) => {
       if (user) {
         this.editable = true;
@@ -77,6 +83,7 @@ export class AcercadeComponent implements OnInit {
       nombre: this.usuario?.nombre,
       apellido: this.usuario?.apellido,
       linkedin: this.usuario?.linkedin,
+      email: this.usuario?.email,
       titulo: this.usuario?.titulo,
       descripcion: this.usuario?.descripcion,
       img: this.usuario?.img
@@ -94,6 +101,7 @@ export class AcercadeComponent implements OnInit {
         nombre: this.formularioUsuario.value.nombre,
         apellido: this.formularioUsuario.value.apellido,
         linkedin: this.formularioUsuario.value.linkedin,
+        email: this.formularioUsuario.value.email,
         titulo: this.formularioUsuario.value.titulo,
         descripcion: this.formularioUsuario.value.descripcion,
         img: this.formularioUsuario.value.img
@@ -138,8 +146,81 @@ export class AcercadeComponent implements OnInit {
   }
 
 
-   //****** RESETEAR FORMULARIO *******/
-   resetearFormulario() {
+
+
+
+//ACTUALIZAR EDITAR FOTO 
+  actualizarFotoPerfil() {
+    let usuarioEditado: any = this.usuario
+    usuarioEditado.img = this.imagenSeleccionada
+
+    this.acercadeService.actualizarUsuario(usuarioEditado).subscribe({
+      next: () => {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: '!Foto actualizada¡',
+          showConfirmButton: false,
+          timer: 1000
+        })
+
+        document.getElementById('cerrarModalUsuarioFotoPerfil')?.click();
+        this.ngOnInit();
+
+
+      },
+      error: (error: HttpErrorResponse) => {
+        alert(error.message)
+      }
+    })
+
+    document.getElementById('cerrarModalUsuarioFotoPerfil')?.click();
+    this.ngOnInit();
+
+  }
+
+
+
+
+
+
+  //PREPARAR Y ENVIAR FOTO A FIREBASE
+  imagenes: any[] = [];
+  editarUsuarioFotoPerfil(event: any) {
+    if (event != null) {
+      this.imagenSeleccionada = "../../../../assets/loader.gif";
+      let archivos = event.target.files;
+      let nombre = "fotoUsuario";
+      for (let i = 0; i < archivos.length; i++) {
+        let reader = new FileReader();
+        reader.readAsDataURL(archivos[0]);
+        reader.onloadend = () => {
+          this.imagenes.push(reader.result);
+          this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
+            this.imgSubida = true;
+            this.imagenSeleccionada = urlImagen;
+          });
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //****** RESETEAR FORMULARIO *******/
+  resetearFormulario() {
     this.formularioUsuario.reset()
 
   }
@@ -147,4 +228,3 @@ export class AcercadeComponent implements OnInit {
 
 
 }
-  

@@ -1,19 +1,22 @@
-<section class="my-5 p-5" >
-  <div class="container">
-    <h2 class="text-center text-white">Educación</h2>
+<section class="my-5 p-5">
+  <div class="container mb-3">
+    <h2 class="text-center text-white my-5">Educación</h2>
     <div class="row d-flex justify-content-center py-5">
-      <div *ngFor="let edu of educacion |OrdenarPorAnioPipe:'fecha'; index as i" class="card"  style="width: 18rem;">
-        <figure [ngStyle]="{'background-image': 'url(' + edu.img + ')'}">        
-          <button (click)="editarFoto(i)" class="btn btn-edit btn-primary editar-foto"  title="Actualizar foto de educacion"  data-bs-toggle="modal" *ngIf="editable" data-bs-target="#editarImagenEducacionModal"><i class="fa-solid fa-pen"></i></button>
+      <div *ngFor="let edu of educacion |OrdenarPorAnioPipe:'fecha'; index as i" class="card" style="width: 18rem;">
+        <figure [ngStyle]="{'background-image': 'url(' + edu.img + ')'}">
+          <button (click)="editarFoto(i)" class="btn btn-edit btn-primary editar-foto"
+            title="Actualizar foto de educacion" data-bs-toggle="modal" *ngIf="editable"
+            data-bs-target="#editarImagenEducacionModal"><i class="fa-solid fa-pen"></i></button>
         </figure>
         <div class="card-body">
           <h4 class="">{{ edu.titulo }}</h4>
           <p class="card-text">{{ edu.descripcion }}</p>
           <p class="card-text">Año de finalización <b>{{ edu.fecha }}</b></p>
-          <button class="btn btn-edit btn-primary" title="Editar" (click)="editarEducacion(i)"
-          id="modaleditarEducacion" data-bs-toggle="modal" *ngIf="editable" data-bs-target="#editarEducacion"><i
-            class="fa-solid fa-pen"></i></button>&nbsp;
-          <button class="btn btn-edit btn-borrar" *ngIf="editable" title="Eliminar" (click)="borrarEducacion(edu.id)"><i class="fa-solid fa-trash"></i></button>
+          <button class="btn btn-edit btn-primary" title="Editar" (click)="editarEducacion(i)" id="modaleditarEducacion"
+            data-bs-toggle="modal" *ngIf="editable" data-bs-target="#editarEducacion"><i
+              class="fa-solid fa-pen"></i></button>&nbsp;
+          <button class="btn btn-edit btn-borrar" *ngIf="editable" title="Eliminar" (click)="borrarEducacion(edu.id)"><i
+              class="fa-solid fa-trash"></i></button>
         </div>
       </div>
       <div class="card nuevo-item" style="width: 18rem;min-height:300px" *ngIf="editable">
@@ -36,40 +39,57 @@
           (click)="resetearFormulario()"></button>
       </div>
       <form [formGroup]="formularioEducacion" (ngSubmit)="guardarEducacion()" enctype="multipart/form-data">
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="titulo">Titulo</label>
-          <input type="text" id="titulo" formControlName="titulo" class="form-control">
-          <div id="tituloHelp" *ngIf="formularioEducacion.get('titulo')?.errors && formularioEducacion.get('titulo')?.touched" class="form-text">
-            <p *ngIf="formularioEducacion.get('titulo')?.hasError('required')" class="text-danger">Falta ingresar titulo</p>
-            <p *ngIf="formularioEducacion.get('titulo')?.hasError('pattern')" class="text-danger">Ingrese un titulo valido entre 4 y 40 caracteres</p>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="titulo">Titulo</label>
+            <input type="text" id="titulo" formControlName="titulo" class="form-control">
+            <div id="tituloHelp"
+              *ngIf="formularioEducacion.get('titulo')?.errors && formularioEducacion.get('titulo')?.touched"
+              class="form-text">
+              <p *ngIf="formularioEducacion.get('titulo')?.hasError('required')" class="text-danger">Falta ingresar
+                titulo</p>
+              <p *ngIf="formularioEducacion.get('titulo')?.hasError('pattern')" class="text-danger">Ingrese un titulo
+                valido entre 4 y 40 caracteres</p>
+            </div>
           </div>
-        </div>
-        <div class="mb-3">
-          <label for="descripcion">Descripcion</label>
-          <textarea type="text" id="descripcion" rows="6" formControlName="descripcion" class="form-control"></textarea>
-          <small class="my-1 d-block small-text" [className]="formularioEducacion.get('descripcion')?.hasError('pattern') ? 'text-danger' : 'text-muted'">{{formularioEducacion.get('descripcion')?.value?.length}} / 200</small>
-          <div id="descripcionHelp"*ngIf="formularioEducacion.get('descripcion')?.errors && formularioEducacion.get('descripcion')?.touched" class="form-text">
-            <p *ngIf="formularioEducacion.get('descripcion')?.hasError('required')" class="text-danger">Falta ingresar descripcion</p>
-            <p *ngIf="formularioEducacion.get('descripcion')?.hasError('pattern')" class="text-danger">Maximo 200 caracteres</p>
+          <div class="mb-3">
+            <label for="descripcion">Descripcion</label>
+            <textarea type="text" id="descripcion" rows="6" formControlName="descripcion"
+              class="form-control"></textarea>
+            <small class="my-1 d-block small-text"
+              [className]="formularioEducacion.get('descripcion')?.hasError('pattern') ? 'text-danger' : 'text-muted'">{{formularioEducacion.get('descripcion')?.value?.length}}
+              / 200</small>
+            <div id="descripcionHelp"
+              *ngIf="formularioEducacion.get('descripcion')?.errors && formularioEducacion.get('descripcion')?.touched"
+              class="form-text">
+              <p *ngIf="formularioEducacion.get('descripcion')?.hasError('required')" class="text-danger">Falta ingresar
+                descripcion</p>
+              <p *ngIf="formularioEducacion.get('descripcion')?.hasError('pattern')" class="text-danger">Maximo 200
+                caracteres</p>
+            </div>
           </div>
-        </div>
-        <div class="mb-3">
-          <label for="anio">Año finalizacion</label>
-          <input type="text" id="anio" formControlName="anio" maxlength="4" pattern="[0-9]+" class="form-control">      
-          <div id="anioHelp" *ngIf="formularioEducacion.get('anio')?.errors && formularioEducacion.get('anio')?.touched" class="form-text">
-            <p *ngIf="formularioEducacion.get('anio')?.hasError('required')" class="text-danger">Falta ingresar año de finalizacion</p>
-            <p *ngIf="formularioEducacion.get('anio')?.hasError('max')" class="text-danger">El año debe ser entre 1965 y 2022</p>
-            <p *ngIf="formularioEducacion.get('anio')?.hasError('min')" class="text-danger">El año debe ser entre 1965 y 2022</p>
-            <p *ngIf="formularioEducacion.get('anio')?.hasError('pattern')" class="text-danger">Solo numeros</p>
+          <div class="mb-3">
+            <label for="anio">Año finalizacion</label>
+            <input type="text" id="anio" formControlName="anio" maxlength="4" pattern="[0-9]+" class="form-control">
+            <div id="anioHelp"
+              *ngIf="formularioEducacion.get('anio')?.errors && formularioEducacion.get('anio')?.touched"
+              class="form-text">
+              <p *ngIf="formularioEducacion.get('anio')?.hasError('required')" class="text-danger">Falta ingresar año de
+                finalizacion</p>
+              <p *ngIf="formularioEducacion.get('anio')?.hasError('max')" class="text-danger">El año debe ser entre 1965
+                y 2022</p>
+              <p *ngIf="formularioEducacion.get('anio')?.hasError('min')" class="text-danger">El año debe ser entre 1965
+                y 2022</p>
+              <p *ngIf="formularioEducacion.get('anio')?.hasError('pattern')" class="text-danger">Solo numeros</p>
+            </div>
           </div>
+
         </div>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"(click)="resetearFormulario()">Cancelar</button>
-        <input type="submit" class="btn btn-primary" *ngIf="!formularioEducacion.invalid" value="Guardar">
-      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            (click)="resetearFormulario()">Cancelar</button>
+          <input type="submit" class="btn btn-primary" *ngIf="!formularioEducacion.invalid" value="Guardar">
+        </div>
       </form>
     </div>
   </div>
@@ -85,43 +105,62 @@
           (click)="resetearFormulario()"></button>
       </div>
       <form [formGroup]="formularioEducacioEditar" (ngSubmit)="guardarEducacionEditada()" enctype="multipart/form-data">
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="tituloeditar">Titulo</label>
-          <input type="text" id="tituloeditar" formControlName="tituloEditar" class="form-control">
-          <div id="tituloHelpeditar" *ngIf="formularioEducacioEditar.get('tituloEditar')?.errors && formularioEducacioEditar.get('tituloEditar')?.touched" class="form-text">
-            <p *ngIf="formularioEducacioEditar.get('tituloEditar')?.hasError('required')" class="text-danger">Falta ingresar titulo</p>
-            <p *ngIf="formularioEducacioEditar.get('tituloEditar')?.hasError('pattern')" class="text-danger">Ingrese un titulo valido entre 4 y 40 caracteres</p>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="tituloeditar">Titulo</label>
+            <input type="text" id="tituloeditar" formControlName="tituloEditar" class="form-control">
+            <div id="tituloHelpeditar"
+              *ngIf="formularioEducacioEditar.get('tituloEditar')?.errors && formularioEducacioEditar.get('tituloEditar')?.touched"
+              class="form-text">
+              <p *ngIf="formularioEducacioEditar.get('tituloEditar')?.hasError('required')" class="text-danger">Falta
+                ingresar titulo</p>
+              <p *ngIf="formularioEducacioEditar.get('tituloEditar')?.hasError('pattern')" class="text-danger">Ingrese
+                un titulo valido entre 4 y 40 caracteres</p>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label for="descripcioneditar">Descripcion</label>
+            <textarea type="text" id="descripcionEditar" rows="6" formControlName="descripcionEditar"
+              class="form-control"></textarea>
+            <small class="my-1 d-block small-text"
+              [className]="formularioEducacioEditar.get('descripcionEditar')?.hasError('pattern') ? 'text-danger' : 'text-muted'">{{formularioEducacioEditar.get('descripcionEditar')?.value?.length}}
+              / 200</small>
+            <div id="descripcioneditarHelp"
+              *ngIf="formularioEducacioEditar.get('descripcionEditar')?.errors && formularioEducacioEditar.get('descripcionEditar')?.touched"
+              class="form-text">
+              <p *ngIf="formularioEducacioEditar.get('descripcionEditar')?.hasError('required')" class="text-danger">
+                Falta ingresar descripcion</p>
+              <p *ngIf="formularioEducacioEditar.get('descripcionEditar')?.hasError('pattern')" class="text-danger">
+                Maximo 200 caracteres</p>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label for="anioeditar">Año finalizacion</label>
+            <input type="text" id="anioeditar" formControlName="anioEditar" maxlength="4" pattern="[0-9]+"
+              class="form-control">
+            <div id="anioeditarHelp"
+              *ngIf="formularioEducacioEditar.get('anioEditar')?.errors && formularioEducacioEditar.get('anioEditar')?.touched"
+              class="form-text">
+              <p *ngIf="formularioEducacioEditar.get('anioEditar')?.hasError('required')" class="text-danger">Falta
+                ingresar año de finalizacion</p>
+              <p *ngIf="formularioEducacioEditar.get('anioEditar')?.hasError('max')" class="text-danger">El año debe ser
+                entre 1965 y 2022</p>
+              <p *ngIf="formularioEducacioEditar.get('anioEditar')?.hasError('min')" class="text-danger">El año debe ser
+                entre 1965 y 2022</p>
+              <p *ngIf="formularioEducacioEditar.get('anioEditar')?.hasError('pattern')" class="text-danger">Solo
+                numeros</p>
+            </div>
+          </div>
+
+          <div id="vistapreviaIMGeditar" class="my-2">
+            <img src="{{formularioEducacioEditar.value.imagenEditar}}" width="50%" alt="">
           </div>
         </div>
-        <div class="mb-2">
-          <label for="descripcioneditar">Descripcion</label>
-          <textarea type="text" id="descripcionEditar" rows="6" formControlName="descripcionEditar" class="form-control"></textarea>
-          <small class="my-1 d-block small-text" [className]="formularioEducacioEditar.get('descripcionEditar')?.hasError('pattern') ? 'text-danger' : 'text-muted'">{{formularioEducacioEditar.get('descripcionEditar')?.value?.length}} / 200</small>
-          <div id="descripcioneditarHelp" *ngIf="formularioEducacioEditar.get('descripcionEditar')?.errors && formularioEducacioEditar.get('descripcionEditar')?.touched" class="form-text">
-            <p *ngIf="formularioEducacioEditar.get('descripcionEditar')?.hasError('required')" class="text-danger">Falta ingresar descripcion</p>
-            <p *ngIf="formularioEducacioEditar.get('descripcionEditar')?.hasError('pattern')" class="text-danger">Maximo 200 caracteres</p>
-          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            (click)="resetearFormulario()">Cancelar</button>
+          <input type="submit" class="btn btn-primary" *ngIf="!formularioEducacioEditar.invalid" value="Actualizar">
         </div>
-        <div class="mb-2">
-          <label for="anioeditar">Año finalizacion</label>
-          <input type="text" id="anioeditar" formControlName="anioEditar" maxlength="4" pattern="[0-9]+" class="form-control">
-          <div id="anioeditarHelp" *ngIf="formularioEducacioEditar.get('anioEditar')?.errors && formularioEducacioEditar.get('anioEditar')?.touched" class="form-text">
-            <p *ngIf="formularioEducacioEditar.get('anioEditar')?.hasError('required')" class="text-danger">Falta ingresar año de finalizacion</p>
-            <p *ngIf="formularioEducacioEditar.get('anioEditar')?.hasError('max')" class="text-danger">El año debe ser entre 1965 y 2022</p>
-            <p *ngIf="formularioEducacioEditar.get('anioEditar')?.hasError('min')" class="text-danger">El año debe ser entre 1965 y 2022</p>
-            <p *ngIf="formularioEducacioEditar.get('anioEditar')?.hasError('pattern')" class="text-danger">Solo numeros</p>
-          </div>
-        </div>
-   
-        <div id="vistapreviaIMGeditar" class="my-2">
-          <img src="{{formularioEducacioEditar.value.imagenEditar}}" width="50%" alt="">
-        </div>
-      </div>
-      <div class="modal-footer">   
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetearFormulario()">Cancelar</button>
-        <input type="submit" class="btn btn-primary" *ngIf="!formularioEducacioEditar.invalid" value="Actualizar">
-      </div>
       </form>
     </div>
   </div>
@@ -129,13 +168,14 @@
 
 
 <!-- Modal subir foto  -->
-<div class="modal fade" id="editarImagenEducacionModal" tabindex="-1"    aria-hidden="true"
-  data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="editarImagenEducacionModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+  data-bs-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="editarImagenEducacionModal">Actualizar foto</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarmodalfoto" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarmodalfoto"
+          aria-label="Close"></button>
       </div>
       <div class="container">
         <div class="row my-5 d-flex justify-content-center">
@@ -150,15 +190,18 @@
           <hr>
           <div class="mb-2">
             <form>
-              <input type="file" accept=".png, .jpg, .jpeg" style="display:none;" (change)="editarimg($event)" id="btnUpload2">
+              <input type="file" accept=".png, .jpg, .jpeg" style="display:none;" (change)="editarimg($event)"
+                id="btnUpload2">
             </form>
-            <label for="btnUpload2" class="btn btn-primary" title="Buscar imagen para subir">Subir Imagen<i class="fa-solid fa-cloud-arrow-up"></i></label>
+            <label for="btnUpload2" class="btn btn-primary" title="Buscar imagen para subir">Subir Imagen<i
+                class="fa-solid fa-cloud-arrow-up"></i></label>
           </div>
           <hr>
           <div class="card-footer mb-2">
             <div class="container d-flex justify-content-end">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>             
-              <button class="btn btn-primary" (click)="actualizarFotoPerfil()"   [ngClass]="imgSubida ? 'block' : 'disabled'">Actualizar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button class="btn btn-primary" (click)="actualizarFotoPerfil()"
+                [ngClass]="imgSubida ? 'block' : 'disabled'">Actualizar</button>
             </div>
           </div>
         </div>

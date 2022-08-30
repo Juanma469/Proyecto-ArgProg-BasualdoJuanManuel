@@ -1,15 +1,17 @@
 <section class="my-5 p-5">
   <div class="container">
-    <h1 class="text-center">Skills</h1>
+    <h1 class="text-center my-5 text-white">Skills</h1>
     <div class="row d-flex justify-content-center py-5">
       <div class="card col-md-2" style="width: 18rem;" *ngFor="let sk of skill; index as i">
         <div class="card-body">
           <h5 class="card-title">{{ sk.nombre }}</h5>
-          <circle-progress [percent]="sk.porcentaje" [radius]="100" [outerStrokeWidth]="16" [innerStrokeWidth]="8"
-            [innerStrokeWidth]=0 [imageSrc]="sk.img" [showTitle]=true [showUnits]=true [imageWidth]="50"
-            [imageHeight]="50" [showImage]="true" [outerStrokeColor]="'var(--primary-color)'"
-            [innerStrokeColor]="'#43CBFF'" [animation]="true" [animationDuration]="1000">
-          </circle-progress>
+          <div class="text-center">
+            <circle-progress [percent]="sk.porcentaje" [radius]="100" [outerStrokeWidth]="16" [innerStrokeWidth]="8"
+              [innerStrokeWidth]=0 [imageSrc]="sk.img" [showTitle]=true [showUnits]=true [imageWidth]="100"
+              [imageHeight]="100" [showImage]="true" [outerStrokeColor]="'var(--primary-color)'"
+              [innerStrokeColor]="'#43CBFF'" [animation]="true" [animationDuration]="1000">
+            </circle-progress>
+          </div>
         </div>
         <div class="text-center">
           <button class="btn btn-edit btn-borrar my-2" *ngIf="editable" title="Eliminar" (click)="borrarSkill(sk.id)"><i

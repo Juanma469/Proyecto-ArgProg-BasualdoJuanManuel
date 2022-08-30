@@ -29,9 +29,9 @@ export class EducacionComponent implements OnInit {
   editable: boolean = false;
 
   constructor(private eduService: EducacionService,
-              private formbulder: FormBuilder,
-              private sesion: AngularFireAuth,
-              private storageService: SubirImagenesService) {
+    private formbulder: FormBuilder,
+    private sesion: AngularFireAuth,
+    private storageService: SubirImagenesService) {
 
     //FORMULARIO REGISTRO NUEVO 
     this.formularioEducacion = this.formbulder.group({
@@ -56,7 +56,7 @@ export class EducacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.mostrarEducaciones();
-    //VER SI HAY SESION INICIADA PARA HABILITAR LA EDICION
+    //VER SI HAY SESION INICIADA PARA EDITAR
     this.sesion.onAuthStateChanged((user: any) => {
       if (user) {
         this.editable = true;
@@ -82,7 +82,7 @@ export class EducacionComponent implements OnInit {
 
 
   //GUARDAR NUEVO REGISTRO
-   guardarEducacion(): void {
+  guardarEducacion(): void {
 
     if (!this.formularioEducacion.invalid) {
 
@@ -118,7 +118,7 @@ export class EducacionComponent implements OnInit {
   }
 
   //MOSTRAR INFO A EDITAR EN EL FORMULARIO 
-   editarEducacion(i:number) {
+  editarEducacion(i: number) {
 
     this.formularioEducacioEditar.setValue({
       idEditar: this.educacion[i].id,
@@ -131,7 +131,7 @@ export class EducacionComponent implements OnInit {
 
 
   //ACTUALIZAR EDUCACION 
-   guardarEducacionEditada() {
+  guardarEducacionEditada() {
 
     if (!this.formularioEducacioEditar.invalid) {
       let educacionEditada: Educacion = {
@@ -172,7 +172,8 @@ export class EducacionComponent implements OnInit {
   //BORRAR EDUCACION
   public borrarEducacion(id: number) {
 
-    Swal.fire({title: '¿Estas seguro?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Si, borrar'
+    Swal.fire({
+      title: '¿Estas seguro?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Si, borrar'
     }).then((result) => {
       if (result.isConfirmed) {
         this.eduService.borrarEducacion(id).subscribe({
@@ -188,15 +189,15 @@ export class EducacionComponent implements OnInit {
     })
   }
 
-  
- 
+
+
 
 
   editarFoto(i: number) {
-    this.regfotoEditar = this.educacion[i]    
+    this.regfotoEditar = this.educacion[i]
   }
 
-//CARGAR FOTO Y GUARDARLA 
+  //CARGAR FOTO Y GUARDARLA 
   actualizarFotoPerfil() {
     let educacionActualizada: any = this.regfotoEditar
     educacionActualizada.img = this.imagenSeleccionada
@@ -235,7 +236,7 @@ export class EducacionComponent implements OnInit {
           this.storageService.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
             this.imgSubida = true;
             this.imagenSeleccionada = urlImagen;
-         
+
           });
         }
       }
@@ -246,15 +247,15 @@ export class EducacionComponent implements OnInit {
 
 
 
-   //****** RESETEAR FORMULARIOS *******/
-   resetearFormulario() {
+  //****** RESETEAR FORMULARIOS *******/
+  resetearFormulario() {
     this.formularioEducacion.reset()
     this.imagenSeleccionada = '';
     this.imgSubida = false;
 
     this.formularioEducacioEditar.reset()
     this.imagenSeleccionadaEditada = '';
-    
+
   }
 
 
